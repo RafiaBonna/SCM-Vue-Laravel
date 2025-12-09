@@ -2,10 +2,10 @@
 
 namespace Database\Seeders;
 
-// database/seeders/DatabaseSeeder.php
-
-use Database\Seeders\RoleSeeder;
+use App\Models\Role;
+use App\Models\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
@@ -15,8 +15,21 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call([
-            RoleSeeder::class, // <-- এটি যোগ করুন
-            // ...অন্যান্য সিডার যদি থাকে
+            RoleSeeder::class,
         ]);
+
+        // Create default admin user
+        $admin = User::create([
+            'name' => 'Super Admin',
+            'email' => 'admin@scm.com',
+            'password' => Hash::make('password'),
+        ]);
+
+        // Assign admin role
+        $adminRole = Role::where('slug', 'admin')->first();
+
+        if ($adminRole) {
+            $admin->roles()->attach($adminRole);
+        }
     }
 }
