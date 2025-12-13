@@ -1,117 +1,86 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\Api\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Supplier; // ✅ Supplier মডেলটি ইম্পোর্ট করুন
+use App\Models\Supplier; // ✅ মডেল use করা হয়েছে
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
 
 class SupplierController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     * GET /api/suppliers
-     *
-     * @return \Illuminate\Http\Response
+     * Display a listing of the resource (List).
+     * GET /api/admin/suppliers
      */
     public function index()
     {
-        // 10টি Supplier কে paginated আকারে দেখাবে
-        $suppliers = Supplier::orderBy('name', 'asc')->paginate(10); 
-
-        return response()->json($suppliers);
+        // সাপ্লায়ারদের তালিকা নাম অনুযায়ী সাজিয়ে রিটার্ন করা হচ্ছে
+        return Supplier::orderBy('name', 'asc')->get();
     }
 
     /**
-     * Store a newly created resource in storage.
-     * POST /api/suppliers
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * Store a newly created resource in storage (Create).
+     * POST /api/admin/suppliers
      */
     public function store(Request $request)
     {
-        // 1. Validation
-        $request->validate([
-            'name' => 'required|string|max:255|unique:suppliers,name', // Supplier নাম ইউনিক হতে হবে
+        $validated = $request->validate([
+            'name' => 'required|string|max:255|unique:suppliers,name',
             'contact_person' => 'nullable|string|max:255',
-            'email' => 'nullable|email|max:255',
             'phone' => 'nullable|string|max:20',
-            'address' => 'nullable|string',
+            'email' => 'nullable|email|max:255',
+            'address' => 'nullable|string|max:500',
         ]);
 
-        // 2. Create Supplier
-        $supplier = Supplier::create($request->all());
+        $supplier = Supplier::create($validated);
 
-        // 3. Return Response
-        return response()->json([
-            'supplier' => $supplier,
-            'message' => 'Supplier added successfully!'
-        ], 201); // 201 Created status
+        return response()->json($supplier, 201);
     }
 
     /**
-     * Display the specified resource.
-     * GET /api/suppliers/{supplier}
-     *
-     * @param  \App\Models\Supplier  $supplier
-     * @return \Illuminate\Http\Response
+     * Display the specified resource (Show/Fetch for Edit).
+     * GET /api/admin/suppliers/{id}
      */
-    public function show(Supplier $supplier)
+    public function show(string $id)
     {
-        // Route Model Binding-এর মাধ্যমে সরাসরি Supplier অবজেক্ট পাওয়া যাবে
-        return response()->json($supplier);
+        return Supplier::findOrFail($id);
     }
 
     /**
-     * Update the specified resource in storage.
-     * PUT/PATCH /api/suppliers/{supplier}
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Supplier  $supplier
-     * @return \Illuminate\Http\Response
+     * Update the specified resource in storage (Update).
+     * PATCH/PUT /api/admin/suppliers/{id}
      */
-    public function update(Request $request, Supplier $supplier)
+    public function update(Request $request, string $id)
     {
-        // 1. Validation (Unique rule-এ বর্তমান Supplier-এর ID বাদ দিয়ে চেক করবে)
-        $request->validate([
+        $supplier = Supplier::findOrFail($id);
+
+        $validated = $request->validate([
             'name' => [
-                'required',
-                'string',
-                'max:255',
-                Rule::unique('suppliers', 'name')->ignore($supplier->id),
+                'required', 
+                'string', 
+                'max:255', 
+                \Illuminate\Validation\Rule::unique('suppliers', 'name')->ignore($supplier->id),
             ],
             'contact_person' => 'nullable|string|max:255',
-            'email' => 'nullable|email|max:255',
             'phone' => 'nullable|string|max:20',
-            'address' => 'nullable|string',
+            'email' => 'nullable|email|max:255',
+            'address' => 'nullable|string|max:500',
         ]);
-        
-        // 2. Update Supplier
-        $supplier->update($request->all());
 
-        // 3. Return Response
-        return response()->json([
-            'supplier' => $supplier,
-            'message' => 'Supplier updated successfully!'
-        ], 200);
+        $supplier->update($validated);
+
+        return response()->json($supplier, 200);
     }
 
     /**
-     * Remove the specified resource from storage.
-     * DELETE /api/suppliers/{supplier}
-     *
-     * @param  \App\Models\Supplier  $supplier
-     * @return \Illuminate\Http\Response
+     * Remove the specified resource from storage (Delete).
+     * DELETE /api/admin/suppliers/{id}
      */
-    public function destroy(Supplier $supplier)
+    public function destroy(string $id)
     {
-        // Delete the supplier record
+        $supplier = Supplier::findOrFail($id);
         $supplier->delete();
 
-        return response()->json([
-            'message' => 'Supplier deleted successfully!'
-        ], 200);
+        return response()->json(['message' => 'Supplier deleted successfully'], 200);
     }
 }

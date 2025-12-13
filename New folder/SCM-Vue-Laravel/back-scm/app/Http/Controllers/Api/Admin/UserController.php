@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\Api\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\Role;
+use App\Models\Depo; // ✅ Depo Model যোগ করা হলো
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
@@ -17,19 +18,22 @@ class UserController extends Controller
 
     /**
      * Display a listing of the resource (Users List).
-     * GET /api/users
+     * GET /api/admin/users
      */
     public function index()
     {
-        // Load all users with their roles
-        $users = User::with('roles')->orderBy('id', 'desc')->get()->map(function ($user) {
+        // ✅ roles এবং depo লোড করা হলো
+        $users = User::with('roles', 'depo')->orderBy('id', 'desc')->get()->map(function ($user) {
             $role = $user->roles->first();
             return [
                 'id' => $user->id,
                 'name' => $user->name,
                 'email' => $user->email,
+                // ✅ ডিপো তথ্য যোগ করা হলো
+                'depo_name' => $user->depo ? $user->depo->name : 'N/A', 
                 // If no role exists, return 'none'
                 'role' => $role ? $role->slug : 'none', 
+                'roles' => $user->roles, // UserList.vue-এর জন্য roles array দরকার
             ];
         });
         
@@ -38,42 +42,50 @@ class UserController extends Controller
 
     /**
      * Store a newly created resource (Create User).
-     * POST /api/users
+     * POST /api/admin/users
      */
     public function store(Request $request)
     {
+        // 1. Validation 
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|max:255|unique:users',
-            // Only valid roles allowed
-            'role' => ['required', 'string', Rule::in($this->editableRoles)], 
             'password' => 'required|string|min:8|confirmed',
+            // Only valid roles allowed
+            'role' => ['required', Rule::in($this->editableRoles)], 
+            
+            // ✅ Depo/Distributor রোলের জন্য depo_id Validation
+            'depo_id' => [
+                Rule::requiredIf(in_array($request->role, ['depo', 'distributor'])), // Depo বা Distributor হলে depo_id লাগবে
+                'nullable', 
+                'exists:depos,id'
+            ],
         ]);
-
+        
         DB::beginTransaction();
 
         try {
+            // 2. User তৈরি করা
             $user = User::create([
                 'name' => $request->name,
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
+                'depo_id' => $request->depo_id, // ✅ depo_id সেভ করা হলো
             ]);
 
-            // Find the role and assign it to the user
+            // 3. Role অ্যাসাইন করা
             $role = Role::where('slug', $request->role)->firstOrFail();
             $user->roles()->attach($role);
 
             DB::commit();
 
-            return response()->json([
-                'message' => 'User created successfully', 
-                'user' => $user->load('roles')
-            ], 201);
+            return response()->json($user->load('roles', 'depo'), 201); // ✅ Response-এ depo লোড করা হলো
 
         } catch (\Exception $e) {
             DB::rollBack();
+            \Log::error("User creation failed: " . $e->getMessage()); // Error লগ করা
             return response()->json([
-                'message' => 'User creation failed.', 
+                'message' => 'User creation failed. Check application logs for details.', 
                 'error' => $e->getMessage()
             ], 500);
         }
@@ -81,43 +93,53 @@ class UserController extends Controller
 
     /**
      * Display the specified resource (Show User for Edit).
-     * GET /api/users/{id}
+     * GET /api/admin/users/{id}
      */
     public function show(string $id)
     {
-        $user = User::with('roles')->findOrFail($id);
+        // ✅ roles এবং depo লোড করা হলো
+        $user = User::with('roles', 'depo')->findOrFail($id);
+        
+        // Vue-এর জন্য সহজ ফরম্যাটে রিটার্ন করা
         $role = $user->roles->first();
-
-        // Return only required data
         return response()->json([
             'id' => $user->id,
             'name' => $user->name,
             'email' => $user->email,
-            'role' => $role ? $role->slug : 'none', 
+            'depo_id' => $user->depo_id, // ✅ depo_id পাঠানো হলো
+            'role' => $role ? $role->slug : 'none',
         ]);
     }
 
     /**
-     * Update the specified resource in storage (Edit User).
-     * PATCH /api/users/{id}
+     * Update the specified resource (Update User).
+     * PATCH /api/admin/users/{id}
      */
     public function update(Request $request, string $id)
     {
         $user = User::findOrFail($id);
-
+        
+        // 1. Validation 
         $request->validate([
             'name' => 'required|string|max:255',
-            // Unique email check but ignore the current user
+            // unique:users,email,{$id}: নিজের ইমেল ছাড়া বাকিদের সাথে ইউনিক চেক করবে
             'email' => ['required', 'email', 'max:255', Rule::unique('users')->ignore($user->id)],
-            'role' => ['required', 'string', Rule::in($this->editableRoles)], 
+            'role' => ['required', Rule::in($this->editableRoles)],
             // Password optional
             'password' => 'nullable|string|min:8|confirmed',
+            
+            // ✅ Depo/Distributor রোলের জন্য depo_id Validation
+            'depo_id' => [
+                Rule::requiredIf(in_array($request->role, ['depo', 'distributor'])),
+                'nullable', 
+                'exists:depos,id'
+            ],
         ]);
         
         DB::beginTransaction();
 
         try {
-            $data = $request->only('name', 'email');
+            $data = $request->only('name', 'email', 'depo_id'); // ✅ depo_id যোগ করা হলো
 
             // Update password only if provided
             if ($request->filled('password')) {
@@ -136,8 +158,9 @@ class UserController extends Controller
 
         } catch (\Exception $e) {
             DB::rollBack();
+            \Log::error("User update failed: " . $e->getMessage()); // Error লগ করা
             return response()->json([
-                'message' => 'User update failed.', 
+                'message' => 'User update failed. Check application logs for details.', 
                 'error' => $e->getMessage()
             ], 500);
         }
@@ -145,7 +168,7 @@ class UserController extends Controller
 
     /**
      * Remove the specified resource from storage (Delete User).
-     * DELETE /api/users/{id}
+     * DELETE /api/admin/users/{id}
      */
     public function destroy(string $id)
     {

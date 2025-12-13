@@ -1,14 +1,12 @@
 <?php
 
+use App\Http\Controllers\Api\AuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Api\AuthController;
-use App\Http\Controllers\Api\UserController;
-use App\Http\Controllers\Api\SupplierController;
 
 /*
 |--------------------------------------------------------------------------
-| API Routes
+| API Routes (MAIN FILE)
 |--------------------------------------------------------------------------
 */
 
@@ -16,39 +14,25 @@ use App\Http\Controllers\Api\SupplierController;
 // Public Routes
 // ------------------------------
 Route::post('/login', [AuthController::class, 'login']);
-// Registration optional
-// Route::post('/register', [AuthController::class, 'register']);
-
 
 // ------------------------------
 // Protected Routes - Requires Sanctum Auth
 // ------------------------------
 Route::middleware('auth:sanctum')->group(function () {
 
-    // ------------------------------
-    // Authentication
-    // ------------------------------
+    // General Auth Endpoints (Kept here for simplicity)
     Route::post('/logout', [AuthController::class, 'logout']);
-
     Route::get('/user', function (Request $request) {
         return $request->user();
     });
 
-
-    // ------------------------------
-    // User Management (CRUD)
-    // ------------------------------
-    Route::apiResource('users', UserController::class)->only([
-        'index',
-        'store',
-        'show',
-        'update',
-        'destroy'
-    ]);
-
-
-    // ------------------------------
-    // Supplier Management (CRUD)
-    // ------------------------------
-    Route::apiResource('suppliers', SupplierController::class);
+    // =====================================================
+    // ✅ Modular Route Loading (File-to-File Linking)
+    // =====================================================
+    
+    // Admin, Depo, Distributor-এর সব রুট এখন তাদের নিজস্ব ফাইল থেকে লোড হবে।
+    
+    require __DIR__ . '/admin.php'; 
+    require __DIR__ . '/depo.php'; 
+    require __DIR__ . '/distributor.php'; 
 });

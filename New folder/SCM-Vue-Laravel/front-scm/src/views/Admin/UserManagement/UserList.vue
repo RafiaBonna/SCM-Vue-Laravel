@@ -1,5 +1,3 @@
-// src/views/Admin/UserManagement/UserList.vue
-
 <template>
     <div class="container-fluid">
         <div class="content-header">
@@ -22,9 +20,8 @@
             <div class="row mb-3">
                 <div class="col-12">
                    <router-link :to="{ name: 'user-create' }" class="btn btn-info float-right">
-    <i class="fas fa-plus-circle"></i> Add User
-</router-link>
-
+                        <i class="fas fa-plus-circle"></i> Add User
+                    </router-link>
                 </div>
             </div>
 
@@ -39,39 +36,33 @@
                                 <th style="width: 10px">#</th>
                                 <th>Name</th>
                                 <th>Email</th>
+                                <th>Depo/Distributor</th> 
                                 <th>Role</th>
                                 <th style="width: 150px">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="user in users" :key="user.id">
-                                <td>{{ user.id }}</td>
+                            <tr v-for="(user, index) in users" :key="user.id">
+                                <td>{{ index + 1 }}</td>
                                 <td>{{ user.name }}</td>
                                 <td>{{ user.email }}</td>
+                                <td>{{ user.depo_name }}</td> 
                                 <td>
-                                    <span class="badge" :class="getRoleBadge(user.role)">{{ user.role.toUpperCase() }}</span>
+                                    <span class="badge" :class="getRoleBadgeClass(user.role)">
+                                        {{ user.role.toUpperCase() || 'N/A' }}
+                                    </span>
                                 </td>
-                               <td>
-    <router-link 
-        :to="{ name: 'user-edit', params: { id: user.id } }" 
-        class="btn btn-sm btn-info mr-1"
-        title="Edit User"
-    >
-        <i class="fas fa-edit"></i>
-    </router-link>
-
-    <button 
-        @click.prevent="deleteUser(user.id)" 
-        class="btn btn-sm btn-danger"
-        title="Delete User"
-    >
-        <i class="fas fa-trash-alt"></i>
-    </button>
-</td>
-
+                                <td>
+                                    <router-link :to="{ name: 'user-edit', params: { id: user.id } }" class="btn btn-sm btn-primary mr-1">
+                                        <i class="fas fa-edit"></i>
+                                    </router-link>
+                                    <button @click="deleteUser(user.id)" class="btn btn-sm btn-danger">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </td>
                             </tr>
-                            <tr v-if="!loading && users.length === 0">
-                                <td colspan="5" class="text-center">No users found.</td>
+                            <tr v-if="!users.length && !loading">
+                                <td colspan="6" class="text-center">No users found.</td>
                             </tr>
                         </tbody>
                     </table>
@@ -83,7 +74,6 @@
 
 <script>
 import axios from 'axios';
-
 export default {
     name: "UserList",
     data() {
@@ -94,11 +84,10 @@ export default {
         };
     },
     mounted() {
-        // কম্পোনেন্ট লোড হওয়ার সাথে সাথে ইউজার লিস্ট লোড করা
         this.fetchUsers();
     },
     methods: {
-        getRoleBadge(role) {
+        getRoleBadgeClass(role) {
             if (role === 'admin') return 'bg-danger';
             if (role === 'depo') return 'bg-primary';
             if (role === 'distributor') return 'bg-warning';
@@ -108,12 +97,13 @@ export default {
             this.loading = true;
             this.error = null;
             try {
-                // API কল: GET /api/users
-                const response = await axios.get('users');
-                this.users = response.data;
+                // ✅ API কল: GET /api/admin/users
+                const response = await axios.get('admin/users');
+                this.users = response.data; 
+                
             } catch (err) {
                 console.error("Error fetching users:", err);
-                this.error = 'Failed to load user list.';
+                this.error = `Failed to load user list. Server Error: ${err.response?.status} - ${err.response?.data?.message || 'Check network tab for 500 error.'}`; 
             } finally {
                 this.loading = false;
             }
@@ -126,11 +116,10 @@ export default {
             this.loading = true;
             this.error = null;
             try {
-                // API কল: DELETE /api/users/{id}
-                await axios.delete(`users/${userId}`);
+                // ✅ API কল: DELETE /api/admin/users/{id}
+                await axios.delete(`admin/users/${userId}`);
                 alert('User deleted successfully!');
                 
-                // তালিকা রিফ্রেশ করা
                 this.fetchUsers();
 
             } catch (err) {

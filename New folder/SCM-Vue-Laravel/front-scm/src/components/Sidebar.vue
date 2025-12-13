@@ -15,7 +15,6 @@
             role="menu" 
             data-accordion="false">
 
-          <!-- Dashboard Link -->
           <li class="nav-item" v-if="userRole">
             <router-link :to="dashboardLink" class="nav-link">
               <i class="nav-icon fas fa-tachometer-alt"></i>
@@ -23,7 +22,6 @@
             </router-link>
           </li>
 
-          <!-- Admin Menu -->
           <li class="nav-item" v-if="userRole === 'admin'">
             <router-link :to="{ name: 'user-list' }" class="nav-link">
               <i class="nav-icon fas fa-users"></i>
@@ -31,7 +29,33 @@
             </router-link>
           </li>
 
-          <!-- Depo Menu -->
+          <li class="nav-item has-treeview" v-if="userRole === 'admin'">
+              <a href="#" class="nav-link">
+                  <i class="nav-icon fas fa-cogs"></i>
+                  <p>
+                      Settings
+                      <i class="right fas fa-angle-left"></i>
+                  </p>
+              </a>
+              
+              <ul class="nav nav-treeview">
+                  
+                  <li class="nav-item">
+                      <router-link :to="{ name: 'depo-list' }" class="nav-link">
+                          <i class="fas fa-warehouse nav-icon"></i>
+                          <p>Depo List</p>
+                      </router-link>
+                  </li>
+
+                  <li class="nav-item">
+                      <router-link :to="{ name: 'supplier-list' }" class="nav-link">
+                          <i class="fas fa-truck-moving nav-icon"></i>
+                          <p>Supplier List</p>
+                      </router-link>
+                  </li>
+                  
+              </ul>
+          </li>
           <li class="nav-item" v-if="userRole === 'depo'">
             <router-link to="/dashboard/depo/inventory" class="nav-link">
               <i class="nav-icon fas fa-warehouse"></i>
@@ -39,7 +63,6 @@
             </router-link>
           </li>
 
-          <!-- Distributor Menu -->
           <li class="nav-item" v-if="userRole === 'distributor'">
             <router-link to="/dashboard/distributor/orders" class="nav-link">
               <i class="nav-icon fas fa-shopping-cart"></i>
@@ -47,15 +70,7 @@
             </router-link>
           </li>
 
-          <!-- Logout -->
-          <!-- <li class="nav-item mt-3">
-            <a @click="handleLogout" class="nav-link" style="cursor:pointer;">
-              <i class="nav-icon fas fa-sign-out-alt text-danger"></i>
-              <p class="text-danger">Logout</p>
-            </a>
-          </li> -->
-
-        </ul>
+          </ul>
       </nav>
     </div>
   </aside>
@@ -70,34 +85,34 @@ export default {
 
   data() {
     return {
-      userRole: localStorage.getItem("user_role"),
+      userRole: localStorage.getItem("user_role"), //
     };
   },
 
   watch: {
     $route() {
-      this.userRole = localStorage.getItem("user_role");
+      this.userRole = localStorage.getItem("user_role"); //
     },
   },
 
   computed: {
     dashboardLink() {
       if (this.userRole === "admin") {
-        return { name: "admin-dashboard" };
+        return { name: "admin-dashboard" }; //
       }
       if (this.userRole === "depo") {
-        return { name: "depo-dashboard" };
+        return { name: "depo-dashboard" }; //
       }
       if (this.userRole === "distributor") {
-        return { name: "distributor-dashboard" };
+        return { name: "distributor-dashboard" }; //
       }
       return { name: "login" };
     },
 
     dashboardTitle() {
-      if (this.userRole === "admin") return "Admin Dashboard";
-      if (this.userRole === "depo") return "Depo Dashboard";
-      if (this.userRole === "distributor") return "Distributor Dashboard";
+      if (this.userRole === "admin") return "Admin Dashboard"; //
+      if (this.userRole === "depo") return "Depo Dashboard"; //
+      if (this.userRole === "distributor") return "Distributor Dashboard"; //
       return "Dashboard";
     },
   },

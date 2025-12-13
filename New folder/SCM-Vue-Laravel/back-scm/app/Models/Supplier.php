@@ -1,7 +1,5 @@
 <?php
 
-// app/Models/Supplier.php
-
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -10,13 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class Supplier extends Model
 {
     use HasFactory;
-    
-    // Mass assignment protection
+
+    // কোন কোন ফিল্ড অ্যাসাইন করা যাবে (Create/Update-এর জন্য)
     protected $fillable = [
         'name',
         'contact_person',
-        'email',
         'phone',
+        'email',
         'address',
     ];
 }

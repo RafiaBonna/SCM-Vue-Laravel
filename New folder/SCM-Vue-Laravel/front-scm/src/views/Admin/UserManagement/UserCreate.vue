@@ -1,5 +1,3 @@
-// src/views/Admin/UserManagement/UserCreate.vue
-
 <template>
     <div class="container-fluid">
         <div class="content-header">
@@ -35,41 +33,56 @@
             <div class="card card-outline card-info">
                 <div class="card-body">
                     <form @submit.prevent="createUser">
-                        <div class="form-group">
-                            <label for="name">Name</label>
-                            <input type="text" v-model="user.name" class="form-control" id="name" placeholder="Enter full name" required>
+                        <div class="row">
+                            <div class="col-md-6 form-group">
+                                <label for="name">Name</label>
+                                <input type="text" class="form-control" id="name" v-model="user.name" required>
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <label for="email">Email</label>
+                                <input type="email" class="form-control" id="email" v-model="user.email" required>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label for="email">Email</label>
-                            <input type="email" v-model="user.email" class="form-control" id="email" placeholder="Enter email" required>
+
+                        <div class="row">
+                            <div class="col-md-6 form-group">
+                                <label for="role">Role</label>
+                                <select class="form-control" id="role" v-model="user.role" required>
+                                    <option value="" disabled>Select Role</option>
+                                    <option v-for="role in roles" :key="role.value" :value="role.value">
+                                        {{ role.name }}
+                                    </option>
+                                </select>
+                            </div>
+
+                            <div class="col-md-6 form-group" v-if="user.role === 'depo' || user.role === 'distributor'">
+                                <label for="depo">Select Depo/Distributor</label>
+                                <select class="form-control" id="depo" v-model="user.depo_id" required>
+                                    <option value="" disabled>Select Depo/Distributor</option>
+                                    <option v-for="depo in depos" :key="depo.id" :value="depo.id">
+                                        {{ depo.name }}
+                                    </option>
+                                </select>
+                                <small v-if="depoLoading" class="text-info">Loading Depo list...</small>
+                            </div>
                         </div>
-                        
-                        <div class="form-group">
-                            <label for="role">Role</label>
-                            <select v-model="user.role" class="form-control" id="role" required>
-                                <option value="" disabled>Select Role</option>
-                                <option v-for="role in roles" :key="role.value" :value="role.value">{{ role.name }}</option>
-                            </select>
-                        </div>
-                        
-                        <hr>
-                        
-                        <div class="form-row">
-                            <div class="form-group col-md-6">
+
+                        <div class="row">
+                            <div class="col-md-6 form-group">
                                 <label for="password">Password</label>
-                                <input type="password" v-model="user.password" class="form-control" id="password" placeholder="Enter password" required>
+                                <input type="password" class="form-control" id="password" v-model="user.password" required>
                             </div>
-                            <div class="form-group col-md-6">
+                            <div class="col-md-6 form-group">
                                 <label for="password_confirmation">Confirm Password</label>
-                                <input type="password" v-model="user.password_confirmation" class="form-control" id="password_confirmation" placeholder="Confirm password" required>
+                                <input type="password" class="form-control" id="password_confirmation" v-model="user.password_confirmation" required>
                             </div>
                         </div>
-                        
-                        <button type="submit" :disabled="loading" class="btn btn-info mt-3">
-                            <span v-if="loading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                            <span v-else>Create User</span>
+
+                        <button type="submit" class="btn btn-info mt-3" :disabled="loading">
+                            <i v-if="loading" class="fas fa-spinner fa-spin"></i>
+                            <i v-else class="fas fa-save"></i>
+                            Create User
                         </button>
-                        <router-link :to="{ name: 'user-list' }" class="btn btn-secondary mt-3 ml-2">Cancel</router-link>
                     </form>
                 </div>
             </div>
@@ -88,6 +101,7 @@ export default {
                 name: '',
                 email: '',
                 role: '',
+                depo_id: '', // ✅ নতুন ফিল্ড
                 password: '', 
                 password_confirmation: '',
             },
@@ -96,24 +110,42 @@ export default {
                 { value: 'depo', name: 'Depo' },
                 { value: 'distributor', name: 'Distributor' },
             ],
+            depos: [], // ✅ ডিপো তালিকা রাখার জন্য নতুন Array
+            depoLoading: false, // ✅ Depo লোডিং স্টেট
             validationErrors: null,
             error: null,
             loading: false,
         };
     },
+    mounted() {
+        this.fetchDepos(); // ✅ কম্পোনেন্ট লোড হওয়ার সময় ডিপো ডেটা আনা হবে
+    },
     methods: {
+        async fetchDepos() {
+            this.depoLoading = true;
+            try {
+                // API কল: GET /api/admin/depos (এই রুটটি আপনাকে Laravel-এ তৈরি করতে হবে)
+                const response = await axios.get('admin/depos'); 
+                this.depos = response.data;
+            } catch (err) {
+                console.error("Error fetching depos:", err);
+                // Depo Load ব্যর্থ হলেও অ্যাপ্লিকেশন চলতে থাকবে
+                this.error = `Warning: Could not load Depo list. Server Error: ${err.response?.status} - ${err.response?.data?.message || 'Check network tab.'}`;
+            } finally {
+                this.depoLoading = false;
+            }
+        },
         async createUser() {
             this.loading = true;
             this.error = null;
             this.validationErrors = null;
             
             try {
-                // API কল: POST /api/users
-                await axios.post('users', this.user);
+                // API কল: POST /api/admin/users
+                await axios.post('admin/users', this.user);
 
                 alert('User created successfully!');
                 
-                // সফল হলে ইউজার লিস্ট পেজে রিডিরেক্ট
                 this.$router.push({ name: 'user-list' });
 
             } catch (err) {
