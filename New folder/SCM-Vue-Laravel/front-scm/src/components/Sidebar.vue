@@ -1,7 +1,7 @@
 <template>
   <aside class="main-sidebar sidebar-light-indigo elevation-4">
     <router-link to="/" class="brand-link">
-      <img src="/dist/img/AdminLTELogo.png" 
+      <img src="/dist/img/vue.png" 
            alt="AdminLTE Logo" 
            class="brand-image img-circle elevation-3" 
            style="opacity: .8">
