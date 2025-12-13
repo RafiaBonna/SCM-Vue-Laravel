@@ -135,3 +135,56 @@ export default {
   },
 };
 </script>
+<style scoped>
+/* ==============================
+   FULL SIDEBAR LAVENDER THEME
+   ============================== */
+
+/* Sidebar background */
+.main-sidebar {
+  background-color: #f2efff !important; /* Soft lavender */
+}
+
+/* Brand area */
+.main-sidebar .brand-link {
+  background-color: #e6e1ff !important;
+  color: #3f2b96 !important;
+}
+
+/* Menu text & icon default */
+.nav-sidebar .nav-link {
+  color: #3f2b96 !important; /* Indigo */
+}
+
+.nav-sidebar .nav-link .nav-icon {
+  color: #3f2b96 !important;
+}
+
+/* Hover effect */
+.nav-sidebar .nav-link:hover {
+  background-color: #ddd6ff !important; /* darker lavender */
+  color: #2c1a7a !important;
+}
+
+.nav-sidebar .nav-link:hover .nav-icon {
+  color: #2c1a7a !important;
+}
+
+/* Active menu item - Deep Lavender */
+.nav-sidebar .nav-link.router-link-active,
+.nav-sidebar .nav-link.router-link-exact-active {
+  background-color: #6a5acd !important; /* Deep Lavender */
+  color: #ffffff !important;
+}
+
+.nav-sidebar .nav-link.router-link-active .nav-icon,
+.nav-sidebar .nav-link.router-link-exact-active .nav-icon {
+  color: #ffffff !important;
+}
+
+
+/* Treeview submenu background */
+.nav-treeview {
+  background-color: #ebe7ff !important;
+}
+</style>
