@@ -5,7 +5,7 @@
            alt="AdminLTE Logo" 
            class="brand-image img-circle elevation-3" 
            style="opacity: .8">
-      <span class="brand-text font-weight-light">SCM PANEL</span>
+      <span class="brand-text font-weight-light"><b>SCM PANEL</b></span>
     </router-link>
 
     <div class="sidebar">
