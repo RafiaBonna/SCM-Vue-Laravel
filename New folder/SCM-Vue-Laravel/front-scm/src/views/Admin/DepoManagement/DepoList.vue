@@ -1,7 +1,7 @@
 <template>
     <div class="container-fluid">
         <div class="content-header">
-            <h1 class="m-0 text-info">Depo/Distributor List</h1>
+            <h1 class="m-0 text-info">Depo List</h1>
         </div>
 
         <section class="content">
