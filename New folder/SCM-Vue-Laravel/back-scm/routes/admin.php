@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\Admin\PurchaseController;
+use App\Http\Controllers\Api\Admin\MaterialIssueController;
 
 /*
 |--------------------------------------------------------------------------
@@ -9,7 +10,6 @@ use App\Http\Controllers\Api\Admin\PurchaseController;
 |--------------------------------------------------------------------------
 | Base URL  : /api/admin/...
 | Middleware: auth:sanctum
-| Namespace : App\Http\Controllers\Api\Admin
 |--------------------------------------------------------------------------
 */
 
@@ -49,41 +49,41 @@ Route::middleware('auth:sanctum')
             'raw-materials/form-data',
             [\App\Http\Controllers\Api\Admin\RawMaterialController::class, 'getFormData']
         );
+
         Route::apiResource(
             'raw-materials',
             \App\Http\Controllers\Api\Admin\RawMaterialController::class
         );
 
         // ==================================================
-        // Purchase Management (Stock In) ✅
+        // Purchase Management (Stock In)
         // URL: /api/admin/purchases
         // ==================================================
-
-        // Form dropdown data
         Route::get(
             'purchases/form-data',
             [PurchaseController::class, 'getFormData']
         );
 
-        // Purchase list
+        Route::get('purchases', [PurchaseController::class, 'index']);
+        Route::get('purchases/{id}', [PurchaseController::class, 'show']);
+        Route::post('purchases', [PurchaseController::class, 'store']);
+
+        // ==================================================
+        // Material Issue Management (Stock Out) ✅
+        // Factory তে Raw Material পাঠানো
+        // URL: /api/admin/material-issues
+        // ==================================================
+        
+        // ১. ড্রপডাউনের জন্য মেটেরিয়াল লিস্ট আনার রাউট
         Route::get(
-            'purchases',
-            [PurchaseController::class, 'index']
+            'material-issues/form-data', 
+            [MaterialIssueController::class, 'getFormData']
         );
 
-        // Single purchase details
-        Route::get(
-            'purchases/{id}',
-            [PurchaseController::class, 'show']
+        // ২. মেইন রিসোর্স রাউট
+        Route::apiResource(
+            'material-issues',
+            MaterialIssueController::class
         );
 
-        // Store new purchase (Stock In)
-        Route::post(
-            'purchases',
-            [PurchaseController::class, 'store']
-        );
-
-        // (Optional future)
-        // Route::put('purchases/{id}', [PurchaseController::class, 'update']);
-        // Route::delete('purchases/{id}', [PurchaseController::class, 'destroy']);
     });

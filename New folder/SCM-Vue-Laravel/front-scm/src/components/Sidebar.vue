@@ -52,6 +52,13 @@
               </router-link>
             </li>
 
+            <li class="nav-item">
+              <router-link :to="{ name: 'material-issue-list' }" class="nav-link">
+                <i class="nav-icon fas fa-file-export"></i>
+                <p>Material Issue (Out)</p>
+              </router-link>
+            </li>
+
             <li class="nav-item has-treeview">
               <a href="#" class="nav-link">
                 <i class="nav-icon fas fa-cogs"></i>

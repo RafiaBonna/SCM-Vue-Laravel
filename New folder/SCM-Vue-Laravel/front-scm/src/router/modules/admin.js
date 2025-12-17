@@ -45,6 +45,12 @@ import StockInList from '../../views/Admin/RawMaterialStock/StockInList.vue';
 import StockInCreate from '../../views/Admin/RawMaterialStock/StockInCreate.vue';
 import StockInView from '../../views/Admin/RawMaterialStock/StockInView.vue';
 
+// ================================
+// Raw Material Stock Out (Material Issue)
+// ================================
+import MaterialIssueList from '../../views/Admin/MaterialIssue/MaterialIssueList.vue';
+import MaterialIssueCreate from '../../views/Admin/MaterialIssue/MaterialIssueCreate.vue';
+
 // ==================================================
 // Admin Routes
 // ==================================================
@@ -191,6 +197,29 @@ const adminRoutes = [
         component: StockInView,
         meta: { requiresAuth: true, roles: ['admin'] }
     },
+
+    // -------------------------------
+    // Raw Material Stock Out (Material Issue) ✅
+    // -------------------------------
+    {
+        path: '/admin/material-issues',
+        name: 'material-issue-list',
+        component: MaterialIssueList,
+        meta: { requiresAuth: true, roles: ['admin'] }
+    },
+    {
+        path: '/admin/material-issues/create',
+        name: 'material-issue-create',
+        component: MaterialIssueCreate,
+        meta: { requiresAuth: true, roles: ['admin'] }
+    },
+    {
+    path: '/admin/material-issues/view/:id', // ইনভয়েস দেখার জন্য রাউট
+    name: 'material-issue-view',
+    component: () => import('../../views/Admin/MaterialIssue/MaterialIssueView.vue'),
+    meta: { requiresAuth: true, roles: ['admin'] }
+},
+    
 ];
 
 export default adminRoutes;
