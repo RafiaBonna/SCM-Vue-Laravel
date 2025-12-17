@@ -1,15 +1,19 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\Admin\UserController;
+use App\Http\Controllers\Api\Admin\DepoController;
+use App\Http\Controllers\Api\Admin\SupplierController;
+use App\Http\Controllers\Api\Admin\UnitController;
+use App\Http\Controllers\Api\Admin\RawMaterialController;
 use App\Http\Controllers\Api\Admin\PurchaseController;
 use App\Http\Controllers\Api\Admin\MaterialIssueController;
+use App\Http\Controllers\Api\Admin\ProductController;
+use App\Http\Controllers\Api\Admin\ProductReceiveController;
 
 /*
 |--------------------------------------------------------------------------
 | Admin API Routes
-|--------------------------------------------------------------------------
-| Base URL  : /api/admin/...
-| Middleware: auth:sanctum
 |--------------------------------------------------------------------------
 */
 
@@ -17,73 +21,40 @@ Route::middleware('auth:sanctum')
     ->prefix('admin')
     ->group(function () {
 
-        // ==================================================
         // User Management
-        // URL: /api/admin/users
-        // ==================================================
-        Route::apiResource('users', \App\Http\Controllers\Api\Admin\UserController::class);
+        Route::apiResource('users', UserController::class);
 
-        // ==================================================
-        // Depo Management
-        // URL: /api/admin/depos
-        // ==================================================
-        Route::apiResource('depos', \App\Http\Controllers\Api\Admin\DepoController::class);
+        // Settings (Depo, Supplier, Unit)
+        Route::apiResource('depos', DepoController::class);
+        Route::apiResource('suppliers', SupplierController::class);
+        Route::apiResource('units', UnitController::class);
 
-        // ==================================================
-        // Supplier Management
-        // URL: /api/admin/suppliers
-        // ==================================================
-        Route::apiResource('suppliers', \App\Http\Controllers\Api\Admin\SupplierController::class);
-
-        // ==================================================
-        // Unit Management
-        // URL: /api/admin/units
-        // ==================================================
-        Route::apiResource('units', \App\Http\Controllers\Api\Admin\UnitController::class);
-
-        // ==================================================
         // Raw Material Management
-        // URL: /api/admin/raw-materials
-        // ==================================================
-        Route::get(
-            'raw-materials/form-data',
-            [\App\Http\Controllers\Api\Admin\RawMaterialController::class, 'getFormData']
-        );
+        Route::get('raw-materials/form-data', [RawMaterialController::class, 'getFormData']);
+        Route::apiResource('raw-materials', RawMaterialController::class);
 
-        Route::apiResource(
-            'raw-materials',
-            \App\Http\Controllers\Api\Admin\RawMaterialController::class
-        );
-
-        // ==================================================
         // Purchase Management (Stock In)
-        // URL: /api/admin/purchases
-        // ==================================================
-        Route::get(
-            'purchases/form-data',
-            [PurchaseController::class, 'getFormData']
-        );
-
+        Route::get('purchases/form-data', [PurchaseController::class, 'getFormData']);
         Route::get('purchases', [PurchaseController::class, 'index']);
         Route::get('purchases/{id}', [PurchaseController::class, 'show']);
         Route::post('purchases', [PurchaseController::class, 'store']);
 
-        // ==================================================
-        // Material Issue Management (Stock Out) ✅
-        // Factory তে Raw Material পাঠানো
-        // URL: /api/admin/material-issues
-        // ==================================================
-        
-        // ১. ড্রপডাউনের জন্য মেটেরিয়াল লিস্ট আনার রাউট
-        Route::get(
-            'material-issues/form-data', 
-            [MaterialIssueController::class, 'getFormData']
-        );
+        // Material Issue Management (Stock Out)
+        Route::get('material-issues/form-data', [MaterialIssueController::class, 'getFormData']);
+        Route::apiResource('material-issues', MaterialIssueController::class);
 
-        // ২. মেইন রিসোর্স রাউট
-        Route::apiResource(
-            'material-issues',
-            MaterialIssueController::class
-        );
+        // ==================================================
+        // Finished Goods & Production Management ✅
+        // ==================================================
+
+        // ১. প্রোডাক্ট লিস্ট এবং অন্যান্য ডাটা (ড্রপডাউনের জন্য)
+        // এটি রিসিভ ফর্মের সময় কাজে লাগবে
+        Route::get('product-receives/form-data', [ProductReceiveController::class, 'getFormData']);
+
+        // ২. মেইন প্রোডাক্ট এন্ট্রি রাউট
+        Route::apiResource('products', ProductController::class);
+
+        // ৩. প্রোডাক্ট রিসিভ (কারখানা থেকে গ্রহণ) রাউট
+        Route::apiResource('product-receives', ProductReceiveController::class);
 
     });

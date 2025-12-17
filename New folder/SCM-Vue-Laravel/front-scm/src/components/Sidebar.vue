@@ -1,6 +1,5 @@
 <template>
   <aside class="main-sidebar sidebar-light-indigo elevation-4">
-
     <router-link to="/" class="brand-link">
       <img
         src="/dist/img/vue.png"
@@ -21,7 +20,6 @@
           role="menu"
           data-accordion="false"
         >
-
           <li class="nav-item" v-if="userRole">
             <router-link :to="dashboardLink" class="nav-link">
               <i class="nav-icon fas fa-tachometer-alt"></i>
@@ -30,7 +28,6 @@
           </li>
 
           <template v-if="userRole === 'admin'">
-
             <li class="nav-item">
               <router-link :to="{ name: 'user-list' }" class="nav-link">
                 <i class="nav-icon fas fa-users"></i>
@@ -61,13 +58,36 @@
 
             <li class="nav-item has-treeview">
               <a href="#" class="nav-link">
+                <i class="nav-icon fas fa-boxes"></i>
+                <p>
+                  Finished Goods
+                  <i class="right fas fa-angle-left"></i>
+                </p>
+              </a>
+              <ul class="nav nav-treeview">
+                <li class="nav-item">
+                  <router-link :to="{ name: 'product-list' }" class="nav-link">
+                    <i class="fas fa-list-ul nav-icon"></i>
+                    <p>Product List</p>
+                  </router-link>
+                </li>
+                <li class="nav-item">
+                  <router-link :to="{ name: 'product-receive-list' }" class="nav-link">
+                    <i class="fas fa-download nav-icon"></i>
+                    <p>Product Receive (In)</p>
+                  </router-link>
+                </li>
+              </ul>
+            </li>
+
+            <li class="nav-item has-treeview">
+              <a href="#" class="nav-link">
                 <i class="nav-icon fas fa-cogs"></i>
                 <p>
                   Settings
                   <i class="right fas fa-angle-left"></i>
                 </p>
               </a>
-
               <ul class="nav nav-treeview">
                 <li class="nav-item">
                   <router-link :to="{ name: 'depo-list' }" class="nav-link">
@@ -75,14 +95,12 @@
                     <p>Depo List</p>
                   </router-link>
                 </li>
-
                 <li class="nav-item">
                   <router-link :to="{ name: 'supplier-list' }" class="nav-link">
                     <i class="fas fa-truck-moving nav-icon"></i>
                     <p>Supplier List</p>
                   </router-link>
                 </li>
-
                 <li class="nav-item">
                   <router-link :to="{ name: 'unit-list' }" class="nav-link">
                     <i class="fas fa-balance-scale nav-icon"></i>
@@ -91,7 +109,6 @@
                 </li>
               </ul>
             </li>
-
           </template>
 
           <li class="nav-item" v-if="userRole === 'depo'">
@@ -114,7 +131,6 @@
               <p>Logout</p>
             </a>
           </li>
-
         </ul>
       </nav>
     </div>
@@ -135,6 +151,7 @@ export default {
   },
 
   watch: {
+    // Route change হলে ইউজার রোল আপডেট করবে যেন লগইন এর পর মেনু ঠিকমতো দেখা যায়
     $route() {
       this.userRole = localStorage.getItem("user_role");
     },
@@ -177,7 +194,7 @@ export default {
 
 <style scoped>
 /* ==============================
-   FULL SIDEBAR LAVENDER THEME
+   SIDEBAR LAVENDER THEME
    ============================== */
 
 .main-sidebar {
@@ -206,6 +223,7 @@ export default {
   color: #2c1a7a !important;
 }
 
+/* Active Link Styles */
 .nav-sidebar .router-link-active,
 .nav-sidebar .router-link-exact-active {
   background-color: #6a5acd !important;
@@ -217,6 +235,7 @@ export default {
   color: #ffffff !important;
 }
 
+/* Treeview background */
 .nav-treeview {
   background-color: #ebe7ff !important;
 }
