@@ -1,7 +1,6 @@
 <template>
   <aside class="main-sidebar sidebar-light-indigo elevation-4">
 
-    <!-- Brand -->
     <router-link to="/" class="brand-link">
       <img
         src="/dist/img/vue.png"
@@ -14,7 +13,6 @@
       </span>
     </router-link>
 
-    <!-- Sidebar -->
     <div class="sidebar">
       <nav class="mt-2">
         <ul
@@ -24,7 +22,6 @@
           data-accordion="false"
         >
 
-          <!-- Dashboard -->
           <li class="nav-item" v-if="userRole">
             <router-link :to="dashboardLink" class="nav-link">
               <i class="nav-icon fas fa-tachometer-alt"></i>
@@ -32,10 +29,8 @@
             </router-link>
           </li>
 
-          <!-- ================= ADMIN MENU ================= -->
           <template v-if="userRole === 'admin'">
 
-            <!-- User Management -->
             <li class="nav-item">
               <router-link :to="{ name: 'user-list' }" class="nav-link">
                 <i class="nav-icon fas fa-users"></i>
@@ -43,7 +38,6 @@
               </router-link>
             </li>
 
-            <!-- Raw Material Management ✅ -->
             <li class="nav-item">
               <router-link :to="{ name: 'raw-material-list' }" class="nav-link">
                 <i class="nav-icon fas fa-boxes"></i>
@@ -51,7 +45,13 @@
               </router-link>
             </li>
 
-            <!-- Settings Tree -->
+            <li class="nav-item">
+              <router-link :to="{ name: 'stock-in-list' }" class="nav-link">
+                <i class="nav-icon fas fa-file-import"></i>
+                <p>Stock In (Purchase)</p>
+              </router-link>
+            </li>
+
             <li class="nav-item has-treeview">
               <a href="#" class="nav-link">
                 <i class="nav-icon fas fa-cogs"></i>
@@ -62,7 +62,6 @@
               </a>
 
               <ul class="nav nav-treeview">
-
                 <li class="nav-item">
                   <router-link :to="{ name: 'depo-list' }" class="nav-link">
                     <i class="fas fa-warehouse nav-icon"></i>
@@ -76,12 +75,18 @@
                     <p>Supplier List</p>
                   </router-link>
                 </li>
+
+                <li class="nav-item">
+                  <router-link :to="{ name: 'unit-list' }" class="nav-link">
+                    <i class="fas fa-balance-scale nav-icon"></i>
+                    <p>Unit List</p>
+                  </router-link>
+                </li>
               </ul>
             </li>
 
           </template>
 
-          <!-- ================= DEPO MENU ================= -->
           <li class="nav-item" v-if="userRole === 'depo'">
             <router-link to="/dashboard/depo/inventory" class="nav-link">
               <i class="nav-icon fas fa-warehouse"></i>
@@ -89,12 +94,18 @@
             </router-link>
           </li>
 
-          <!-- ================= DISTRIBUTOR MENU ================= -->
           <li class="nav-item" v-if="userRole === 'distributor'">
             <router-link to="/dashboard/distributor/orders" class="nav-link">
               <i class="nav-icon fas fa-shopping-cart"></i>
               <p>Place Order</p>
             </router-link>
+          </li>
+
+          <li class="nav-item mt-4">
+            <a href="javascript:void(0)" @click="handleLogout" class="nav-link text-danger">
+              <i class="nav-icon fas fa-sign-out-alt"></i>
+              <p>Logout</p>
+            </a>
           </li>
 
         </ul>

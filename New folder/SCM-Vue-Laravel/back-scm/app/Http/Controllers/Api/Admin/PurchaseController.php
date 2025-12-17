@@ -6,26 +6,31 @@ use App\Http\Controllers\Controller;
 use App\Models\PurchaseOrder;
 use App\Models\PurchaseOrderItem;
 use App\Models\RawMaterial;
+use App\Models\RawMaterialStock; // নতুন মডেলটি ইম্পোর্ট করলাম
 use App\Models\Supplier;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class PurchaseController extends Controller
 {
-    /**
-     * ফর্মের ড্রপডাউন ডেটা (Materials & Suppliers) লোড করার জন্য
-     */
+    public function index()
+    {
+        return PurchaseOrder::with('supplier')->orderBy('id', 'desc')->get();
+    }
+
+    public function show($id)
+    {
+        return PurchaseOrder::with(['supplier', 'items.raw_material'])->findOrFail($id);
+    }
+
     public function getFormData()
     {
         return response()->json([
-            'materials' => RawMaterial::all(['id', 'name', 'unit_id']),
+            'materials' => RawMaterial::all(['id', 'name']),
             'suppliers' => Supplier::all(['id', 'name'])
         ]);
     }
 
-    /**
-     * নতুন স্টক-ইন বা পারচেজ সেভ করার জন্য
-     */
     public function store(Request $request)
     {
         $request->validate([
@@ -38,7 +43,7 @@ class PurchaseController extends Controller
 
         DB::beginTransaction();
         try {
-            // ১. মেইন পারচেজ অর্ডার সেভ
+            // ১. মেইন পারচেজ অর্ডার সেভ করা
             $purchase = PurchaseOrder::create([
                 'po_number'     => $request->invoice_number,
                 'supplier_id'   => $request->supplier_id,
@@ -48,8 +53,9 @@ class PurchaseController extends Controller
                 'note'          => $request->note,
             ]);
 
-            // ২. ডাইনামিক আইটেমগুলো লুপ চালিয়ে সেভ করা
+            // ২. আইটেমগুলো লুপ চালিয়ে সেভ করা এবং স্টক লেজারে এন্ট্রি দেওয়া
             foreach ($request->items as $item) {
+                // ২.১ পারচেজ আইটেম টেবিল সেভ
                 PurchaseOrderItem::create([
                     'purchase_order_id' => $purchase->id,
                     'raw_material_id'   => $item['raw_material_id'],
@@ -58,10 +64,19 @@ class PurchaseController extends Controller
                     'unit_price'        => $item['unit_price'],
                     'sub_total'         => $item['sub_total'],
                 ]);
+
+                // ২.২ আলাদা স্টক হিস্ট্রি টেবিল (RawMaterialStock) এ এন্ট্রি দেওয়া ✅
+                RawMaterialStock::create([
+                    'raw_material_id' => $item['raw_material_id'],
+                    'quantity'        => $item['quantity'],
+                    'type'            => 'in', // যেহেতু মাল ঢুকছে
+                    'reference_id'    => $purchase->id, // পারচেজ অর্ডারের আইডি
+                    'note'            => 'Stock In from Invoice: ' . $purchase->po_number,
+                ]);
             }
 
             DB::commit();
-            return response()->json(['message' => 'Stock In successful!'], 201);
+            return response()->json(['message' => 'Stock In successful & Ledger Updated!', 'id' => $purchase->id], 201);
             
         } catch (\Exception $e) {
             DB::rollback();

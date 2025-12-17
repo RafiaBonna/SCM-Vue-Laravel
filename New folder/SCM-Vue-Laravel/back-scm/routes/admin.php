@@ -15,52 +15,75 @@ use App\Http\Controllers\Api\Admin\PurchaseController;
 
 Route::middleware('auth:sanctum')
     ->prefix('admin')
-    ->namespace('App\Http\Controllers\Api\Admin')
     ->group(function () {
 
         // ==================================================
         // User Management
         // URL: /api/admin/users
         // ==================================================
-        Route::apiResource('users', 'UserController');
+        Route::apiResource('users', \App\Http\Controllers\Api\Admin\UserController::class);
 
         // ==================================================
         // Depo Management
         // URL: /api/admin/depos
         // ==================================================
-        Route::apiResource('depos', 'DepoController');
+        Route::apiResource('depos', \App\Http\Controllers\Api\Admin\DepoController::class);
 
         // ==================================================
         // Supplier Management
         // URL: /api/admin/suppliers
         // ==================================================
-        Route::apiResource('suppliers', 'SupplierController');
+        Route::apiResource('suppliers', \App\Http\Controllers\Api\Admin\SupplierController::class);
 
         // ==================================================
         // Unit Management
         // URL: /api/admin/units
         // ==================================================
-        Route::apiResource('units', 'UnitController');
+        Route::apiResource('units', \App\Http\Controllers\Api\Admin\UnitController::class);
 
         // ==================================================
         // Raw Material Management
         // URL: /api/admin/raw-materials
         // ==================================================
-        Route::get('raw-materials/form-data', 'RawMaterialController@getFormData');
-        Route::apiResource('raw-materials', 'RawMaterialController');
+        Route::get(
+            'raw-materials/form-data',
+            [\App\Http\Controllers\Api\Admin\RawMaterialController::class, 'getFormData']
+        );
+        Route::apiResource(
+            'raw-materials',
+            \App\Http\Controllers\Api\Admin\RawMaterialController::class
+        );
 
         // ==================================================
-        // Purchase Management ✅ NEW
+        // Purchase Management (Stock In) ✅
         // URL: /api/admin/purchases
         // ==================================================
-        // Form dropdown data (suppliers, raw materials, etc.)
-        Route::get('purchases/form-data', [PurchaseController::class, 'getFormData']);
 
-        // CRUD
-        Route::get('purchases', [PurchaseController::class, 'index']);
-        Route::get('purchases/{id}', [PurchaseController::class, 'show']);
-        Route::post('purchases', [PurchaseController::class, 'store']);
-        // Optional: update & delete if needed
+        // Form dropdown data
+        Route::get(
+            'purchases/form-data',
+            [PurchaseController::class, 'getFormData']
+        );
+
+        // Purchase list
+        Route::get(
+            'purchases',
+            [PurchaseController::class, 'index']
+        );
+
+        // Single purchase details
+        Route::get(
+            'purchases/{id}',
+            [PurchaseController::class, 'show']
+        );
+
+        // Store new purchase (Stock In)
+        Route::post(
+            'purchases',
+            [PurchaseController::class, 'store']
+        );
+
+        // (Optional future)
         // Route::put('purchases/{id}', [PurchaseController::class, 'update']);
         // Route::delete('purchases/{id}', [PurchaseController::class, 'destroy']);
     });
