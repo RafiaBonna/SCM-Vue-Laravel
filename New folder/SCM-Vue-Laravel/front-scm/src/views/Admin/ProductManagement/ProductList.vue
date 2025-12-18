@@ -1,6 +1,7 @@
 <template>
   <div class="content-wrapper">
     <section class="content-header">
+      
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
@@ -74,11 +75,12 @@ export default {
     this.fetchProducts();
   },
   methods: {
+    // ... (অন্যান্য কোড ঠিক থাকবে, শুধু fetchProducts মেথডটি দেখুন)
     async fetchProducts() {
       this.loading = true;
       try {
-        // API Endpoint: /api/admin/products
-        const res = await axios.get('/api/admin/products');
+        // সঠিক পাথ: 'admin/products' (আগে ছিল '/api/admin/products')
+        const res = await axios.get('admin/products'); 
         this.products = res.data;
       } catch (err) {
         console.error("Error fetching products:", err);

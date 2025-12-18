@@ -71,9 +71,9 @@ export default {
   data() {
     return {
       submitting: false,
-      products: [], // ড্রপডাউনের জন্য পণ্যের লিস্ট
+      products: [], 
       form: {
-        receive_date: new Date().toISOString().substr(0, 10), // আজকের তারিখ ডিফল্ট
+        receive_date: new Date().toISOString().substr(0, 10), 
         product_id: '',
         quantity: '',
         batch_no: '',
@@ -85,21 +85,21 @@ export default {
     this.loadFormData();
   },
   methods: {
-    // ব্যাকএন্ড থেকে পণ্যের লিস্ট নিয়ে আসা
+    // লোড করার সময় আমরা 'admin/product-receives/get-form-data' ব্যবহার করছি
     async loadFormData() {
       try {
-        const res = await axios.get('/api/admin/product-receives/get-form-data');
+        const res = await axios.get('admin/product-receives/get-form-data');
         this.products = res.data.products;
       } catch (err) {
         console.error("Failed to load products:", err);
       }
     },
 
-    // ডাটা সেভ করা
+    // সেভ করার সময় 'admin/product-receives' ব্যবহার করছি
     async saveReceive() {
       this.submitting = true;
       try {
-        await axios.post('/api/admin/product-receives', this.form);
+        await axios.post('admin/product-receives', this.form);
         alert("Stock received successfully!");
         this.$router.push({ name: 'product-receive-list' });
       } catch (err) {

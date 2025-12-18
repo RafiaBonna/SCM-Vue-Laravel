@@ -69,7 +69,7 @@ export default {
     async fetchReceives() {
       try {
         // API Route: /api/admin/product-receives
-        const res = await axios.get('/api/admin/product-receives');
+       const res = await axios.get('admin/product-receives');
         this.receives = res.data;
       } catch (err) {
         console.error("Error:", err);

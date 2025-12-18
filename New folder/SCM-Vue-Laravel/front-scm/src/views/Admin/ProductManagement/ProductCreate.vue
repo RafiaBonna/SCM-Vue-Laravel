@@ -95,7 +95,7 @@ export default {
       this.loading = true;
       try {
         // API Route: /api/admin/products (POST method)
-        await axios.post('/api/admin/products', this.form);
+      await axios.post('admin/products', this.form);
         alert("Product created successfully!");
         this.$router.push({ name: 'product-list' });
       } catch (err) {

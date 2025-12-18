@@ -125,12 +125,7 @@
             </router-link>
           </li>
 
-          <li class="nav-item mt-4">
-            <a href="javascript:void(0)" @click="handleLogout" class="nav-link text-danger">
-              <i class="nav-icon fas fa-sign-out-alt"></i>
-              <p>Logout</p>
-            </a>
-          </li>
+         
         </ul>
       </nav>
     </div>

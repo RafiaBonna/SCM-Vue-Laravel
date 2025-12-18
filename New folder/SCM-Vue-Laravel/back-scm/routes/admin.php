@@ -49,7 +49,7 @@ Route::middleware('auth:sanctum')
 
         // ১. প্রোডাক্ট লিস্ট এবং অন্যান্য ডাটা (ড্রপডাউনের জন্য)
         // এটি রিসিভ ফর্মের সময় কাজে লাগবে
-        Route::get('product-receives/form-data', [ProductReceiveController::class, 'getFormData']);
+      Route::get('product-receives/get-form-data', [ProductReceiveController::class, 'getFormData']);
 
         // ২. মেইন প্রোডাক্ট এন্ট্রি রাউট
         Route::apiResource('products', ProductController::class);
