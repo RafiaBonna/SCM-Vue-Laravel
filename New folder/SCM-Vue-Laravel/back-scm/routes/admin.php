@@ -17,6 +17,7 @@ use App\Http\Controllers\Api\Admin\ProductReceiveController;
 use App\Http\Controllers\Api\Admin\ProductReceiveReturnController;
 use App\Http\Controllers\Api\Admin\ProductWastageController;
 use App\Http\Controllers\Api\Admin\AdminStockController;
+use App\Http\Controllers\Api\Admin\ProductSaleController; // <-- নতুন Controller Import
 
 /*
 |--------------------------------------------------------------------------
@@ -80,6 +81,12 @@ Route::middleware('auth:sanctum')
         // ==============================
         Route::get('product-wastages', [ProductWastageController::class, 'index']);
         Route::post('product-wastages', [ProductWastageController::class, 'store']);
+
+        // ==============================
+        // Product Sales (Finished Goods Stock Transfer)
+        // ==============================
+        Route::get('product-sales', [ProductSaleController::class, 'index']);
+        Route::post('product-sales', [ProductSaleController::class, 'store']);
 
         // ==============================
         // Stock Summary / Admin Stocks

@@ -42,6 +42,8 @@ import ProductReceiveCreate from '../../views/Admin/ProductManagement/ProductRec
 import ProductReceiveView from '../../views/Admin/ProductManagement/ProductReceiveView.vue';
 import ProductReceiveReturnList from '../../views/Admin/ProductManagement/ProductReceiveReturnList.vue';
 import ProductWastageList from '../../views/Admin/ProductManagement/ProductWastageList.vue';
+import ProductSaleList from '../../views/Admin/ProductManagement/ProductSaleList.vue';
+import ProductSaleCreate from '../../views/Admin/ProductManagement/ProductSaleCreate.vue';
 
 // ================================
 // Admin Master Stock
@@ -50,7 +52,7 @@ import AdminStockList from '../../views/Admin/stock/AdminStockList.vue';
 
 const adminRoutes = [
     // Dashboard
-    { path: '/admin', name: 'admin-dashboard', component: AdminDashboard, meta: { requiresAuth: true, roles: ['admin'] } },
+    { path: '/admin', name: 'admin-dashboard', component: AdminDashboard, meta: { requiresAuth: true, roles: ['admin'] }},
 
     // User Management
     { path: '/admin/users', name: 'user-list', component: UserList, meta: { requiresAuth: true, roles: ['admin'] }},
@@ -85,6 +87,10 @@ const adminRoutes = [
     { path: '/admin/product-receives/view/:id', name: 'product-receive-view', component: ProductReceiveView, meta: { requiresAuth: true, roles: ['admin'] }},
     { path: '/admin/product-returns', name: 'product-return-list', component: ProductReceiveReturnList, meta: { requiresAuth: true, roles: ['admin'] }},
     { path: '/admin/product-wastages', name: 'product-wastage-list', component: ProductWastageList, meta: { requiresAuth: true, roles: ['admin'] }},
+
+    // Product Sales
+    { path: '/admin/product-sales', name: 'product-sale-list', component: ProductSaleList, meta: { requiresAuth: true, roles: ['admin'] }},
+    { path: '/admin/product-sales/create', name: 'product-sale-create', component: ProductSaleCreate, meta: { requiresAuth: true, roles: ['admin'] }},
 
     // Master Stock
     { path: '/admin/master-stock', name: 'admin-master-stock', component: AdminStockList, meta: { requiresAuth: true, roles: ['admin'] }},
