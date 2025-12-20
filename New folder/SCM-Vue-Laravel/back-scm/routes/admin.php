@@ -15,6 +15,7 @@ use App\Http\Controllers\Api\Admin\MaterialIssueController;
 use App\Http\Controllers\Api\Admin\ProductController;
 use App\Http\Controllers\Api\Admin\ProductReceiveController;
 use App\Http\Controllers\Api\Admin\ProductReceiveReturnController;
+use App\Http\Controllers\Api\Admin\ProductWastageController;
 use App\Http\Controllers\Api\Admin\AdminStockController;
 
 /*
@@ -63,20 +64,22 @@ Route::middleware('auth:sanctum')
         // Finished Goods & Production
         // ==============================
 
-        // Product Receive Form Data
-        Route::get('product-receives/get-form-data', [ProductReceiveController::class, 'getFormData']);
-
         // Product Master
         Route::apiResource('products', ProductController::class);
 
         // Product Receive (Finished Goods Stock In)
+        Route::get('product-receives/get-form-data', [ProductReceiveController::class, 'getFormData']);
         Route::apiResource('product-receives', ProductReceiveController::class);
 
-        // ==============================
         // Product Receive Return (Finished Goods Stock Return)
-        // ==============================
         Route::get('product-returns', [ProductReceiveReturnController::class, 'index']);
         Route::post('product-returns', [ProductReceiveReturnController::class, 'store']);
+
+        // ==============================
+        // Product Wastage (Finished Goods / Production Loss)
+        // ==============================
+        Route::get('product-wastages', [ProductWastageController::class, 'index']);
+        Route::post('product-wastages', [ProductWastageController::class, 'store']);
 
         // ==============================
         // Stock Summary / Admin Stocks

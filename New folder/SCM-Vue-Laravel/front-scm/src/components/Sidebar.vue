@@ -114,6 +114,14 @@
                     <p>Product Return (In)</p>
                   </router-link>
                 </li>
+                   
+                <li class="nav-item">
+                  <router-link :to="{ name: 'product-wastage-list' }" class="nav-link">
+                    <i class="fas fa-trash-alt nav-icon"></i>
+                   <p>Product Wastage</p>
+                  </router-link>
+                </li>
+
               </ul>
             </li>
 
