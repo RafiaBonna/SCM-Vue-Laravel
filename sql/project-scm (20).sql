@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 20, 2025 at 09:32 PM
+-- Generation Time: Dec 20, 2025 at 08:28 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -230,8 +230,7 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (18, '2025_12_17_222856_create_product_receives_table', 8),
 (19, '2025_12_20_152953_create_admin_stocks_table', 9),
 (20, '2025_12_20_175335_create_product_receive_returns_table', 10),
-(21, '2025_12_20_184359_create_product_wastages_table', 11),
-(22, '2025_12_20_195324_create_product_sales_tables', 12);
+(21, '2025_12_20_184359_create_product_wastages_table', 11);
 
 -- --------------------------------------------------------
 
@@ -279,7 +278,7 @@ INSERT INTO `personal_access_tokens` (`id`, `tokenable_type`, `tokenable_id`, `n
 (19, 'App\\Models\\User', 1, 'auth_token', '3e8169b2948dfd4b7fa3fc8fb3d0e3b667dec482fd905e82d0415529787019a8', '[\"*\"]', NULL, NULL, '2025-12-09 00:17:52', '2025-12-09 00:17:52'),
 (27, 'App\\Models\\User', 1, 'auth_token', 'f820d1990d24b0b6e5dcecb78065981dca21a59ccf9e441e1ea79a603ef5c688', '[\"*\"]', '2025-12-13 02:43:54', NULL, '2025-12-11 13:23:04', '2025-12-13 02:43:54'),
 (29, 'App\\Models\\User', 1, 'auth_token', 'f8c109f0cd25f07df5dd7e96aeb153401408f0fc2777989f6250454a24d6b712', '[\"*\"]', '2025-12-13 11:04:58', NULL, '2025-12-13 02:46:11', '2025-12-13 11:04:58'),
-(34, 'App\\Models\\User', 1, 'auth_token', '3c2a2d9bcff0234b7f669c788aff3a0af7be8101f001eb3cc1e6726c66e62a6e', '[\"*\"]', '2025-12-20 14:31:20', NULL, '2025-12-20 08:41:00', '2025-12-20 14:31:20');
+(34, 'App\\Models\\User', 1, 'auth_token', '3c2a2d9bcff0234b7f669c788aff3a0af7be8101f001eb3cc1e6726c66e62a6e', '[\"*\"]', '2025-12-20 13:26:57', NULL, '2025-12-20 08:41:00', '2025-12-20 13:26:57');
 
 -- --------------------------------------------------------
 
@@ -360,41 +359,6 @@ CREATE TABLE `product_receive_returns` (
 
 INSERT INTO `product_receive_returns` (`id`, `return_number`, `return_date`, `product_id`, `quantity`, `reason`, `created_at`, `updated_at`) VALUES
 (1, 'RET-6946EB12EB5DA', '2025-12-20', 2, 100.00, 'Damaged', '2025-12-20 12:29:38', '2025-12-20 12:29:38');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `product_sales`
---
-
-CREATE TABLE `product_sales` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `invoice_no` varchar(255) NOT NULL,
-  `sale_date` date NOT NULL,
-  `depo_id` bigint(20) UNSIGNED NOT NULL,
-  `total_amount` decimal(15,2) NOT NULL DEFAULT 0.00,
-  `status` enum('pending','accepted','rejected') NOT NULL DEFAULT 'pending',
-  `note` text DEFAULT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `product_sales_details`
---
-
-CREATE TABLE `product_sales_details` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `product_sale_id` bigint(20) UNSIGNED NOT NULL,
-  `product_id` bigint(20) UNSIGNED NOT NULL,
-  `quantity` decimal(12,2) NOT NULL,
-  `unit_price` decimal(12,2) NOT NULL,
-  `subtotal` decimal(15,2) NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -775,22 +739,6 @@ ALTER TABLE `product_receive_returns`
   ADD KEY `product_receive_returns_product_id_foreign` (`product_id`);
 
 --
--- Indexes for table `product_sales`
---
-ALTER TABLE `product_sales`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `product_sales_invoice_no_unique` (`invoice_no`),
-  ADD KEY `product_sales_depo_id_foreign` (`depo_id`);
-
---
--- Indexes for table `product_sales_details`
---
-ALTER TABLE `product_sales_details`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `product_sales_details_product_sale_id_foreign` (`product_sale_id`),
-  ADD KEY `product_sales_details_product_id_foreign` (`product_id`);
-
---
 -- Indexes for table `product_wastages`
 --
 ALTER TABLE `product_wastages`
@@ -919,7 +867,7 @@ ALTER TABLE `material_issue_items`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `personal_access_tokens`
@@ -944,18 +892,6 @@ ALTER TABLE `product_receives`
 --
 ALTER TABLE `product_receive_returns`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
--- AUTO_INCREMENT for table `product_sales`
---
-ALTER TABLE `product_sales`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `product_sales_details`
---
-ALTER TABLE `product_sales_details`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `product_wastages`
@@ -1039,19 +975,6 @@ ALTER TABLE `product_receives`
 --
 ALTER TABLE `product_receive_returns`
   ADD CONSTRAINT `product_receive_returns_product_id_foreign` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE;
-
---
--- Constraints for table `product_sales`
---
-ALTER TABLE `product_sales`
-  ADD CONSTRAINT `product_sales_depo_id_foreign` FOREIGN KEY (`depo_id`) REFERENCES `depos` (`id`) ON DELETE CASCADE;
-
---
--- Constraints for table `product_sales_details`
---
-ALTER TABLE `product_sales_details`
-  ADD CONSTRAINT `product_sales_details_product_id_foreign` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `product_sales_details_product_sale_id_foreign` FOREIGN KEY (`product_sale_id`) REFERENCES `product_sales` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `product_wastages`
