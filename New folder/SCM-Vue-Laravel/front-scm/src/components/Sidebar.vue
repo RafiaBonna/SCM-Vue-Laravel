@@ -84,6 +84,13 @@
                     <p>Product Receive (In)</p>
                   </router-link>
                 </li>
+
+                <li className="nav-item">
+  <router-link :to="{ name: 'product-return-list' }" className="nav-link">
+    <i className="fas fa-undo nav-icon" />
+    <p>Product Return (Out)</p>
+  </router-link>
+</li>
               </ul>
             </li>
 

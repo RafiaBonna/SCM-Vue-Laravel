@@ -1,6 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+
+// ==============================
+// Controller Imports
+// ==============================
 use App\Http\Controllers\Api\Admin\UserController;
 use App\Http\Controllers\Api\Admin\DepoController;
 use App\Http\Controllers\Api\Admin\SupplierController;
@@ -10,6 +14,7 @@ use App\Http\Controllers\Api\Admin\PurchaseController;
 use App\Http\Controllers\Api\Admin\MaterialIssueController;
 use App\Http\Controllers\Api\Admin\ProductController;
 use App\Http\Controllers\Api\Admin\ProductReceiveController;
+use App\Http\Controllers\Api\Admin\ProductReceiveReturnController;
 use App\Http\Controllers\Api\Admin\AdminStockController;
 
 /*
@@ -41,7 +46,7 @@ Route::middleware('auth:sanctum')
         Route::apiResource('raw-materials', RawMaterialController::class);
 
         // ==============================
-        // Purchase Management (Stock In)
+        // Purchase Management (Raw Material Stock In)
         // ==============================
         Route::get('purchases/form-data', [PurchaseController::class, 'getFormData']);
         Route::get('purchases', [PurchaseController::class, 'index']);
@@ -49,7 +54,7 @@ Route::middleware('auth:sanctum')
         Route::post('purchases', [PurchaseController::class, 'store']);
 
         // ==============================
-        // Material Issue (Stock Out)
+        // Material Issue (Raw Material Stock Out)
         // ==============================
         Route::get('material-issues/form-data', [MaterialIssueController::class, 'getFormData']);
         Route::apiResource('material-issues', MaterialIssueController::class);
@@ -64,8 +69,14 @@ Route::middleware('auth:sanctum')
         // Product Master
         Route::apiResource('products', ProductController::class);
 
-        // Product Receive
+        // Product Receive (Finished Goods Stock In)
         Route::apiResource('product-receives', ProductReceiveController::class);
+
+        // ==============================
+        // Product Receive Return (Finished Goods Stock Return)
+        // ==============================
+        Route::get('product-returns', [ProductReceiveReturnController::class, 'index']);
+        Route::post('product-returns', [ProductReceiveReturnController::class, 'store']);
 
         // ==============================
         // Stock Summary / Admin Stocks

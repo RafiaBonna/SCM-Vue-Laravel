@@ -1,77 +1,80 @@
 <template>
-  <div class="content-wrapper">
+  <div class="container-fluid">
 
-    <!-- Content Header (Depo style) -->
-    <section class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1>Factory Returns</h1>
-          </div>
-          <div class="col-sm-6 text-right">
-            <button
-              class="btn btn-primary"
-              @click="showModal = true"
-            >
-              <i class="fas fa-undo"></i> New Return
-            </button>
-          </div>
-        </div>
-      </div>
-    </section>
+    <!-- Header (Same as Depo) -->
+    <div class="content-header">
+      <h1 class="m-0 text-info">Factory Return List</h1>
+    </div>
 
-    <!-- Main content -->
     <section class="content">
-      <div class="container-fluid">
 
-        <div class="card">
-          <div class="card-header bg-light">
-            <h3 class="card-title">Return List</h3>
-          </div>
-
-          <div class="card-body p-0 table-responsive">
-            <table class="table table-bordered table-striped mb-0">
-              <thead>
-                <tr>
-                  <th>Return No</th>
-                  <th>Date</th>
-                  <th>Product</th>
-                  <th class="text-center">Quantity</th>
-                  <th>Reason</th>
-                </tr>
-              </thead>
-
-              <tbody>
-                <tr v-for="item in returns" :key="item.id">
-                  <td><strong>{{ item.return_number }}</strong></td>
-                  <td>{{ item.return_date }}</td>
-                  <td>{{ item.product?.name || 'N/A' }}</td>
-                  <td class="text-center text-danger font-weight-bold">
-                    {{ item.quantity }}
-                  </td>
-                  <td>{{ item.reason || 'N/A' }}</td>
-                </tr>
-
-                <tr v-if="returns.length === 0">
-                  <td colspan="5" class="text-center text-muted">
-                    No return records found
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+      <!-- Action Button -->
+      <div class="row mb-3">
+        <div class="col-12">
+          <button
+            class="btn btn-info float-right"
+            @click="showModal = true"
+          >
+            <i class="fas fa-undo"></i> New Return
+          </button>
         </div>
-
       </div>
+
+      <!-- Loading / Error -->
+      <div v-if="loading" class="text-center text-primary">
+        Loading Returns...
+      </div>
+
+      <div v-if="error" class="alert alert-danger">
+        {{ error }}
+      </div>
+
+      <!-- Table Card -->
+      <div class="card card-outline card-info">
+        <div class="card-body p-0">
+          <table class="table table-striped table-hover">
+            <thead>
+              <tr>
+                <th style="width:10px">#</th>
+                <th>Return No</th>
+                <th>Date</th>
+                <th>Product</th>
+                <th class="text-center">Quantity</th>
+                <th>Reason</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr v-for="(item, index) in returns" :key="item.id">
+                <td>{{ index + 1 }}</td>
+                <td><strong>{{ item.return_number }}</strong></td>
+                <td>{{ item.return_date }}</td>
+                <td>{{ item.product?.name || 'N/A' }}</td>
+                <td class="text-center text-danger font-weight-bold">
+                  {{ item.quantity }}
+                </td>
+                <td>{{ item.reason || 'N/A' }}</td>
+              </tr>
+
+              <tr v-if="!returns.length && !loading">
+                <td colspan="6" class="text-center">
+                  No Factory Returns found.
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
     </section>
 
-    <!-- Modal -->
+    <!-- Modal (Same page, like Depo Create button logic) -->
     <div v-if="showModal" class="modal fade show d-block" style="background:rgba(0,0,0,.5)">
       <div class="modal-dialog">
         <div class="modal-content">
 
           <div class="modal-header">
-            <h5 class="modal-title">Record Factory Return</h5>
+            <h5 class="modal-title">Add Factory Return</h5>
             <button type="button" class="close" @click="showModal = false">&times;</button>
           </div>
 
@@ -127,7 +130,7 @@
               <button type="button" class="btn btn-secondary" @click="showModal = false">
                 Cancel
               </button>
-              <button type="submit" class="btn btn-primary">
+              <button type="submit" class="btn btn-info">
                 Save Return
               </button>
             </div>
@@ -144,10 +147,14 @@
 import axios from 'axios';
 
 export default {
+  name: 'ProductReceiveReturnList',
+
   data() {
     return {
       returns: [],
       products: [],
+      loading: false,
+      error: null,
       showModal: false,
       form: {
         product_id: '',
@@ -165,8 +172,16 @@ export default {
 
   methods: {
     async fetchReturns() {
-      const res = await axios.get('admin/product-returns');
-      this.returns = res.data;
+      this.loading = true;
+      this.error = null;
+      try {
+        const res = await axios.get('admin/product-returns');
+        this.returns = res.data;
+      } catch (err) {
+        this.error = 'Failed to load Factory Returns';
+      } finally {
+        this.loading = false;
+      }
     },
 
     async fetchProducts() {
@@ -179,7 +194,7 @@ export default {
         await axios.post('admin/product-returns', this.form);
         this.showModal = false;
         this.fetchReturns();
-        alert('Return saved successfully');
+        alert('Factory Return saved successfully');
       } catch (err) {
         alert('Failed to save return');
       }

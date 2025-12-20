@@ -3,8 +3,14 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use App\Models\ProductReceive; // ProductReceive model import
-use App\Observers\ProductReceiveObserver; // Observer import
+
+// Model gulo import korun
+use App\Models\ProductReceive;
+use App\Models\ProductReceiveReturn;
+
+// Observer gulo import korun
+use App\Observers\ProductReceiveObserver;
+use App\Observers\ProductReceiveReturnObserver;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -21,7 +27,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        // ProductReceive model-er jonno Observer register kora holo
+        // 1. Factory theke mal rishiiv korle stock barbe
         ProductReceive::observe(ProductReceiveObserver::class);
+
+        // 2. Factory-te mal pherot pathale stock kombe
+        ProductReceiveReturn::observe(ProductReceiveReturnObserver::class);
     }
 }

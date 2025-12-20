@@ -53,7 +53,7 @@ import MaterialIssueCreate from '../../views/Admin/MaterialIssue/MaterialIssueCr
 import MaterialIssueView from '../../views/Admin/MaterialIssue/MaterialIssueView.vue';
 
 // ================================
-// Product / Finished Goods Management
+// Product / Finished Goods
 // ================================
 import ProductList from '../../views/Admin/ProductManagement/ProductList.vue';
 import ProductCreate from '../../views/Admin/ProductManagement/ProductCreate.vue';
@@ -64,6 +64,11 @@ import ProductCreate from '../../views/Admin/ProductManagement/ProductCreate.vue
 import ProductReceiveList from '../../views/Admin/ProductManagement/ProductReceiveList.vue';
 import ProductReceiveCreate from '../../views/Admin/ProductManagement/ProductReceiveCreate.vue';
 import ProductReceiveView from '../../views/Admin/ProductManagement/ProductReceiveView.vue';
+
+// ================================
+// Product Receive Return (NEW)
+// ================================
+import ProductReceiveReturnList from '../../views/Admin/ProductManagement/ProductReceiveReturnList.vue';
 
 // ================================
 // Admin Master Stock
@@ -148,14 +153,14 @@ const adminRoutes = [
     { path: '/admin/product-receives/view/:id', name: 'product-receive-view', component: ProductReceiveView, meta: { requiresAuth: true, roles: ['admin'] }},
 
     // -------------------------------
-    // Admin Master Stock (NEW)
+    // Product Receive Return (NEW)
     // -------------------------------
-    {
-        path: '/admin/master-stock',
-        name: 'admin-master-stock',
-        component: AdminStockList,
-        meta: { requiresAuth: true, roles: ['admin'] }
-    },
+    { path: '/admin/product-returns', name: 'product-return-list', component: ProductReceiveReturnList, meta: { requiresAuth: true, roles: ['admin'] }},
+
+    // -------------------------------
+    // Admin Master Stock
+    // -------------------------------
+    { path: '/admin/master-stock', name: 'admin-master-stock', component: AdminStockList, meta: { requiresAuth: true, roles: ['admin'] }},
 ];
 
 export default adminRoutes;
