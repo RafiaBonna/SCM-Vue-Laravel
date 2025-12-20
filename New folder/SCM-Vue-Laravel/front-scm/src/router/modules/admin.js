@@ -65,6 +65,11 @@ import ProductReceiveList from '../../views/Admin/ProductManagement/ProductRecei
 import ProductReceiveCreate from '../../views/Admin/ProductManagement/ProductReceiveCreate.vue';
 import ProductReceiveView from '../../views/Admin/ProductManagement/ProductReceiveView.vue';
 
+// ================================
+// Admin Master Stock
+// ================================
+import AdminStockList from '../../views/Admin/stock/AdminStockList.vue';
+
 // ==================================================
 // Admin Routes
 // ==================================================
@@ -123,7 +128,7 @@ const adminRoutes = [
     { path: '/admin/raw-material-stock-in/view/:id', name: 'stock-in-view', component: StockInView, meta: { requiresAuth: true, roles: ['admin'] }},
 
     // -------------------------------
-    // Material Issue (Stock Out)
+    // Material Issue
     // -------------------------------
     { path: '/admin/material-issues', name: 'material-issue-list', component: MaterialIssueList, meta: { requiresAuth: true, roles: ['admin'] }},
     { path: '/admin/material-issues/create', name: 'material-issue-create', component: MaterialIssueCreate, meta: { requiresAuth: true, roles: ['admin'] }},
@@ -141,6 +146,16 @@ const adminRoutes = [
     { path: '/admin/product-receives', name: 'product-receive-list', component: ProductReceiveList, meta: { requiresAuth: true, roles: ['admin'] }},
     { path: '/admin/product-receives/create', name: 'product-receive-create', component: ProductReceiveCreate, meta: { requiresAuth: true, roles: ['admin'] }},
     { path: '/admin/product-receives/view/:id', name: 'product-receive-view', component: ProductReceiveView, meta: { requiresAuth: true, roles: ['admin'] }},
+
+    // -------------------------------
+    // Admin Master Stock (NEW)
+    // -------------------------------
+    {
+        path: '/admin/master-stock',
+        name: 'admin-master-stock',
+        component: AdminStockList,
+        meta: { requiresAuth: true, roles: ['admin'] }
+    },
 ];
 
 export default adminRoutes;

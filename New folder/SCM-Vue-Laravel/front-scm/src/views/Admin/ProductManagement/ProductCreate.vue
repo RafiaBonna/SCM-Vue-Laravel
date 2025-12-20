@@ -1,21 +1,15 @@
 <template>
-  <div class="content-wrapper">
-    <section class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1>Add New Product</h1>
-          </div>
-        </div>
-      </div>
-    </section>
+  <div class="container-fluid">
+    <div class="content-header">
+      <h1 class="m-0 text-info">Add New Product</h1>
+    </div>
 
     <section class="content">
-      <div class="card card-primary">
+      <div class="card card-primary card-outline">
         <div class="card-header">
           <h3 class="card-title">Product Details</h3>
         </div>
-        
+
         <form @submit.prevent="saveProduct">
           <div class="card-body">
             <div class="row">
@@ -75,7 +69,6 @@
 
 <script>
 import axios from 'axios';
-
 export default {
   data() {
     return {
@@ -94,12 +87,11 @@ export default {
     async saveProduct() {
       this.loading = true;
       try {
-        // API Route: /api/admin/products (POST method)
-      await axios.post('admin/products', this.form);
+        await axios.post('admin/products', this.form);
         alert("Product created successfully!");
         this.$router.push({ name: 'product-list' });
       } catch (err) {
-        if (err.response && err.response.data.errors) {
+        if (err.response?.data?.errors) {
           alert("Error: " + Object.values(err.response.data.errors)[0][0]);
         } else {
           alert("Something went wrong!");

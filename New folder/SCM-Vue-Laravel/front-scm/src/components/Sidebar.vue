@@ -71,6 +71,13 @@
                     <p>Product List</p>
                   </router-link>
                 </li>
+                   <li class="nav-item">
+                  <router-link :to="{ name: 'admin-master-stock' }" class="nav-link">
+                  <i class="fas fa-dolly-flatbed nav-icon"></i>
+                    <p>Stock</p>
+                  </router-link>
+                </li>
+
                 <li class="nav-item">
                   <router-link :to="{ name: 'product-receive-list' }" class="nav-link">
                     <i class="fas fa-download nav-icon"></i>

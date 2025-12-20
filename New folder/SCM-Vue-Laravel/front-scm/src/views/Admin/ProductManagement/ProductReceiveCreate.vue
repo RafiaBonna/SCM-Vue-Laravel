@@ -1,21 +1,15 @@
 <template>
-  <div class="content-wrapper">
-    <section class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1>Receive Product from Factory</h1>
-          </div>
-        </div>
-      </div>
-    </section>
+  <div class="container-fluid">
+    <div class="content-header">
+      <h1 class="m-0 text-success">Receive Product from Factory</h1>
+    </div>
 
     <section class="content">
-      <div class="card card-success">
+      <div class="card card-success card-outline">
         <div class="card-header">
           <h3 class="card-title">Stock In Entry Form</h3>
         </div>
-        
+
         <form @submit.prevent="saveReceive">
           <div class="card-body">
             <div class="row">
@@ -66,14 +60,13 @@
 
 <script>
 import axios from 'axios';
-
 export default {
   data() {
     return {
       submitting: false,
-      products: [], 
+      products: [],
       form: {
-        receive_date: new Date().toISOString().substr(0, 10), 
+        receive_date: new Date().toISOString().substr(0, 10),
         product_id: '',
         quantity: '',
         batch_no: '',
@@ -85,7 +78,6 @@ export default {
     this.loadFormData();
   },
   methods: {
-    // লোড করার সময় আমরা 'admin/product-receives/get-form-data' ব্যবহার করছি
     async loadFormData() {
       try {
         const res = await axios.get('admin/product-receives/get-form-data');
@@ -94,8 +86,6 @@ export default {
         console.error("Failed to load products:", err);
       }
     },
-
-    // সেভ করার সময় 'admin/product-receives' ব্যবহার করছি
     async saveReceive() {
       this.submitting = true;
       try {
@@ -103,7 +93,7 @@ export default {
         alert("Stock received successfully!");
         this.$router.push({ name: 'product-receive-list' });
       } catch (err) {
-        if (err.response && err.response.data.errors) {
+        if (err.response?.data?.errors) {
           alert("Error: " + Object.values(err.response.data.errors)[0][0]);
         } else {
           alert("Something went wrong during submission.");

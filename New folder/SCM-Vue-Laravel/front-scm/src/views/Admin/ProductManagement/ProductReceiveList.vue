@@ -1,25 +1,17 @@
 <template>
-  <div class="content-wrapper">
-    <section class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1>Product Receives (Stock In)</h1>
-          </div>
-          <div class="col-sm-6 text-right">
-            <router-link :to="{ name: 'product-receive-create' }" class="btn btn-success">
-              <i class="fas fa-download"></i> Receive From Factory
-            </router-link>
-          </div>
-        </div>
-      </div>
-    </section>
+  <div class="container-fluid">
+    <div class="content-header d-flex justify-content-between align-items-center mb-3">
+      <h1 class="m-0 text-success">Product Receives (Stock In)</h1>
+      <router-link :to="{ name: 'product-receive-create' }" class="btn btn-success">
+        <i class="fas fa-download"></i> Receive From Factory
+      </router-link>
+    </div>
 
     <section class="content">
-      <div class="card">
+      <div class="card card-outline card-success">
         <div class="card-body p-0">
-          <table class="table table-bordered table-striped">
-            <thead>
+          <table class="table table-bordered table-striped mb-0">
+            <thead class="thead-light">
               <tr>
                 <th>Date</th>
                 <th>Receive No</th>
@@ -37,13 +29,16 @@
                 <td>{{ receive.batch_no || 'N/A' }}</td>
                 <td>{{ receive.quantity }} {{ receive.product ? receive.product.unit : '' }}</td>
                 <td>
-                  <router-link :to="{ name: 'product-receive-view', params: { id: receive.id } }" class="btn btn-sm btn-info">
+                  <router-link 
+                    :to="{ name: 'product-receive-view', params: { id: receive.id } }" 
+                    class="btn btn-sm btn-info"
+                  >
                     <i class="fas fa-eye"></i> View
                   </router-link>
                 </td>
               </tr>
               <tr v-if="receives.length === 0">
-                <td colspan="6" class="text-center">No receive records found.</td>
+                <td colspan="6" class="text-center text-muted">No receive records found.</td>
               </tr>
             </tbody>
           </table>
@@ -59,7 +54,9 @@ import axios from 'axios';
 export default {
   data() {
     return {
-      receives: []
+      receives: [],
+      loading: false,
+      error: null
     }
   },
   mounted() {
@@ -67,12 +64,16 @@ export default {
   },
   methods: {
     async fetchReceives() {
+      this.loading = true;
+      this.error = null;
       try {
-        // API Route: /api/admin/product-receives
-       const res = await axios.get('admin/product-receives');
+        const res = await axios.get('admin/product-receives');
         this.receives = res.data;
       } catch (err) {
-        console.error("Error:", err);
+        console.error("Error fetching receives:", err);
+        this.error = "Failed to load receive records.";
+      } finally {
+        this.loading = false;
       }
     }
   }

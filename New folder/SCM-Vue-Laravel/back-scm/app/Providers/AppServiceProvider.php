@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use App\Models\ProductReceive; // ProductReceive model import
+use App\Observers\ProductReceiveObserver; // Observer import
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -19,6 +21,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        // ProductReceive model-er jonno Observer register kora holo
+        ProductReceive::observe(ProductReceiveObserver::class);
     }
 }
