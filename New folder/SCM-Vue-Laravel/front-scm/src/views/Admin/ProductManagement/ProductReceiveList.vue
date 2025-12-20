@@ -1,142 +1,50 @@
 <template>
-  <div class="content-wrapper">
-
-    <!-- Content Header (Depo style) -->
-    <section class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1>Factory Returns</h1>
-          </div>
-          <div class="col-sm-6 text-right">
-            <button
-              class="btn btn-primary"
-              @click="showModal = true"
-            >
-              <i class="fas fa-undo"></i> New Return
-            </button>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Main content -->
-    <section class="content">
-      <div class="container-fluid">
-
-        <div class="card">
-          <div class="card-header bg-light">
-            <h3 class="card-title">Return List</h3>
-          </div>
-
-          <div class="card-body p-0 table-responsive">
-            <table class="table table-bordered table-striped mb-0">
-              <thead>
-                <tr>
-                  <th>Return No</th>
-                  <th>Date</th>
-                  <th>Product</th>
-                  <th class="text-center">Quantity</th>
-                  <th>Reason</th>
-                </tr>
-              </thead>
-
-              <tbody>
-                <tr v-for="item in returns" :key="item.id">
-                  <td><strong>{{ item.return_number }}</strong></td>
-                  <td>{{ item.return_date }}</td>
-                  <td>{{ item.product?.name || 'N/A' }}</td>
-                  <td class="text-center text-danger font-weight-bold">
-                    {{ item.quantity }}
-                  </td>
-                  <td>{{ item.reason || 'N/A' }}</td>
-                </tr>
-
-                <tr v-if="returns.length === 0">
-                  <td colspan="5" class="text-center text-muted">
-                    No return records found
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-
-      </div>
-    </section>
-
-    <!-- Modal -->
-    <div v-if="showModal" class="modal fade show d-block" style="background:rgba(0,0,0,.5)">
-      <div class="modal-dialog">
-        <div class="modal-content">
-
-          <div class="modal-header">
-            <h5 class="modal-title">Record Factory Return</h5>
-            <button type="button" class="close" @click="showModal = false">&times;</button>
-          </div>
-
-          <form @submit.prevent="saveReturn">
-            <div class="modal-body">
-
-              <div class="form-group">
-                <label>Product</label>
-                <select v-model="form.product_id" class="form-control" required>
-                  <option value="">-- Select Product --</option>
-                  <option
-                    v-for="p in products"
-                    :key="p.id"
-                    :value="p.id"
-                  >
-                    {{ p.name }}
-                  </option>
-                </select>
-              </div>
-
-              <div class="form-group">
-                <label>Quantity</label>
-                <input
-                  type="number"
-                  class="form-control"
-                  v-model="form.quantity"
-                  min="1"
-                  required
-                >
-              </div>
-
-              <div class="form-group">
-                <label>Return Date</label>
-                <input
-                  type="date"
-                  class="form-control"
-                  v-model="form.return_date"
-                  required
-                >
-              </div>
-
-              <div class="form-group">
-                <label>Reason</label>
-                <textarea
-                  class="form-control"
-                  v-model="form.reason"
-                ></textarea>
-              </div>
-
-            </div>
-
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" @click="showModal = false">
-                Cancel
-              </button>
-              <button type="submit" class="btn btn-primary">
-                Save Return
-              </button>
-            </div>
-          </form>
-
-        </div>
-      </div>
+  <div class="container-fluid">
+    <div class="content-header d-flex justify-content-between align-items-center mb-3">
+      <h1 class="m-0 text-success">Product Receives (Stock In)</h1>
+      <router-link :to="{ name: 'product-receive-create' }" class="btn btn-success">
+        <i class="fas fa-download"></i> Receive From Factory
+      </router-link>
     </div>
 
+    <section class="content">
+      <div class="card card-outline card-success">
+        <div class="card-body p-0">
+          <table class="table table-bordered table-striped mb-0">
+            <thead class="thead-light">
+              <tr>
+                <th>Date</th>
+                <th>Receive No</th>
+                <th>Product Name</th>
+                <th>Batch No</th>
+                <th>Quantity</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="receive in receives" :key="receive.id">
+                <td>{{ receive.receive_date }}</td>
+                <td><b>{{ receive.receive_number }}</b></td>
+                <td>{{ receive.product ? receive.product.name : 'N/A' }}</td>
+                <td>{{ receive.batch_no || 'N/A' }}</td>
+                <td>{{ receive.quantity }} {{ receive.product ? receive.product.unit : '' }}</td>
+                <td>
+                  <router-link 
+                    :to="{ name: 'product-receive-view', params: { id: receive.id } }" 
+                    class="btn btn-sm btn-info"
+                  >
+                    <i class="fas fa-eye"></i> View
+                  </router-link>
+                </td>
+              </tr>
+              <tr v-if="receives.length === 0">
+                <td colspan="6" class="text-center text-muted">No receive records found.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
   </div>
 </template>
 
@@ -146,42 +54,26 @@ import axios from 'axios';
 export default {
   data() {
     return {
-      returns: [],
-      products: [],
-      showModal: false,
-      form: {
-        product_id: '',
-        quantity: '',
-        return_date: new Date().toISOString().slice(0, 10),
-        reason: ''
-      }
+      receives: [],
+      loading: false,
+      error: null
     }
   },
-
   mounted() {
-    this.fetchReturns();
-    this.fetchProducts();
+    this.fetchReceives();
   },
-
   methods: {
-    async fetchReturns() {
-      const res = await axios.get('admin/product-returns');
-      this.returns = res.data;
-    },
-
-    async fetchProducts() {
-      const res = await axios.get('admin/products');
-      this.products = res.data.data || res.data;
-    },
-
-    async saveReturn() {
+    async fetchReceives() {
+      this.loading = true;
+      this.error = null;
       try {
-        await axios.post('admin/product-returns', this.form);
-        this.showModal = false;
-        this.fetchReturns();
-        alert('Return saved successfully');
+        const res = await axios.get('admin/product-receives');
+        this.receives = res.data;
       } catch (err) {
-        alert('Failed to save return');
+        console.error("Error fetching receives:", err);
+        this.error = "Failed to load receive records.";
+      } finally {
+        this.loading = false;
       }
     }
   }

@@ -20,6 +20,8 @@
           role="menu"
           data-accordion="false"
         >
+
+          <!-- Dashboard -->
           <li class="nav-item" v-if="userRole">
             <router-link :to="dashboardLink" class="nav-link">
               <i class="nav-icon fas fa-tachometer-alt"></i>
@@ -27,7 +29,10 @@
             </router-link>
           </li>
 
+          <!-- ================= ADMIN ================= -->
           <template v-if="userRole === 'admin'">
+
+            <!-- User Management -->
             <li class="nav-item">
               <router-link :to="{ name: 'user-list' }" class="nav-link">
                 <i class="nav-icon fas fa-users"></i>
@@ -35,27 +40,43 @@
               </router-link>
             </li>
 
-            <li class="nav-item">
-              <router-link :to="{ name: 'raw-material-list' }" class="nav-link">
+            <!-- ================= RAW MATERIALS (NEW STRUCTURE) ================= -->
+            <li class="nav-item has-treeview">
+              <a href="#" class="nav-link">
                 <i class="nav-icon fas fa-boxes"></i>
-                <p>Raw Materials</p>
-              </router-link>
+                <p>
+                  Raw Materials
+                  <i class="right fas fa-angle-left"></i>
+                </p>
+              </a>
+
+              <ul class="nav nav-treeview">
+
+                <li class="nav-item">
+                  <router-link :to="{ name: 'raw-material-list' }" class="nav-link">
+                    <i class="fas fa-list-ul nav-icon"></i>
+                    <p>Raw Material List</p>
+                  </router-link>
+                </li>
+
+                <li class="nav-item">
+                  <router-link :to="{ name: 'stock-in-list' }" class="nav-link">
+                    <i class="fas fa-file-import nav-icon"></i>
+                    <p>Stock In (Purchase)</p>
+                  </router-link>
+                </li>
+
+                <li class="nav-item">
+                  <router-link :to="{ name: 'material-issue-list' }" class="nav-link">
+                    <i class="fas fa-file-export nav-icon"></i>
+                    <p>Material Issue (Out)</p>
+                  </router-link>
+                </li>
+
+              </ul>
             </li>
 
-            <li class="nav-item">
-              <router-link :to="{ name: 'stock-in-list' }" class="nav-link">
-                <i class="nav-icon fas fa-file-import"></i>
-                <p>Stock In (Purchase)</p>
-              </router-link>
-            </li>
-
-            <li class="nav-item">
-              <router-link :to="{ name: 'material-issue-list' }" class="nav-link">
-                <i class="nav-icon fas fa-file-export"></i>
-                <p>Material Issue (Out)</p>
-              </router-link>
-            </li>
-
+            <!-- ================= FINISHED GOODS ================= -->
             <li class="nav-item has-treeview">
               <a href="#" class="nav-link">
                 <i class="nav-icon fas fa-boxes"></i>
@@ -64,6 +85,7 @@
                   <i class="right fas fa-angle-left"></i>
                 </p>
               </a>
+
               <ul class="nav nav-treeview">
                 <li class="nav-item">
                   <router-link :to="{ name: 'product-list' }" class="nav-link">
@@ -71,9 +93,10 @@
                     <p>Product List</p>
                   </router-link>
                 </li>
-                   <li class="nav-item">
+
+                <li class="nav-item">
                   <router-link :to="{ name: 'admin-master-stock' }" class="nav-link">
-                  <i class="fas fa-dolly-flatbed nav-icon"></i>
+                    <i class="fas fa-dolly-flatbed nav-icon"></i>
                     <p>Stock</p>
                   </router-link>
                 </li>
@@ -85,15 +108,16 @@
                   </router-link>
                 </li>
 
-                <li className="nav-item">
-  <router-link :to="{ name: 'product-return-list' }" className="nav-link">
-    <i className="fas fa-undo nav-icon" />
-    <p>Product Return (Out)</p>
-  </router-link>
-</li>
+                <li class="nav-item">
+                  <router-link :to="{ name: 'product-return-list' }" class="nav-link">
+                    <i class="fas fa-undo nav-icon"></i>
+                    <p>Product Return (In)</p>
+                  </router-link>
+                </li>
               </ul>
             </li>
 
+            <!-- ================= SETTINGS ================= -->
             <li class="nav-item has-treeview">
               <a href="#" class="nav-link">
                 <i class="nav-icon fas fa-cogs"></i>
@@ -102,6 +126,7 @@
                   <i class="right fas fa-angle-left"></i>
                 </p>
               </a>
+
               <ul class="nav nav-treeview">
                 <li class="nav-item">
                   <router-link :to="{ name: 'depo-list' }" class="nav-link">
@@ -109,12 +134,14 @@
                     <p>Depo List</p>
                   </router-link>
                 </li>
+
                 <li class="nav-item">
                   <router-link :to="{ name: 'supplier-list' }" class="nav-link">
                     <i class="fas fa-truck-moving nav-icon"></i>
                     <p>Supplier List</p>
                   </router-link>
                 </li>
+
                 <li class="nav-item">
                   <router-link :to="{ name: 'unit-list' }" class="nav-link">
                     <i class="fas fa-balance-scale nav-icon"></i>
@@ -123,28 +150,15 @@
                 </li>
               </ul>
             </li>
+
           </template>
 
-          <li class="nav-item" v-if="userRole === 'depo'">
-            <router-link to="/dashboard/depo/inventory" class="nav-link">
-              <i class="nav-icon fas fa-warehouse"></i>
-              <p>Inventory</p>
-            </router-link>
-          </li>
-
-          <li class="nav-item" v-if="userRole === 'distributor'">
-            <router-link to="/dashboard/distributor/orders" class="nav-link">
-              <i class="nav-icon fas fa-shopping-cart"></i>
-              <p>Place Order</p>
-            </router-link>
-          </li>
-
-         
         </ul>
       </nav>
     </div>
   </aside>
 </template>
+
 
 <script>
 import axios from "axios";
