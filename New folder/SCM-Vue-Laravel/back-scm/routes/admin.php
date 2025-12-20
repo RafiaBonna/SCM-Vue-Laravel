@@ -24,7 +24,7 @@ Route::middleware('auth:sanctum')
         // User Management
         Route::apiResource('users', UserController::class);
 
-        // Settings (Depo, Supplier, Unit)
+        // System Settings (Warehouse/Depo, Suppliers, Measurement Units)
         Route::apiResource('depos', DepoController::class);
         Route::apiResource('suppliers', SupplierController::class);
         Route::apiResource('units', UnitController::class);
@@ -33,28 +33,27 @@ Route::middleware('auth:sanctum')
         Route::get('raw-materials/form-data', [RawMaterialController::class, 'getFormData']);
         Route::apiResource('raw-materials', RawMaterialController::class);
 
-        // Purchase Management (Stock In)
+        // Purchase Management (Stock Inbound from Suppliers)
         Route::get('purchases/form-data', [PurchaseController::class, 'getFormData']);
         Route::get('purchases', [PurchaseController::class, 'index']);
         Route::get('purchases/{id}', [PurchaseController::class, 'show']);
         Route::post('purchases', [PurchaseController::class, 'store']);
 
-        // Material Issue Management (Stock Out)
+        // Material Issue Management (Stock Outbound to Production)
         Route::get('material-issues/form-data', [MaterialIssueController::class, 'getFormData']);
         Route::apiResource('material-issues', MaterialIssueController::class);
 
         // ==================================================
-        // Finished Goods & Production Management ✅
+        // Finished Goods & Production Management
         // ==================================================
 
-        // ১. প্রোডাক্ট লিস্ট এবং অন্যান্য ডাটা (ড্রপডাউনের জন্য)
-        // এটি রিসিভ ফর্মের সময় কাজে লাগবে
-      Route::get('product-receives/get-form-data', [ProductReceiveController::class, 'getFormData']);
+        // 1. Fetch metadata/dropdown list for Product Receive form
+        Route::get('product-receives/get-form-data', [ProductReceiveController::class, 'getFormData']);
 
-        // ২. মেইন প্রোডাক্ট এন্ট্রি রাউট
+        // 2. Core Product Management (Master Data)
         Route::apiResource('products', ProductController::class);
 
-        // ৩. প্রোডাক্ট রিসিভ (কারখানা থেকে গ্রহণ) রাউট
+        // 3. Product Receiving (Finished goods received from Factory)
         Route::apiResource('product-receives', ProductReceiveController::class);
 
     });
