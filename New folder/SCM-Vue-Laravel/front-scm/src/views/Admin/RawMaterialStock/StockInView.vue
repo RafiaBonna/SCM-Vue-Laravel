@@ -123,7 +123,7 @@ export default {
 }
 .invoice-box {
   padding: 30px;
-  border: 2px solid #eee;
+  border: 1px solid #eee;
   background: #fff;
 }
 </style>
