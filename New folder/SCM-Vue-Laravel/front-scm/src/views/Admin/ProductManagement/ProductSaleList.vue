@@ -98,6 +98,8 @@
   </div>
 </template>
 
+// ... (template and style remains same)
+
 <script>
 import axios from 'axios';
 
@@ -115,8 +117,10 @@ export default {
   methods: {
     async fetchSales() {
       try {
-        const response = await axios.get('/product-sales');
-        this.sales = response.data;
+        // '/admin/' যোগ করা হয়েছে সঠিক রাউটিংয়ের জন্য
+        const response = await axios.get('/admin/product-sales');
+        // কন্ট্রোলার থেকে আসা 'data' অবজেক্টটি ধরা হচ্ছে
+        this.sales = response.data.data; 
       } catch (error) {
         console.error("Error fetching sales:", error);
       }

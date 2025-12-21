@@ -175,7 +175,7 @@ export default {
       this.loading = true;
       this.error = null;
       try {
-        const res = await axios.get('admin/product-returns');
+  const res = await axios.get('admin/product-returns');
         this.returns = res.data;
       } catch (err) {
         this.error = 'Failed to load Factory Returns';
@@ -191,7 +191,7 @@ export default {
 
     async saveReturn() {
       try {
-        await axios.post('admin/product-returns', this.form);
+   const res = await axios.post('admin/product-returns', this.form);
         this.showModal = false;
         this.fetchReturns();
         alert('Factory Return saved successfully');

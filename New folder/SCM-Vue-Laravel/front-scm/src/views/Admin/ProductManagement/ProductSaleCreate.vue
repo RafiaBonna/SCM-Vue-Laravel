@@ -94,6 +94,8 @@
   </div>
 </template>
 
+// ... (template remains same)
+
 <script>
 import axios from 'axios';
 
@@ -124,12 +126,17 @@ export default {
   },
   methods: {
     async fetchInitialData() {
-      const [depoRes, prodRes] = await Promise.all([
-        axios.get('/depos'),
-        axios.get('/products')
-      ]);
-      this.depos = depoRes.data;
-      this.products = prodRes.data;
+      try {
+        // রুট প্রিফিক্স 'admin' অনুযায়ী ইউআরএল আপডেট
+        const [depoRes, prodRes] = await Promise.all([
+          axios.get('/admin/depos'),
+          axios.get('/admin/products')
+        ]);
+        this.depos = depoRes.data;
+        this.products = prodRes.data;
+      } catch (error) {
+        console.error("Error fetching initial data:", error);
+      }
     },
     addRow() {
       this.form.items.push({ product_id: '', quantity: 1, unit_price: 0 });
@@ -140,7 +147,8 @@ export default {
     async submitSale() {
       this.loading = true;
       try {
-        await axios.post('/product-sales', this.form);
+        // সঠিক এপিআই পাথ ব্যবহার
+        await axios.post('/admin/product-sales', this.form);
         alert('Product transferred to Depo successfully!');
         this.$router.push({ name: 'product-sale-list' });
       } catch (error) {
@@ -152,7 +160,6 @@ export default {
   }
 };
 </script>
-
 <style scoped>
 .bg-lavender { background-color: #f2efff; }
 .text-indigo { color: #3f2b96; }

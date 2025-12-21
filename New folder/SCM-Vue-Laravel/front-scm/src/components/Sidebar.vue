@@ -121,14 +121,13 @@
                    <p>Product Wastage</p>
                   </router-link>
                 </li>
-
-                <li className="nav-item">
-  <router-link :to="{ name: 'product-sale-list' }" className="nav-link">
-    <i className="nav-icon fas fa-shipping-fast" />
-    <p>Product Sales (Transfer)</p>
-  </router-link>
-</li>
-
+                
+                  <li class="nav-item">
+                  <router-link :to="{ name: 'product-sale-list' }" class="nav-link">
+                   <i className="nav-icon fas fa-shipping-fast" />
+                   <p>Product Sales</p>
+                  </router-link>
+                </li>
               </ul>
             </li>
 
