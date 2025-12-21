@@ -17,7 +17,7 @@ use App\Http\Controllers\Api\Admin\ProductReceiveController;
 use App\Http\Controllers\Api\Admin\ProductReceiveReturnController;
 use App\Http\Controllers\Api\Admin\ProductWastageController;
 use App\Http\Controllers\Api\Admin\AdminStockController;
-use App\Http\Controllers\Api\Admin\ProductSaleController; // <-- নতুন Controller Import
+use App\Http\Controllers\Api\Admin\ProductSaleController;
 
 /*
 |--------------------------------------------------------------------------
