@@ -75,7 +75,7 @@
             </thead>
             <tbody>
               <tr v-for="item in selectedSale.details" :key="item.id">
-                <td>{{ item.product.name }}</td>
+                <td>{{ item.product.product_name }}</td>
                 <td class="text-center">{{ item.quantity }}</td>
                 <td class="text-right">{{ item.unit_price }}</td>
                 <td class="text-right">{{ item.subtotal }}</td>
@@ -118,7 +118,7 @@ export default {
     async fetchSales() {
       try {
         // '/admin/' যোগ করা হয়েছে সঠিক রাউটিংয়ের জন্য
-        const response = await axios.get('/admin/product-sales');
+        const response = await axios.get('/api/admin/product-sales');
         // কন্ট্রোলার থেকে আসা 'data' অবজেক্টটি ধরা হচ্ছে
         this.sales = response.data.data; 
       } catch (error) {
