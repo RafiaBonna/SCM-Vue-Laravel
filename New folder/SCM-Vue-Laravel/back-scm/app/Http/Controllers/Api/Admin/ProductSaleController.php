@@ -13,15 +13,17 @@ class ProductSaleController extends Controller
     // ==============================
     // সব সেলস/ট্রান্সফার লিস্ট দেখার জন্য
     // ==============================
-    public function index()
-    {
-        $sales = ProductSale::with('depo', 'details.product')
-            ->orderBy('id', 'desc')
-            ->get();
+public function index()
+{
+    $sales = ProductSale::with(['depo', 'details.product'])
+        ->orderBy('id', 'desc')
+        ->get();
 
-        return response()->json(['data' => $sales]);
-    }
-
+    return response()->json([
+        'success' => true,
+        'data' => $sales
+    ]);
+}
     // ==============================
     // নতুন সেলস/ট্রান্সফার এন্ট্রি করার জন্য
     // ==============================
