@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 20, 2025 at 08:28 PM
+-- Generation Time: Dec 27, 2025 at 07:23 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -46,8 +46,10 @@ CREATE TABLE `admin_stocks` (
 --
 
 INSERT INTO `admin_stocks` (`id`, `product_id`, `opening_stock`, `received_qty`, `receive_return_qty`, `sales_qty`, `sales_return_qty`, `wastage_qty`, `current_stock`, `created_at`, `updated_at`) VALUES
-(1, 1, 0.00, 1000.00, 0.00, 0.00, 0.00, 100.00, 900.00, '2025-12-20 10:32:12', '2025-12-20 13:24:29'),
-(2, 2, 0.00, 2000.00, 100.00, 0.00, 0.00, 0.00, 1900.00, '2025-12-20 11:12:28', '2025-12-20 12:29:39');
+(1, 1, 0.00, 1000.00, 10.00, 155.00, 0.00, 100.00, 735.00, '2025-12-20 10:32:12', '2025-12-27 01:16:00'),
+(2, 2, 0.00, 2000.00, 100.00, 0.00, 0.00, 10.00, 1890.00, '2025-12-20 11:12:28', '2025-12-26 22:26:42'),
+(3, 3, 0.00, 3000.00, 50.00, 0.00, 0.00, 0.00, 2950.00, '2025-12-20 21:26:56', '2025-12-21 00:39:40'),
+(4, 4, 0.00, 800.00, 0.00, 0.00, 0.00, 0.00, 800.00, '2025-12-26 22:25:22', '2025-12-26 22:25:22');
 
 -- --------------------------------------------------------
 
@@ -96,7 +98,35 @@ CREATE TABLE `depos` (
 INSERT INTO `depos` (`id`, `name`, `location`, `contact_person`, `phone`, `created_at`, `updated_at`) VALUES
 (1, 'Dhaka Main Depo', 'Dhaka', 'Karim', '996655', '2025-12-13 05:05:14', '2025-12-13 10:10:29'),
 (2, 'Chittagong Distributor', 'Chattogram', 'Rahim', '9876543', '2025-12-13 05:11:14', '2025-12-13 10:10:09'),
-(3, 'Mustak', 'Kalkata', 'Nadim', '98765444', '2025-12-13 09:24:05', '2025-12-13 09:25:40');
+(3, 'Kalkata Depo', 'Kalkata', 'Nadim', '98765444', '2025-12-13 09:24:05', '2025-12-26 22:16:56');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `depo_stocks`
+--
+
+CREATE TABLE `depo_stocks` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `depo_id` bigint(20) UNSIGNED NOT NULL,
+  `product_id` bigint(20) UNSIGNED NOT NULL,
+  `opening_stock` decimal(12,2) NOT NULL DEFAULT 0.00,
+  `received_qty` decimal(12,2) NOT NULL DEFAULT 0.00,
+  `receive_return_qty` decimal(12,2) NOT NULL DEFAULT 0.00,
+  `sales_qty` decimal(12,2) NOT NULL DEFAULT 0.00,
+  `sales_return_qty` decimal(12,2) NOT NULL DEFAULT 0.00,
+  `wastage_qty` decimal(12,2) NOT NULL DEFAULT 0.00,
+  `current_stock` decimal(12,2) NOT NULL DEFAULT 0.00,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `depo_stocks`
+--
+
+INSERT INTO `depo_stocks` (`id`, `depo_id`, `product_id`, `opening_stock`, `received_qty`, `receive_return_qty`, `sales_qty`, `sales_return_qty`, `wastage_qty`, `current_stock`, `created_at`, `updated_at`) VALUES
+(1, 1, 1, 0.00, 155.00, 0.00, 0.00, 0.00, 0.00, 155.00, '2025-12-27 01:16:00', '2025-12-27 01:16:00');
 
 -- --------------------------------------------------------
 
@@ -169,7 +199,9 @@ CREATE TABLE `material_issues` (
 --
 
 INSERT INTO `material_issues` (`id`, `issue_number`, `issue_date`, `note`, `created_at`, `updated_at`) VALUES
-(1, 'ISS-20251217-483', '2025-12-17', 'fhg', '2025-12-17 16:11:23', '2025-12-17 16:11:23');
+(1, 'ISS-20251217-483', '2025-12-17', 'fhg', '2025-12-17 16:11:23', '2025-12-17 16:11:23'),
+(2, 'ISS-20251221-312', '2025-12-21', 'production', '2025-12-20 21:25:45', '2025-12-20 21:25:45'),
+(3, 'ISS-20251227-905', '2025-12-27', NULL, '2025-12-26 22:22:33', '2025-12-26 22:22:33');
 
 -- --------------------------------------------------------
 
@@ -192,7 +224,10 @@ CREATE TABLE `material_issue_items` (
 --
 
 INSERT INTO `material_issue_items` (`id`, `material_issue_id`, `raw_material_id`, `quantity`, `batch_no`, `created_at`, `updated_at`) VALUES
-(1, 1, 1, 10.00, '222', '2025-12-17 16:11:23', '2025-12-17 16:11:23');
+(1, 1, 1, 10.00, '222', '2025-12-17 16:11:23', '2025-12-17 16:11:23'),
+(2, 2, 3, 500.00, '444', '2025-12-20 21:25:46', '2025-12-20 21:25:46'),
+(3, 2, 2, 300.00, '222', '2025-12-20 21:25:46', '2025-12-20 21:25:46'),
+(4, 3, 1, 1000.00, '333', '2025-12-26 22:22:33', '2025-12-26 22:22:33');
 
 -- --------------------------------------------------------
 
@@ -230,7 +265,9 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (18, '2025_12_17_222856_create_product_receives_table', 8),
 (19, '2025_12_20_152953_create_admin_stocks_table', 9),
 (20, '2025_12_20_175335_create_product_receive_returns_table', 10),
-(21, '2025_12_20_184359_create_product_wastages_table', 11);
+(21, '2025_12_20_184359_create_product_wastages_table', 11),
+(22, '2025_12_20_195324_create_product_sales_tables', 12),
+(23, '2025_12_27_060454_create_depo_stocks_table', 13);
 
 -- --------------------------------------------------------
 
@@ -276,9 +313,13 @@ INSERT INTO `personal_access_tokens` (`id`, `tokenable_type`, `tokenable_id`, `n
 (10, 'App\\Models\\User', 2, 'auth_token', '3f9413d37c7c4d4217a455bd2d8831736a137a3ad29ea9a493579dce272da846', '[\"*\"]', NULL, NULL, '2025-12-08 23:13:39', '2025-12-08 23:13:39'),
 (16, 'App\\Models\\User', 2, 'auth_token', 'a3d99441444afa4401de2cc0f24263712d6d1eef3ca0c608ba8955fd9601d2b6', '[\"*\"]', NULL, NULL, '2025-12-08 23:58:39', '2025-12-08 23:58:39'),
 (19, 'App\\Models\\User', 1, 'auth_token', '3e8169b2948dfd4b7fa3fc8fb3d0e3b667dec482fd905e82d0415529787019a8', '[\"*\"]', NULL, NULL, '2025-12-09 00:17:52', '2025-12-09 00:17:52'),
-(27, 'App\\Models\\User', 1, 'auth_token', 'f820d1990d24b0b6e5dcecb78065981dca21a59ccf9e441e1ea79a603ef5c688', '[\"*\"]', '2025-12-13 02:43:54', NULL, '2025-12-11 13:23:04', '2025-12-13 02:43:54'),
-(29, 'App\\Models\\User', 1, 'auth_token', 'f8c109f0cd25f07df5dd7e96aeb153401408f0fc2777989f6250454a24d6b712', '[\"*\"]', '2025-12-13 11:04:58', NULL, '2025-12-13 02:46:11', '2025-12-13 11:04:58'),
-(34, 'App\\Models\\User', 1, 'auth_token', '3c2a2d9bcff0234b7f669c788aff3a0af7be8101f001eb3cc1e6726c66e62a6e', '[\"*\"]', '2025-12-20 13:26:57', NULL, '2025-12-20 08:41:00', '2025-12-20 13:26:57');
+(34, 'App\\Models\\User', 1, 'auth_token', '3c2a2d9bcff0234b7f669c788aff3a0af7be8101f001eb3cc1e6726c66e62a6e', '[\"*\"]', '2025-12-20 14:31:20', NULL, '2025-12-20 08:41:00', '2025-12-20 14:31:20'),
+(39, 'App\\Models\\User', 1, 'auth_token', 'c38b82bda366cf61a27b4807edbc470dfd40fadb2f6df3560478d012c328caea', '[\"*\"]', '2025-12-26 22:43:12', NULL, '2025-12-26 22:42:17', '2025-12-26 22:43:12'),
+(49, 'App\\Models\\User', 7, 'auth_token', '0e7f261a1e26e29ba94a9ff1cd462b0fc7821164da460d8339af56c8fab47897', '[\"*\"]', '2025-12-27 01:24:14', NULL, '2025-12-27 01:18:49', '2025-12-27 01:24:14'),
+(51, 'App\\Models\\User', 1, 'auth_token', 'b1560c40175227a6365868c6b0ca54deab8f6bae7afce1b7419ddb5c9c2c9da3', '[\"*\"]', NULL, NULL, '2025-12-27 08:18:23', '2025-12-27 08:18:23'),
+(52, 'App\\Models\\User', 7, 'auth_token', 'fd629e1ffa415a814f449a7b11d1bbfe08488f765985eb0f098246206d6f9ed8', '[\"*\"]', '2025-12-27 08:56:28', NULL, '2025-12-27 08:20:07', '2025-12-27 08:56:28'),
+(56, 'App\\Models\\User', 7, 'auth_token', 'ac04d55915d4471550cf055f27084b69ff79cd46275b80c84b0ae2995e001541', '[\"*\"]', NULL, NULL, '2025-12-27 12:13:52', '2025-12-27 12:13:52'),
+(57, 'App\\Models\\User', 7, 'auth_token', 'f4c22b4805c227faf5b553c53608242003f7039bfb3ecf59d4600639f9e90a16', '[\"*\"]', '2025-12-27 12:18:05', NULL, '2025-12-27 12:18:00', '2025-12-27 12:18:05');
 
 -- --------------------------------------------------------
 
@@ -307,7 +348,9 @@ CREATE TABLE `products` (
 
 INSERT INTO `products` (`id`, `name`, `sku`, `unit`, `mrp`, `retail_rate`, `distributor_rate`, `depo_rate`, `description`, `status`, `created_at`, `updated_at`) VALUES
 (1, 'product 4', '4444', 'Kg', 300.00, 0.00, 280.00, 0.00, NULL, 1, '2025-12-20 08:42:31', '2025-12-20 08:42:31'),
-(2, 'Product 5', '5555', 'Pcs', 1000.00, 0.00, 800.00, 0.00, NULL, 1, '2025-12-20 10:33:30', '2025-12-20 10:33:30');
+(2, 'Product 5', '5555', 'Pcs', 1000.00, 0.00, 800.00, 0.00, NULL, 1, '2025-12-20 10:33:30', '2025-12-20 10:33:30'),
+(3, 'Product 6', '6666', 'Litre', 120.00, 0.00, 100.00, 0.00, NULL, 1, '2025-12-20 21:19:46', '2025-12-20 21:19:46'),
+(4, 'Product 1', '1111', 'Pcs', 300.00, 0.00, 280.00, 0.00, NULL, 1, '2025-12-26 22:23:40', '2025-12-26 22:23:40');
 
 -- --------------------------------------------------------
 
@@ -334,7 +377,9 @@ CREATE TABLE `product_receives` (
 INSERT INTO `product_receives` (`id`, `receive_number`, `receive_date`, `product_id`, `quantity`, `batch_no`, `note`, `created_at`, `updated_at`) VALUES
 (1, 'PRC-1766241789', '2025-12-20', 1, 4000.00, '4444', 'Good received', '2025-12-20 08:43:09', '2025-12-20 08:43:09'),
 (2, 'PRC-1766248332', '2025-12-20', 1, 1000.00, '4444', 'Goods received', '2025-12-20 10:32:12', '2025-12-20 10:32:12'),
-(3, 'PRC-1766250748', '2025-12-20', 2, 2000.00, '5555', 'Good received', '2025-12-20 11:12:28', '2025-12-20 11:12:28');
+(3, 'PRC-1766250748', '2025-12-20', 2, 2000.00, '5555', 'Good received', '2025-12-20 11:12:28', '2025-12-20 11:12:28'),
+(4, 'PRC-1766287616', '2025-12-21', 3, 3000.00, '6666', 'Good received', '2025-12-20 21:26:56', '2025-12-20 21:26:56'),
+(5, 'PRC-1766809522', '2025-12-27', 4, 800.00, '1111', 'Good received', '2025-12-26 22:25:22', '2025-12-26 22:25:22');
 
 -- --------------------------------------------------------
 
@@ -358,7 +403,63 @@ CREATE TABLE `product_receive_returns` (
 --
 
 INSERT INTO `product_receive_returns` (`id`, `return_number`, `return_date`, `product_id`, `quantity`, `reason`, `created_at`, `updated_at`) VALUES
-(1, 'RET-6946EB12EB5DA', '2025-12-20', 2, 100.00, 'Damaged', '2025-12-20 12:29:38', '2025-12-20 12:29:38');
+(1, 'RET-6946EB12EB5DA', '2025-12-20', 2, 100.00, 'Damaged', '2025-12-20 12:29:38', '2025-12-20 12:29:38'),
+(2, 'RET-6947962CCD248', '2025-12-21', 3, 50.00, 'Expired', '2025-12-21 00:39:40', '2025-12-21 00:39:40'),
+(3, 'RET-694F5F68B3054', '2025-12-27', 4, 20.00, 'Expired', '2025-12-26 22:24:08', '2025-12-26 22:24:08'),
+(4, 'RET-694F5FDC66A33', '2025-12-27', 1, 10.00, 'Color not matched', '2025-12-26 22:26:04', '2025-12-26 22:26:04');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `product_sales`
+--
+
+CREATE TABLE `product_sales` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `invoice_no` varchar(255) NOT NULL,
+  `sale_date` date NOT NULL,
+  `depo_id` bigint(20) UNSIGNED NOT NULL,
+  `total_amount` decimal(15,2) NOT NULL DEFAULT 0.00,
+  `status` enum('pending','accepted','rejected') NOT NULL DEFAULT 'pending',
+  `note` text DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `product_sales`
+--
+
+INSERT INTO `product_sales` (`id`, `invoice_no`, `sale_date`, `depo_id`, `total_amount`, `status`, `note`, `created_at`, `updated_at`) VALUES
+(9, 'INV-176678275329', '2025-12-26', 1, 3565.00, 'accepted', 'cfggh', '2025-12-26 14:59:13', '2025-12-27 01:16:00'),
+(10, 'INV-176680545772', '2025-12-27', 1, 1200.00, 'pending', 'lalala', '2025-12-26 21:17:37', '2025-12-26 21:17:37'),
+(11, 'INV-176680965469', '2025-12-27', 1, 90000.00, 'pending', 'Goods sales', '2025-12-26 22:27:34', '2025-12-26 22:27:34');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `product_sales_details`
+--
+
+CREATE TABLE `product_sales_details` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `product_sale_id` bigint(20) UNSIGNED NOT NULL,
+  `product_id` bigint(20) UNSIGNED NOT NULL,
+  `quantity` decimal(12,2) NOT NULL,
+  `unit_price` decimal(12,2) NOT NULL,
+  `subtotal` decimal(15,2) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `product_sales_details`
+--
+
+INSERT INTO `product_sales_details` (`id`, `product_sale_id`, `product_id`, `quantity`, `unit_price`, `subtotal`, `created_at`, `updated_at`) VALUES
+(1, 9, 1, 155.00, 23.00, 3565.00, '2025-12-26 14:59:13', '2025-12-26 14:59:13'),
+(2, 10, 2, 12.00, 100.00, 1200.00, '2025-12-26 21:17:37', '2025-12-26 21:17:37'),
+(3, 11, 3, 300.00, 300.00, 90000.00, '2025-12-26 22:27:34', '2025-12-26 22:27:34');
 
 -- --------------------------------------------------------
 
@@ -382,7 +483,8 @@ CREATE TABLE `product_wastages` (
 --
 
 INSERT INTO `product_wastages` (`id`, `wastage_number`, `date`, `product_id`, `quantity`, `remarks`, `created_at`, `updated_at`) VALUES
-(1, 'WST-6946F7ED5621A', '2025-12-20', 1, 100.00, 'Date Expired', '2025-12-20 13:24:29', '2025-12-20 13:24:29');
+(1, 'WST-6946F7ED5621A', '2025-12-20', 1, 100.00, 'Date Expired', '2025-12-20 13:24:29', '2025-12-20 13:24:29'),
+(2, 'WST-694F6002851AE', '2025-12-27', 2, 10.00, 'Broked', '2025-12-26 22:26:42', '2025-12-26 22:26:42');
 
 -- --------------------------------------------------------
 
@@ -407,7 +509,9 @@ CREATE TABLE `purchase_orders` (
 --
 
 INSERT INTO `purchase_orders` (`id`, `po_number`, `supplier_id`, `purchase_date`, `total_amount`, `discount`, `note`, `created_at`, `updated_at`) VALUES
-(1, '1', 1, '2025-12-17', 48000.00, 0.00, NULL, '2025-12-17 11:25:13', '2025-12-17 11:25:13');
+(1, '1', 1, '2025-12-17', 48000.00, 0.00, NULL, '2025-12-17 11:25:13', '2025-12-17 11:25:13'),
+(2, '4', 1, '2025-12-21', 120000.00, 0.00, NULL, '2025-12-20 21:24:44', '2025-12-20 21:24:44'),
+(3, '3', 3, '2025-12-26', 160000.00, 0.00, NULL, '2025-12-26 22:21:57', '2025-12-26 22:21:57');
 
 -- --------------------------------------------------------
 
@@ -433,7 +537,9 @@ CREATE TABLE `purchase_order_items` (
 
 INSERT INTO `purchase_order_items` (`id`, `purchase_order_id`, `raw_material_id`, `batch_no`, `quantity`, `unit_price`, `sub_total`, `created_at`, `updated_at`) VALUES
 (1, 1, 2, '111', 200.00, 60.00, 0.00, '2025-12-17 11:25:13', '2025-12-17 11:25:13'),
-(2, 1, 1, '222', 300.00, 120.00, 0.00, '2025-12-17 11:25:13', '2025-12-17 11:25:13');
+(2, 1, 1, '222', 300.00, 120.00, 0.00, '2025-12-17 11:25:13', '2025-12-17 11:25:13'),
+(3, 2, 1, '444', 1500.00, 80.00, 0.00, '2025-12-20 21:24:44', '2025-12-20 21:24:44'),
+(4, 3, 1, '333', 2000.00, 80.00, 0.00, '2025-12-26 22:21:57', '2025-12-26 22:21:57');
 
 -- --------------------------------------------------------
 
@@ -456,8 +562,10 @@ CREATE TABLE `raw_materials` (
 --
 
 INSERT INTO `raw_materials` (`id`, `name`, `unit_id`, `alert_stock`, `description`, `created_at`, `updated_at`) VALUES
-(1, 'Sugar', 1, 60.00, 'Material 1 description', '2025-12-16 13:37:15', '2025-12-16 13:45:11'),
-(2, 'Flour', 1, 40.00, 'Description', '2025-12-16 13:46:45', '2025-12-16 13:46:45');
+(1, 'Material 3', 1, 60.00, 'Material 1 description', '2025-12-16 13:37:15', '2025-12-26 21:20:02'),
+(2, 'Material 4', 1, 40.00, 'Description', '2025-12-16 13:46:45', '2025-12-26 22:20:56'),
+(3, 'Material 1', 3, 60.00, 'none', '2025-12-20 21:23:32', '2025-12-20 21:23:32'),
+(4, 'Material 2', 1, 50.00, 'New Material', '2025-12-26 21:19:32', '2025-12-26 21:19:32');
 
 -- --------------------------------------------------------
 
@@ -482,7 +590,9 @@ CREATE TABLE `raw_material_stocks` (
 
 INSERT INTO `raw_material_stocks` (`id`, `raw_material_id`, `quantity`, `type`, `reference_id`, `note`, `created_at`, `updated_at`) VALUES
 (1, 2, 200.00, 'in', '1', 'Stock In from Invoice: 1', '2025-12-17 11:25:13', '2025-12-17 11:25:13'),
-(2, 1, 300.00, 'in', '1', 'Stock In from Invoice: 1', '2025-12-17 11:25:13', '2025-12-17 11:25:13');
+(2, 1, 300.00, 'in', '1', 'Stock In from Invoice: 1', '2025-12-17 11:25:13', '2025-12-17 11:25:13'),
+(3, 1, 1500.00, 'in', '2', 'Stock In from Invoice: 4', '2025-12-20 21:24:44', '2025-12-20 21:24:44'),
+(4, 1, 2000.00, 'in', '3', 'Stock In from Invoice: 3', '2025-12-26 22:21:57', '2025-12-26 22:21:57');
 
 -- --------------------------------------------------------
 
@@ -525,9 +635,9 @@ CREATE TABLE `role_user` (
 INSERT INTO `role_user` (`role_id`, `user_id`) VALUES
 (1, 1),
 (2, 2),
-(2, 4),
-(2, 6),
-(3, 3);
+(2, 7),
+(3, 3),
+(3, 8);
 
 -- --------------------------------------------------------
 
@@ -550,6 +660,9 @@ CREATE TABLE `sessions` (
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
 ('0WDBZVUospXQKx463eZj17ZiRpa4urHwDyUcNFD3', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36 Edg/143.0.0.0', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiQU12VmwyVUVBa3ZsYnlCczFPMWs3d1hWNDliSWVCODN5dTFRNHlKayI7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MjE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMCI7czo1OiJyb3V0ZSI7Tjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319fQ==', 1766235786),
+('IDtp4pfHJ6DdFgJaR0f9OUA4J50sSllGA67rc5O5', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiOEJWdXhlTk9mY3pRZnQ1aHNXbVk3YWlVdU1YWUhJd2lsT1NxZUxzVyI7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MjE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMCI7czo1OiJyb3V0ZSI7Tjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319fQ==', 1766807285),
+('oZxLNeqPuqBMoDScsoRsVeU7Un51jpvi6WxrbUqQ', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiY3Q3NlU4WlQ3Z0tBTm5vMU5Tczk2NXNmbkREWVJBajVxajF1Q3AxQSI7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MjE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMCI7czo1OiJyb3V0ZSI7czoyNzoiZ2VuZXJhdGVkOjpVT3RBWlpmNEN5UFVOUFRKIjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319fQ==', 1766286826),
+('Qb6FztOFjt7qG9VlvO6GtfSqTfXXRk2OmIppEwl8', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiMTVaRjJHaDFZbXNPY1N4MGZVS3pvb3JMa0VVenJkTGcxR05Wakp1QiI7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MjE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMCI7czo1OiJyb3V0ZSI7Tjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319fQ==', 1766859587),
 ('wZMyYJRuoVJGJwuLk4mzTtgMfKwotlVAygG13bxX', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiZ3lBVWtEdGNJUkxrTG9OWWZ5T2RoWFU5MmFrb1JzMDBYakx4bWRyQSI7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MjE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMCI7czo1OiJyb3V0ZSI7Tjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319fQ==', 1766235791);
 
 -- --------------------------------------------------------
@@ -574,7 +687,9 @@ CREATE TABLE `suppliers` (
 --
 
 INSERT INTO `suppliers` (`id`, `name`, `contact_person`, `email`, `phone`, `address`, `created_at`, `updated_at`) VALUES
-(1, 'Supplier 1', 'Mahatim', 'mahatim@gmail.com', '9876543', 'Noakhali', '2025-12-13 09:46:19', '2025-12-13 09:46:38');
+(1, 'Supplier 1', 'Mahatim', 'mahatim@gmail.com', '9876543', 'Noakhali', '2025-12-13 09:46:19', '2025-12-13 09:46:38'),
+(2, 'Supplier 2', 'Junayet', 'junayet@gmail.com', '01723334455', 'Hazaribagh,Dhaka', '2025-12-26 22:15:17', '2025-12-26 22:15:17'),
+(3, 'Supplier 3', 'Rubel', 'rubel@gmail.com', '01628934631', 'Barishal', '2025-12-26 22:16:11', '2025-12-26 22:16:11');
 
 -- --------------------------------------------------------
 
@@ -626,8 +741,8 @@ INSERT INTO `users` (`id`, `name`, `email`, `depo_id`, `email_verified_at`, `pas
 (1, 'Super Admin', 'admin@scm.com', NULL, NULL, '$2y$12$MBGYWnqzvHr5JETY7qj2HuOZhovSyLGJYBnHOfRgwBRLkwOnEK/m2', NULL, '2025-12-08 23:08:45', '2025-12-08 23:08:45'),
 (2, 'Depo User', 'depo@scm.com', NULL, NULL, '$2y$12$ebjb/f9qhm/Ghnj8jHdAY.1Jx2p6IMA4PLHKVw1AsbsCbmwidF4ti', NULL, '2025-12-08 23:10:23', '2025-12-08 23:10:23'),
 (3, 'Distributor User', 'distributor@scm.com', NULL, NULL, '$2y$12$BkLlqYRjPuvkjvDN6tb1teSKE3SlldqnR2oV5LzpOvAaLFfMIkZxq', NULL, '2025-12-08 23:10:40', '2025-12-08 23:10:40'),
-(4, 'Rafia', 'rafia@gmail.com', NULL, NULL, '$2y$12$gkahsmwe6bwpnpq0hE40feIMHZ.LDCWg99./t8bpLvejrjv9HnFQq', NULL, '2025-12-12 13:47:39', '2025-12-12 13:47:39'),
-(6, 'afia', 'afia@scm.com', 1, NULL, '$2y$12$Div.9.OJwVCblTLIPQ6mc.4cxDmDBAGtjpzDags7MG5fnot..7POi', NULL, '2025-12-13 05:12:56', '2025-12-13 05:12:56');
+(7, 'Shefa', 'shefa@gmail.com', 1, NULL, '$2y$12$rKlRLRRvlbI/t1Zjfm8E8O9mMN8CMcM9JmMi9yBnYwCQALrbefKLC', NULL, '2025-12-26 22:18:40', '2025-12-26 22:18:40'),
+(8, 'Rokeya', 'rokeya@gmail.com', 2, NULL, '$2y$12$2dkqU2pfLQpyP.7yPXZTq.braaar8CfbiYKfddbQaBeqih1a1fW5u', NULL, '2025-12-26 22:19:49', '2025-12-26 22:19:49');
 
 --
 -- Indexes for dumped tables
@@ -658,6 +773,14 @@ ALTER TABLE `cache_locks`
 ALTER TABLE `depos`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `depos_name_unique` (`name`);
+
+--
+-- Indexes for table `depo_stocks`
+--
+ALTER TABLE `depo_stocks`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `depo_stocks_depo_id_foreign` (`depo_id`),
+  ADD KEY `depo_stocks_product_id_foreign` (`product_id`);
 
 --
 -- Indexes for table `failed_jobs`
@@ -737,6 +860,22 @@ ALTER TABLE `product_receive_returns`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `product_receive_returns_return_number_unique` (`return_number`),
   ADD KEY `product_receive_returns_product_id_foreign` (`product_id`);
+
+--
+-- Indexes for table `product_sales`
+--
+ALTER TABLE `product_sales`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `product_sales_invoice_no_unique` (`invoice_no`),
+  ADD KEY `product_sales_depo_id_foreign` (`depo_id`);
+
+--
+-- Indexes for table `product_sales_details`
+--
+ALTER TABLE `product_sales_details`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `product_sales_details_product_sale_id_foreign` (`product_sale_id`),
+  ADD KEY `product_sales_details_product_id_foreign` (`product_id`);
 
 --
 -- Indexes for table `product_wastages`
@@ -831,13 +970,19 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `admin_stocks`
 --
 ALTER TABLE `admin_stocks`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `depos`
 --
 ALTER TABLE `depos`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `depo_stocks`
+--
+ALTER TABLE `depo_stocks`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `failed_jobs`
@@ -855,73 +1000,85 @@ ALTER TABLE `jobs`
 -- AUTO_INCREMENT for table `material_issues`
 --
 ALTER TABLE `material_issues`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `material_issue_items`
 --
 ALTER TABLE `material_issue_items`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT for table `personal_access_tokens`
 --
 ALTER TABLE `personal_access_tokens`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
 
 --
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `product_receives`
 --
 ALTER TABLE `product_receives`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `product_receive_returns`
 --
 ALTER TABLE `product_receive_returns`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `product_sales`
+--
+ALTER TABLE `product_sales`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+
+--
+-- AUTO_INCREMENT for table `product_sales_details`
+--
+ALTER TABLE `product_sales_details`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `product_wastages`
 --
 ALTER TABLE `product_wastages`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `purchase_orders`
 --
 ALTER TABLE `purchase_orders`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `purchase_order_items`
 --
 ALTER TABLE `purchase_order_items`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `raw_materials`
 --
 ALTER TABLE `raw_materials`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `raw_material_stocks`
 --
 ALTER TABLE `raw_material_stocks`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `roles`
@@ -933,7 +1090,7 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT for table `suppliers`
 --
 ALTER TABLE `suppliers`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `units`
@@ -945,7 +1102,7 @@ ALTER TABLE `units`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- Constraints for dumped tables
@@ -956,6 +1113,13 @@ ALTER TABLE `users`
 --
 ALTER TABLE `admin_stocks`
   ADD CONSTRAINT `admin_stocks_product_id_foreign` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `depo_stocks`
+--
+ALTER TABLE `depo_stocks`
+  ADD CONSTRAINT `depo_stocks_depo_id_foreign` FOREIGN KEY (`depo_id`) REFERENCES `depos` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `depo_stocks_product_id_foreign` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `material_issue_items`
@@ -975,6 +1139,19 @@ ALTER TABLE `product_receives`
 --
 ALTER TABLE `product_receive_returns`
   ADD CONSTRAINT `product_receive_returns_product_id_foreign` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `product_sales`
+--
+ALTER TABLE `product_sales`
+  ADD CONSTRAINT `product_sales_depo_id_foreign` FOREIGN KEY (`depo_id`) REFERENCES `depos` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `product_sales_details`
+--
+ALTER TABLE `product_sales_details`
+  ADD CONSTRAINT `product_sales_details_product_id_foreign` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `product_sales_details_product_sale_id_foreign` FOREIGN KEY (`product_sale_id`) REFERENCES `product_sales` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `product_wastages`
