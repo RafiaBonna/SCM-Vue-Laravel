@@ -16,5 +16,8 @@ Route::middleware(['auth:sanctum'])
         Route::get('current-stock', [DepoProductReceiveController::class, 'currentStock']);
         // ইনভয়েস ডাটা পাওয়ার জন্য এই রাউটটি অবশ্যই লাগবে
     Route::get('/invoice/{id}', [DepoProductReceiveController::class, 'viewInvoice']);
+
+    Route::get('depo/invoice/{id}', [DepoProductReceiveController::class, 'viewInvoice']);
+Route::post('depo/product-receives/reject/{id}', [DepoProductReceiveController::class, 'rejectTransfer']);
         
     });

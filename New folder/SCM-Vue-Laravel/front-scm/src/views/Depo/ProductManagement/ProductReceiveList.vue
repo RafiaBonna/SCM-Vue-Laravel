@@ -28,26 +28,42 @@
                   </span>
                 </td>
                 <td class="text-center">
-                  <router-link 
-                    :to="{ name: 'depo-receive-invoice', params: { id: item.id } }" 
-                    class="btn btn-sm btn-info mr-2"
-                  >
+                  <router-link :to="{ name: 'depo-receive-invoice', params: { id: item.id } }" class="btn btn-sm btn-info mr-2">
                     <i class="fas fa-eye"></i> View Invoice
                   </router-link>
 
-                  <button v-if="item.status === 'pending'" 
-                          @click="receiveProduct(item.id)" 
-                          class="btn btn-sm btn-success">
-                    <i class="fas fa-check-circle mr-1"></i> Receive
-                  </button>
-                  <span v-else class="badge badge-light border text-muted small ml-1">Received</span>
+                  <template v-if="item.status === 'pending'">
+                    <button @click="receiveProduct(item.id)" class="btn btn-sm btn-success mr-1">
+                      <i class="fas fa-check-circle"></i> Receive
+                    </button>
+                    <button @click="openRejectModal(item.id)" class="btn btn-sm btn-danger">
+                      <i class="fas fa-times-circle"></i> Reject
+                    </button>
+                  </template>
+                  <span v-else class="badge badge-light border text-muted small ml-1">Processed</span>
                 </td>
-              </tr>
-              <tr v-if="receives.length === 0">
-                <td colspan="5" class="text-center">No records found.</td>
               </tr>
             </tbody>
           </table>
+        </div>
+      </div>
+    </div>
+
+    <div v-if="showRejectModal" class="modal d-block" style="background: rgba(0,0,0,0.5)">
+      <div class="modal-dialog">
+        <div class="modal-content shadow-lg">
+          <div class="modal-header bg-danger text-white">
+            <h5 class="modal-title">Reject Products</h5>
+            <button type="button" class="close text-white" @click="showRejectModal = false">&times;</button>
+          </div>
+          <div class="modal-body">
+            <label>Reason for rejection (Note):</label>
+            <textarea v-model="rejectNote" class="form-control" rows="3" placeholder="Explain why you are rejecting..."></textarea>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" @click="showRejectModal = false">Cancel</button>
+            <button type="button" class="btn btn-danger" @click="confirmReject" :disabled="!rejectNote">Confirm Reject</button>
+          </div>
         </div>
       </div>
     </div>
@@ -61,7 +77,10 @@ export default {
   data() {
     return {
       receives: [],
-      loading: false
+      loading: false,
+      showRejectModal: false,
+      rejectId: null,
+      rejectNote: ''
     };
   },
   mounted() {
@@ -70,23 +89,38 @@ export default {
   methods: {
     async fetchReceives() {
       try {
-        // Axios baseURL কনফিগারেশন অনুযায়ী সঠিক পাথ ব্যবহার করা
         const response = await axios.get('/depo/product-receives');
         this.receives = response.data.data;
       } catch (error) {
-        console.error("Error fetching data:", error);
+        // এখানে ব্যাকস্ল্যাশ ( \ ) সরানো হয়েছে
+        console.error("Error fetching data:", error); 
       }
     },
     async receiveProduct(id) {
-      if (!confirm('Are you sure you have checked the products and want to receive them?')) return;
-      
+      if (!confirm('Are you sure you want to receive these products?')) return;
       try {
-        // Route prefix 'depo' অনুযায়ী কল করা
         await axios.post(`/depo/product-receives/accept/${id}`);
-        alert('Products received successfully! Your stock has been updated.');
+        alert('Products received successfully!');
         this.fetchReceives();
-      } catch (error) {
-        alert('Failed to receive products. Please try again.');
+      } catch (error) { 
+        alert('Error accepting products.'); 
+      }
+    },
+    openRejectModal(id) {
+      this.rejectId = id;
+      this.rejectNote = '';
+      this.showRejectModal = true;
+    },
+    async confirmReject() {
+      try {
+        await axios.post(`/depo/product-receives/reject/${this.rejectId}`, { 
+          reject_note: this.rejectNote 
+        });
+        alert('Product rejected with note.');
+        this.showRejectModal = false;
+        this.fetchReceives();
+      } catch (error) { 
+        alert('Error rejecting product.'); 
       }
     },
     statusBadge(status) {
