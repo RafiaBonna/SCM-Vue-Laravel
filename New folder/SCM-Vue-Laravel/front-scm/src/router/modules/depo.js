@@ -1,16 +1,26 @@
-// src/router/modules/depo.js
-
-import DepoDashboard from '../../views//Depo/DepoDashboard.vue'; 
+// আগের লাইনটি পরিবর্তন করে নিচেরটি দিন (ProductManagement ফোল্ডার সহ)
+import ProductReceiveList from '../../views/Depo/ProductManagement/ProductReceiveList.vue';
 
 const depoRoutes = [
     { 
-        path: 'depo', 
+        path: 'depo/dashboard', 
         name: 'depo-dashboard',
-        component: DepoDashboard, 
+        component: () => import('../../views/Depo/DepoDashboard.vue'), 
         meta: { requiresAuth: true, roles: ['depo'] } 
     },
-    // Depo-এর অন্যান্য রুট এখানে যোগ করুন
-    // { path: 'depo/inventory', name: 'depo-inventory', component: DepoInventoryView, meta: { requiresAuth: true, roles: ['depo'] } },
+    { 
+        path: 'depo/product-receives', 
+        name: 'depo-product-receive-list',
+        component: ProductReceiveList, 
+        meta: { requiresAuth: true, roles: ['depo'] } 
+    },
+
+    {
+    path: 'depo/current-stock',
+    name: 'depo-stock-list',
+    component: () => import('../../views/Depo/ProductManagement/DepoStockList.vue'),
+    meta: { requiresAuth: true, roles: ['depo'] }
+}
 ];
 
 export default depoRoutes;

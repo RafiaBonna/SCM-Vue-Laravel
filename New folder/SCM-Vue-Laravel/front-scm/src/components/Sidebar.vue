@@ -40,7 +40,7 @@
               </router-link>
             </li>
 
-            <!-- ================= RAW MATERIALS (NEW STRUCTURE) ================= -->
+            <!-- ================= RAW MATERIALS ================= -->
             <li class="nav-item has-treeview">
               <a href="#" class="nav-link">
                 <i class="nav-icon fas fa-boxes"></i>
@@ -51,7 +51,6 @@
               </a>
 
               <ul class="nav nav-treeview">
-
                 <li class="nav-item">
                   <router-link :to="{ name: 'raw-material-list' }" class="nav-link">
                     <i class="fas fa-list-ul nav-icon"></i>
@@ -72,7 +71,6 @@
                     <p>Material Issue (Out)</p>
                   </router-link>
                 </li>
-
               </ul>
             </li>
 
@@ -114,18 +112,18 @@
                     <p>Product Return (In)</p>
                   </router-link>
                 </li>
-                   
+
                 <li class="nav-item">
                   <router-link :to="{ name: 'product-wastage-list' }" class="nav-link">
                     <i class="fas fa-trash-alt nav-icon"></i>
-                   <p>Product Wastage</p>
+                    <p>Product Wastage</p>
                   </router-link>
                 </li>
-                
-                  <li class="nav-item">
+
+                <li class="nav-item">
                   <router-link :to="{ name: 'product-sale-list' }" class="nav-link">
-                   <i className="nav-icon fas fa-shipping-fast" />
-                   <p>Product Sales</p>
+                    <i class="nav-icon fas fa-shipping-fast"></i>
+                    <p>Product Sales</p>
                   </router-link>
                 </li>
               </ul>
@@ -155,24 +153,73 @@
                     <p>Supplier List</p>
                   </router-link>
                 </li>
-
-                <!-- <li class="nav-item">
-                  <router-link :to="{ name: 'unit-list' }" class="nav-link">
-                    <i class="fas fa-balance-scale nav-icon"></i>
-                    <p>Unit List</p>
-                  </router-link>
-                </li> -->
               </ul>
             </li>
-
           </template>
+
+          <!-- ================= DEPO ================= -->
+          <template v-if="userRole === 'depo'">
+            <li class="nav-header">DEPO MANAGEMENT</li>
+
+            <li class="nav-item has-treeview">
+              <a href="#" class="nav-link">
+                <i class="nav-icon fas fa-warehouse"></i>
+                <p>
+                  Product Management
+                  <i class="right fas fa-angle-left"></i>
+                </p>
+              </a>
+
+              <ul class="nav nav-treeview">
+                <li class="nav-item">
+                  <router-link
+                    :to="{ name: 'depo-product-receive-list' }"
+                    class="nav-link"
+                  >
+                    <i class="fas fa-file-download nav-icon"></i>
+                    <p>Product Receive</p>
+                  </router-link>
+                </li>
+
+               <li class="nav-item">
+  <router-link :to="{ name: 'depo-stock-list' }" class="nav-link">
+    <i class="fas fa-boxes nav-icon"></i>
+    <p>Current Stock</p>
+  </router-link>
+</li>
+              </ul>
+            </li>
+          </template>
+
+          <!-- ================= DISTRIBUTOR ================= -->
+          <template v-if="userRole === 'distributor'">
+            <li class="nav-header">DISTRIBUTOR PANEL</li>
+
+            <li class="nav-item">
+              <a href="#" class="nav-link">
+                <i class="nav-icon fas fa-shopping-basket"></i>
+                <p>My Orders</p>
+              </a>
+            </li>
+          </template>
+
+          <!-- ================= LOGOUT ================= -->
+          <li class="nav-item mt-4" v-if="userRole">
+            <a
+              href="#"
+              @click.prevent="handleLogout"
+              class="nav-link text-danger border-top"
+            >
+              <i class="nav-icon fas fa-sign-out-alt"></i>
+              <p>Logout</p>
+            </a>
+          </li>
 
         </ul>
       </nav>
     </div>
   </aside>
 </template>
-
 
 <script>
 import axios from "axios";
@@ -188,7 +235,6 @@ export default {
   },
 
   watch: {
-    // Route change হলে ইউজার রোল আপডেট করবে যেন লগইন এর পর মেনু ঠিকমতো দেখা যায়
     $route() {
       this.userRole = localStorage.getItem("user_role");
     },
@@ -230,10 +276,6 @@ export default {
 </script>
 
 <style scoped>
-/* ==============================
-   SIDEBAR LAVENDER THEME
-   ============================== */
-
 .main-sidebar {
   background-color: #f2efff !important;
 }
@@ -247,33 +289,12 @@ export default {
   color: #3f2b96 !important;
 }
 
-.nav-sidebar .nav-link .nav-icon {
-  color: #3f2b96 !important;
-}
-
 .nav-sidebar .nav-link:hover {
   background-color: #ddd6ff !important;
-  color: #2c1a7a !important;
 }
 
-.nav-sidebar .nav-link:hover .nav-icon {
-  color: #2c1a7a !important;
-}
-
-/* Active Link Styles */
-.nav-sidebar .router-link-active,
-.nav-sidebar .router-link-exact-active {
+.nav-sidebar .router-link-active {
   background-color: #6a5acd !important;
   color: #ffffff !important;
-}
-
-.nav-sidebar .router-link-active .nav-icon,
-.nav-sidebar .router-link-exact-active .nav-icon {
-  color: #ffffff !important;
-}
-
-/* Treeview background */
-.nav-treeview {
-  background-color: #ebe7ff !important;
 }
 </style>

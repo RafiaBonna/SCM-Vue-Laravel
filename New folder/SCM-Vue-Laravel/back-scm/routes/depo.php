@@ -1,11 +1,17 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\Depo\DepoProductReceiveController;
 
 // Depo API Routes
 Route::middleware(['auth:sanctum'])
-    ->prefix('depo') // URL-এ /depo যোগ করবে
-    ->namespace('App\Http\Controllers\Api\Depo') // Controller-এর লোকেশন
+    ->prefix('depo')
     ->group(function () {
-        // Depo-এর রুট এখানে যোগ হবে (যেমন: Route::resource('stocks', 'StockController');)
+        
+        // প্রোডাক্ট রিসিভ লিস্ট দেখার রুট
+        Route::get('product-receives', [DepoProductReceiveController::class, 'index']);
+        
+        // মাল গ্রহণ (Accept) করার রুট
+        Route::post('product-receives/accept/{id}', [DepoProductReceiveController::class, 'acceptTransfer']);
+        
     });
