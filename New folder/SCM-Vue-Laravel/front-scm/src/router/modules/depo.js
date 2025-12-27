@@ -20,7 +20,14 @@ const depoRoutes = [
     name: 'depo-stock-list',
     component: () => import('../../views/Depo/ProductManagement/DepoStockList.vue'),
     meta: { requiresAuth: true, roles: ['depo'] }
-}
+},
+{
+    path: 'product-receive/invoice/:id',
+    name: 'depo-receive-invoice',
+    component: () => import('../../views/Depo/ProductManagement/DepoReceiveInvoice.vue'),
+    meta: { title: 'Receive Invoice' }
+},
+
 ];
 
 export default depoRoutes;

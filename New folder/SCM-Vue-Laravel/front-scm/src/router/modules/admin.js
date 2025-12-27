@@ -268,6 +268,12 @@ const adminRoutes = [
     component: ProductSaleCreate,
     meta: { requiresAuth: true, roles: ['admin'] },
   },
+  {
+    path: 'product-transfer/invoice/:id',
+    name: 'admin-receive-invoice',
+    component: () => import('../../views/Admin/ProductManagement/AdminReceiveInvoice.vue'),
+    meta: { title: 'Transfer Invoice' }
+},
 
   // ================= Master Stock =================
   {

@@ -87,6 +87,7 @@ Route::middleware('auth:sanctum')
         // ==============================
         Route::get('product-sales', [ProductSaleController::class, 'index']);
         Route::post('product-sales', [ProductSaleController::class, 'store']);
+        Route::get('product-sales/{id}', [ProductSaleController::class, 'show']);
 
         // ==============================
         // Stock Summary / Admin Stocks

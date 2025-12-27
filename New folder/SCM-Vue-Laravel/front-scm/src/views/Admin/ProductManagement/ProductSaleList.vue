@@ -33,9 +33,12 @@
                   </span>
                 </td>
                 <td class="text-center">
-                  <button @click="viewInvoice(sale)" class="btn btn-sm btn-outline-info">
-                    <i class="fas fa-eye"></i> View
-                  </button>
+                 <router-link 
+    :to="{ name: 'admin-receive-invoice', params: { id: sale.id } }" 
+    class="btn btn-sm btn-outline-info"
+>
+    <i class="fas fa-eye"></i> View Invoice
+</router-link>
                 </td>
               </tr>
               <tr v-if="sales.length === 0">

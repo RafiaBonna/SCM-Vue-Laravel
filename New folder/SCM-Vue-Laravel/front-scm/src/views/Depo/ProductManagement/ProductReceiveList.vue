@@ -28,13 +28,23 @@
                   </span>
                 </td>
                 <td class="text-center">
+                  <router-link 
+                    :to="{ name: 'depo-receive-invoice', params: { id: item.id } }" 
+                    class="btn btn-sm btn-info mr-2"
+                  >
+                    <i class="fas fa-eye"></i> View Invoice
+                  </router-link>
+
                   <button v-if="item.status === 'pending'" 
                           @click="receiveProduct(item.id)" 
                           class="btn btn-sm btn-success">
                     <i class="fas fa-check-circle mr-1"></i> Receive
                   </button>
-                  <span v-else class="text-muted small">Received</span>
+                  <span v-else class="badge badge-light border text-muted small ml-1">Received</span>
                 </td>
+              </tr>
+              <tr v-if="receives.length === 0">
+                <td colspan="5" class="text-center">No records found.</td>
               </tr>
             </tbody>
           </table>
@@ -60,6 +70,7 @@ export default {
   methods: {
     async fetchReceives() {
       try {
+        // Axios baseURL কনফিগারেশন অনুযায়ী সঠিক পাথ ব্যবহার করা
         const response = await axios.get('/depo/product-receives');
         this.receives = response.data.data;
       } catch (error) {
@@ -70,9 +81,10 @@ export default {
       if (!confirm('Are you sure you have checked the products and want to receive them?')) return;
       
       try {
+        // Route prefix 'depo' অনুযায়ী কল করা
         await axios.post(`/depo/product-receives/accept/${id}`);
         alert('Products received successfully! Your stock has been updated.');
-        this.fetchReceives(); // লিস্ট রিফ্রেশ করার জন্য
+        this.fetchReceives();
       } catch (error) {
         alert('Failed to receive products. Please try again.');
       }

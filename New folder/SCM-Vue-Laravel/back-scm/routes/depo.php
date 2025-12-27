@@ -8,10 +8,13 @@ Route::middleware(['auth:sanctum'])
     ->prefix('depo')
     ->group(function () {
         
-        // প্রোডাক্ট রিসিভ লিস্ট দেখার রুট
+        // Product Receive Routes
         Route::get('product-receives', [DepoProductReceiveController::class, 'index']);
-        
-        // মাল গ্রহণ (Accept) করার রুট
         Route::post('product-receives/accept/{id}', [DepoProductReceiveController::class, 'acceptTransfer']);
+
+        // === EI LINE TI JOG KORUN ===
+        Route::get('current-stock', [DepoProductReceiveController::class, 'currentStock']);
+        // ইনভয়েস ডাটা পাওয়ার জন্য এই রাউটটি অবশ্যই লাগবে
+    Route::get('/invoice/{id}', [DepoProductReceiveController::class, 'viewInvoice']);
         
     });

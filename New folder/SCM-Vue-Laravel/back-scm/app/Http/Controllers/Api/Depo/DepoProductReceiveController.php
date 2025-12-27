@@ -122,4 +122,26 @@ public function currentStock()
         'data' => $stocks
     ]);
 }
+ public function viewInvoice($id)
+{
+    try {
+        // রিলেশনশিপের নামগুলো আপনার মডেল অনুযায়ী ঠিক আছে কি না চেক করুন
+        $invoice = ProductSale::with(['details.product', 'depo'])->find($id);
+
+        if (!$invoice) {
+            return response()->json(['status' => 'error', 'message' => 'Invoice not found'], 404);
+        }
+
+        return response()->json([
+            'status' => 'success',
+            'data' => $invoice
+        ]);
+    } catch (\Exception $e) {
+        // ৫00 এরর কেন আসছে তা জানার জন্য লারাভেল লগ ফাইল (storage/logs/laravel.log) দেখুন
+        return response()->json([
+            'status' => 'error', 
+            'message' => $e->getMessage()
+        ], 500);
+    }
+}
 }

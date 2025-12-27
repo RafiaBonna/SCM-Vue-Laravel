@@ -63,7 +63,7 @@ export default {
   methods: {
     async getStocks() {
       try {
-        const res = await axios.get("/api/depo/current-stock");
+        const res = await axios.get("/depo/current-stock");
         this.stocks = res.data.data;
       } catch (err) {
         console.error("Stock fetch error:", err);
