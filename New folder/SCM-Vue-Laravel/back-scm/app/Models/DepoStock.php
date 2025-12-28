@@ -9,11 +9,11 @@ class DepoStock extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'depo_id', 'product_id', 'opening_stock', 'received_qty', 
-        'receive_return_qty', 'sales_qty', 'sales_return_qty', 
-        'wastage_qty', 'current_stock'
-    ];
+protected $fillable = [
+    'depo_id', 'product_id', 'opening_stock', 'received_qty', 
+    'receive_return_qty', 'sales_qty', 'sales_return_qty', 
+    'wastage_qty', 'current_stock'
+];
 
     public function product() {
         return $this->belongsTo(Product::class);

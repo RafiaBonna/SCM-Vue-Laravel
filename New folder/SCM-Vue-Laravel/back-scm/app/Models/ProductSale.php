@@ -16,7 +16,8 @@ class ProductSale extends Model
         'depo_id',
         'total_amount',
         'status', // pending, accepted, rejected
-        'note'
+        'note',
+        'reject_note'
     ];
 
     /**

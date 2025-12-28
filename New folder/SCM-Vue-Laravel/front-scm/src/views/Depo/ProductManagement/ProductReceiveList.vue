@@ -57,10 +57,7 @@
                       </button>
                     </template>
 
-                    <span
-                      v-else
-                      class="badge badge-light border text-muted ml-1"
-                    >
+                    <span v-else class="badge badge-light border text-muted ml-1">
                       Processed
                     </span>
                   </td>
@@ -141,8 +138,10 @@ export default {
         this.receives = response.data.data;
       } catch (error) {
         console.error("Error fetching data:", error);
+        alert('Failed to load receive records.');
       }
     },
+
     async receiveProduct(id) {
       if (!confirm('Are you sure you want to receive these products?')) return;
       try {
@@ -150,26 +149,30 @@ export default {
         alert('Products received successfully!');
         this.fetchReceives();
       } catch (error) {
-        alert('Error accepting products.');
+        console.error("Receive Error:", error);
+        alert('Failed to receive product.');
       }
     },
+
     openRejectModal(id) {
       this.rejectId = id;
       this.rejectNote = '';
       this.showRejectModal = true;
     },
+
     async confirmReject() {
-      try {
+    try {
         await axios.post(`/depo/product-receives/reject/${this.rejectId}`, {
-          reject_note: this.rejectNote
+            // এই কি (Key) টি যেন কন্ট্রোলারের $request->reject_note এর সাথে মিলে
+            reject_note: this.rejectNote 
         });
-        alert('Product rejected successfully.');
         this.showRejectModal = false;
         this.fetchReceives();
-      } catch (error) {
+    } catch (error) {
         alert('Error rejecting product.');
-      }
-    },
+    }
+},
+
     statusBadge(status) {
       if (status === 'pending') return 'badge badge-warning';
       if (status === 'accepted') return 'badge badge-success';
@@ -178,3 +181,14 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+.table td,
+.table th {
+  vertical-align: middle;
+}
+
+.modal .modal-content {
+  border-radius: 8px;
+}
+</style>

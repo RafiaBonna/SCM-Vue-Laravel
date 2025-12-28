@@ -3,21 +3,29 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\Depo\DepoProductReceiveController;
 
-// Depo API Routes
+/*
+|--------------------------------------------------------------------------
+| Depo API Routes
+|--------------------------------------------------------------------------
+*/
 Route::middleware(['auth:sanctum'])
     ->prefix('depo')
     ->group(function () {
-        
-        // Product Receive Routes
+
+        // ===============================
+        // Product Receive (From Admin)
+        // ===============================
         Route::get('product-receives', [DepoProductReceiveController::class, 'index']);
         Route::post('product-receives/accept/{id}', [DepoProductReceiveController::class, 'acceptTransfer']);
+        Route::post('product-receives/reject/{id}', [DepoProductReceiveController::class, 'rejectTransfer']);
 
-        // === EI LINE TI JOG KORUN ===
+        // ===============================
+        // Current Stock
+        // ===============================
         Route::get('current-stock', [DepoProductReceiveController::class, 'currentStock']);
-        // ইনভয়েস ডাটা পাওয়ার জন্য এই রাউটটি অবশ্যই লাগবে
-    Route::get('/invoice/{id}', [DepoProductReceiveController::class, 'viewInvoice']);
 
-    Route::get('depo/invoice/{id}', [DepoProductReceiveController::class, 'viewInvoice']);
-Route::post('depo/product-receives/reject/{id}', [DepoProductReceiveController::class, 'rejectTransfer']);
-        
+        // ===============================
+        // Invoice View (Depo)
+        // ===============================
+        Route::get('invoice/{id}', [DepoProductReceiveController::class, 'viewInvoice']);
     });

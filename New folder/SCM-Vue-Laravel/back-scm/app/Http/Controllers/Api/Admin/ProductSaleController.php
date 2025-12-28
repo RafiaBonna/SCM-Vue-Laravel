@@ -74,15 +74,20 @@ class ProductSaleController extends Controller
     }
 
     // ৩. নির্দিষ্ট একটি সেলস ডাটা দেখা (আপনার চাওয়া আপডেট)
-    public function show($id)
-    {
+   public function show($id)
+{
+    try {
+        // details.product ebong depo soho data ana hochche
         $sale = ProductSale::with(['details.product', 'depo'])->findOrFail($id);
         
         return response()->json([
             'success' => true,
-            'data' => $sale
+            'data' => $sale // Ekhane automatic reject_note thakbe jodi table-e thake
         ]);
+    } catch (\Exception $e) {
+        return response()->json(['message' => 'Error: ' . $e->getMessage()], 500);
     }
+}
 
     // ৪. সেলস ডাটা আপডেট করা
     public function update(Request $request, $id)

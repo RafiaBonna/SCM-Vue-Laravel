@@ -38,8 +38,26 @@
               <strong>Transfer ID:</strong> #{{ invoice.id }}<br>
               <strong>Date:</strong> {{ invoice.sale_date }}<br>
               <strong>Status:</strong>
-              <span class="badge badge-success">Received</span>
+              <span
+                :class="{
+                  'badge badge-success': invoice.status === 'accepted',
+                  'badge badge-danger': invoice.status === 'rejected',
+                  'badge badge-warning': invoice.status === 'pending'
+                }"
+              >
+                {{ invoice.status.toUpperCase() }}
+              </span>
             </address>
+
+            <!-- Rejection Note -->
+            <div v-if="invoice.status === 'rejected'" class="mt-2 p-3 border border-danger bg-light">
+              <h5 class="text-danger">
+                <i class="fas fa-exclamation-triangle mr-2"></i> Rejection Note:
+              </h5>
+              <p class="mb-0 text-dark">
+                <strong>Reason:</strong> {{ invoice.reject_note || 'No note provided' }}
+              </p>
+            </div>
           </div>
 
           <div class="col-sm-6 text-sm-right">
@@ -76,6 +94,9 @@
                     {{ (item.quantity * item.unit_price).toFixed(2) }}
                   </td>
                 </tr>
+                <tr v-if="invoice.details.length === 0">
+                  <td colspan="5" class="text-center text-muted">No products found for this invoice.</td>
+                </tr>
               </tbody>
             </table>
           </div>
@@ -107,8 +128,7 @@
         <div class="row mt-5 pt-4 border-top d-none d-print-block">
           <div class="col-12 text-center text-muted">
             <small>
-              This is a system generated invoice. Generated on:
-              {{ new Date().toLocaleString() }}
+              This is a system generated invoice. Generated on: {{ new Date().toLocaleString() }}
             </small>
           </div>
         </div>
@@ -136,8 +156,12 @@ export default {
   methods: {
     async getInvoice() {
       const id = this.$route.params.id;
-      const res = await axios.get(`/depo/invoice/${id}`);
-      this.invoice = res.data.data;
+      try {
+        const res = await axios.get(`/depo/invoice/${id}`);
+        this.invoice = res.data.data;
+      } catch (err) {
+        console.error("Error fetching invoice:", err);
+      }
     },
     printInvoice() {
       window.print();
