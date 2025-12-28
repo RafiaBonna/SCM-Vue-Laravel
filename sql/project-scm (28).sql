@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 27, 2025 at 07:23 PM
+-- Generation Time: Dec 28, 2025 at 05:57 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -49,7 +49,7 @@ INSERT INTO `admin_stocks` (`id`, `product_id`, `opening_stock`, `received_qty`,
 (1, 1, 0.00, 1000.00, 10.00, 155.00, 0.00, 100.00, 735.00, '2025-12-20 10:32:12', '2025-12-27 01:16:00'),
 (2, 2, 0.00, 2000.00, 100.00, 0.00, 0.00, 10.00, 1890.00, '2025-12-20 11:12:28', '2025-12-26 22:26:42'),
 (3, 3, 0.00, 3000.00, 50.00, 0.00, 0.00, 0.00, 2950.00, '2025-12-20 21:26:56', '2025-12-21 00:39:40'),
-(4, 4, 0.00, 800.00, 0.00, 0.00, 0.00, 0.00, 800.00, '2025-12-26 22:25:22', '2025-12-26 22:25:22');
+(4, 4, 0.00, 800.00, 0.00, 0.00, 0.00, 0.00, -100.00, '2025-12-26 22:25:22', '2025-12-27 22:52:21');
 
 -- --------------------------------------------------------
 
@@ -126,7 +126,8 @@ CREATE TABLE `depo_stocks` (
 --
 
 INSERT INTO `depo_stocks` (`id`, `depo_id`, `product_id`, `opening_stock`, `received_qty`, `receive_return_qty`, `sales_qty`, `sales_return_qty`, `wastage_qty`, `current_stock`, `created_at`, `updated_at`) VALUES
-(1, 1, 1, 0.00, 155.00, 0.00, 0.00, 0.00, 0.00, 155.00, '2025-12-27 01:16:00', '2025-12-27 01:16:00');
+(1, 1, 1, 0.00, 155.00, 0.00, 0.00, 0.00, 0.00, 155.00, '2025-12-27 01:16:00', '2025-12-27 01:16:00'),
+(2, 3, 4, 0.00, 900.00, 0.00, 0.00, 0.00, 0.00, 900.00, '2025-12-27 22:52:21', '2025-12-27 22:52:21');
 
 -- --------------------------------------------------------
 
@@ -267,7 +268,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (20, '2025_12_20_175335_create_product_receive_returns_table', 10),
 (21, '2025_12_20_184359_create_product_wastages_table', 11),
 (22, '2025_12_20_195324_create_product_sales_tables', 12),
-(23, '2025_12_27_060454_create_depo_stocks_table', 13);
+(23, '2025_12_27_060454_create_depo_stocks_table', 13),
+(24, '2025_12_28_034937_add_reject_note_to_product_sales_table', 14);
 
 -- --------------------------------------------------------
 
@@ -313,13 +315,11 @@ INSERT INTO `personal_access_tokens` (`id`, `tokenable_type`, `tokenable_id`, `n
 (10, 'App\\Models\\User', 2, 'auth_token', '3f9413d37c7c4d4217a455bd2d8831736a137a3ad29ea9a493579dce272da846', '[\"*\"]', NULL, NULL, '2025-12-08 23:13:39', '2025-12-08 23:13:39'),
 (16, 'App\\Models\\User', 2, 'auth_token', 'a3d99441444afa4401de2cc0f24263712d6d1eef3ca0c608ba8955fd9601d2b6', '[\"*\"]', NULL, NULL, '2025-12-08 23:58:39', '2025-12-08 23:58:39'),
 (19, 'App\\Models\\User', 1, 'auth_token', '3e8169b2948dfd4b7fa3fc8fb3d0e3b667dec482fd905e82d0415529787019a8', '[\"*\"]', NULL, NULL, '2025-12-09 00:17:52', '2025-12-09 00:17:52'),
+(27, 'App\\Models\\User', 1, 'auth_token', 'f820d1990d24b0b6e5dcecb78065981dca21a59ccf9e441e1ea79a603ef5c688', '[\"*\"]', '2025-12-13 02:43:54', NULL, '2025-12-11 13:23:04', '2025-12-13 02:43:54'),
+(29, 'App\\Models\\User', 1, 'auth_token', 'f8c109f0cd25f07df5dd7e96aeb153401408f0fc2777989f6250454a24d6b712', '[\"*\"]', '2025-12-13 11:04:58', NULL, '2025-12-13 02:46:11', '2025-12-13 11:04:58'),
 (34, 'App\\Models\\User', 1, 'auth_token', '3c2a2d9bcff0234b7f669c788aff3a0af7be8101f001eb3cc1e6726c66e62a6e', '[\"*\"]', '2025-12-20 14:31:20', NULL, '2025-12-20 08:41:00', '2025-12-20 14:31:20'),
 (39, 'App\\Models\\User', 1, 'auth_token', 'c38b82bda366cf61a27b4807edbc470dfd40fadb2f6df3560478d012c328caea', '[\"*\"]', '2025-12-26 22:43:12', NULL, '2025-12-26 22:42:17', '2025-12-26 22:43:12'),
-(49, 'App\\Models\\User', 7, 'auth_token', '0e7f261a1e26e29ba94a9ff1cd462b0fc7821164da460d8339af56c8fab47897', '[\"*\"]', '2025-12-27 01:24:14', NULL, '2025-12-27 01:18:49', '2025-12-27 01:24:14'),
-(51, 'App\\Models\\User', 1, 'auth_token', 'b1560c40175227a6365868c6b0ca54deab8f6bae7afce1b7419ddb5c9c2c9da3', '[\"*\"]', NULL, NULL, '2025-12-27 08:18:23', '2025-12-27 08:18:23'),
-(52, 'App\\Models\\User', 7, 'auth_token', 'fd629e1ffa415a814f449a7b11d1bbfe08488f765985eb0f098246206d6f9ed8', '[\"*\"]', '2025-12-27 08:56:28', NULL, '2025-12-27 08:20:07', '2025-12-27 08:56:28'),
-(56, 'App\\Models\\User', 7, 'auth_token', 'ac04d55915d4471550cf055f27084b69ff79cd46275b80c84b0ae2995e001541', '[\"*\"]', NULL, NULL, '2025-12-27 12:13:52', '2025-12-27 12:13:52'),
-(57, 'App\\Models\\User', 7, 'auth_token', 'f4c22b4805c227faf5b553c53608242003f7039bfb3ecf59d4600639f9e90a16', '[\"*\"]', '2025-12-27 12:18:05', NULL, '2025-12-27 12:18:00', '2025-12-27 12:18:05');
+(60, 'App\\Models\\User', 1, 'auth_token', 'a46a6ce3dbcd691d036ba016ff6c865c2617bb29595cb1d43147e62e6ffe37ab', '[\"*\"]', '2025-12-27 22:56:21', NULL, '2025-12-27 22:55:52', '2025-12-27 22:56:21');
 
 -- --------------------------------------------------------
 
@@ -422,6 +422,7 @@ CREATE TABLE `product_sales` (
   `total_amount` decimal(15,2) NOT NULL DEFAULT 0.00,
   `status` enum('pending','accepted','rejected') NOT NULL DEFAULT 'pending',
   `note` text DEFAULT NULL,
+  `reject_note` text DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -430,10 +431,11 @@ CREATE TABLE `product_sales` (
 -- Dumping data for table `product_sales`
 --
 
-INSERT INTO `product_sales` (`id`, `invoice_no`, `sale_date`, `depo_id`, `total_amount`, `status`, `note`, `created_at`, `updated_at`) VALUES
-(9, 'INV-176678275329', '2025-12-26', 1, 3565.00, 'accepted', 'cfggh', '2025-12-26 14:59:13', '2025-12-27 01:16:00'),
-(10, 'INV-176680545772', '2025-12-27', 1, 1200.00, 'pending', 'lalala', '2025-12-26 21:17:37', '2025-12-26 21:17:37'),
-(11, 'INV-176680965469', '2025-12-27', 1, 90000.00, 'pending', 'Goods sales', '2025-12-26 22:27:34', '2025-12-26 22:27:34');
+INSERT INTO `product_sales` (`id`, `invoice_no`, `sale_date`, `depo_id`, `total_amount`, `status`, `note`, `reject_note`, `created_at`, `updated_at`) VALUES
+(9, 'INV-176678275329', '2025-12-26', 1, 3565.00, 'accepted', 'cfggh', NULL, '2025-12-26 14:59:13', '2025-12-27 01:16:00'),
+(10, 'INV-176680545772', '2025-12-27', 1, 1200.00, 'rejected', 'Colour not matched', NULL, '2025-12-26 21:17:37', '2025-12-27 21:52:35'),
+(11, 'INV-176680965469', '2025-12-27', 1, 90000.00, 'rejected', 'Goods sales', 'Size not matched', '2025-12-26 22:27:34', '2025-12-27 22:04:22'),
+(12, 'INV-176689518297', '2025-12-28', 3, 162000.00, 'accepted', 'Goods sale', NULL, '2025-12-27 22:13:02', '2025-12-27 22:52:21');
 
 -- --------------------------------------------------------
 
@@ -459,7 +461,8 @@ CREATE TABLE `product_sales_details` (
 INSERT INTO `product_sales_details` (`id`, `product_sale_id`, `product_id`, `quantity`, `unit_price`, `subtotal`, `created_at`, `updated_at`) VALUES
 (1, 9, 1, 155.00, 23.00, 3565.00, '2025-12-26 14:59:13', '2025-12-26 14:59:13'),
 (2, 10, 2, 12.00, 100.00, 1200.00, '2025-12-26 21:17:37', '2025-12-26 21:17:37'),
-(3, 11, 3, 300.00, 300.00, 90000.00, '2025-12-26 22:27:34', '2025-12-26 22:27:34');
+(3, 11, 3, 300.00, 300.00, 90000.00, '2025-12-26 22:27:34', '2025-12-26 22:27:34'),
+(4, 12, 4, 900.00, 180.00, 162000.00, '2025-12-27 22:13:02', '2025-12-27 22:13:02');
 
 -- --------------------------------------------------------
 
@@ -662,7 +665,7 @@ INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, 
 ('0WDBZVUospXQKx463eZj17ZiRpa4urHwDyUcNFD3', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36 Edg/143.0.0.0', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiQU12VmwyVUVBa3ZsYnlCczFPMWs3d1hWNDliSWVCODN5dTFRNHlKayI7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MjE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMCI7czo1OiJyb3V0ZSI7Tjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319fQ==', 1766235786),
 ('IDtp4pfHJ6DdFgJaR0f9OUA4J50sSllGA67rc5O5', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiOEJWdXhlTk9mY3pRZnQ1aHNXbVk3YWlVdU1YWUhJd2lsT1NxZUxzVyI7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MjE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMCI7czo1OiJyb3V0ZSI7Tjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319fQ==', 1766807285),
 ('oZxLNeqPuqBMoDScsoRsVeU7Un51jpvi6WxrbUqQ', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiY3Q3NlU4WlQ3Z0tBTm5vMU5Tczk2NXNmbkREWVJBajVxajF1Q3AxQSI7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MjE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMCI7czo1OiJyb3V0ZSI7czoyNzoiZ2VuZXJhdGVkOjpVT3RBWlpmNEN5UFVOUFRKIjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319fQ==', 1766286826),
-('Qb6FztOFjt7qG9VlvO6GtfSqTfXXRk2OmIppEwl8', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiMTVaRjJHaDFZbXNPY1N4MGZVS3pvb3JMa0VVenJkTGcxR05Wakp1QiI7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MjE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMCI7czo1OiJyb3V0ZSI7Tjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319fQ==', 1766859587),
+('WbgBL6iF04m59EDCRhMPRhaB2AsWCAXI9lxB8Yqx', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiTjF1Y1RteDZIZHhyT3d1SlhhODFhU09pTDlkVXlFR1Z5SXlmMGxQaSI7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MjE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMCI7czo1OiJyb3V0ZSI7Tjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319fQ==', 1766891787),
 ('wZMyYJRuoVJGJwuLk4mzTtgMfKwotlVAygG13bxX', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiZ3lBVWtEdGNJUkxrTG9OWWZ5T2RoWFU5MmFrb1JzMDBYakx4bWRyQSI7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MjE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMCI7czo1OiJyb3V0ZSI7Tjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319fQ==', 1766235791);
 
 -- --------------------------------------------------------
@@ -739,7 +742,7 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `name`, `email`, `depo_id`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
 (1, 'Super Admin', 'admin@scm.com', NULL, NULL, '$2y$12$MBGYWnqzvHr5JETY7qj2HuOZhovSyLGJYBnHOfRgwBRLkwOnEK/m2', NULL, '2025-12-08 23:08:45', '2025-12-08 23:08:45'),
-(2, 'Depo User', 'depo@scm.com', NULL, NULL, '$2y$12$ebjb/f9qhm/Ghnj8jHdAY.1Jx2p6IMA4PLHKVw1AsbsCbmwidF4ti', NULL, '2025-12-08 23:10:23', '2025-12-08 23:10:23'),
+(2, 'Depo User', 'depo@scm.com', 3, NULL, '$2y$12$ebjb/f9qhm/Ghnj8jHdAY.1Jx2p6IMA4PLHKVw1AsbsCbmwidF4ti', NULL, '2025-12-08 23:10:23', '2025-12-27 22:37:01'),
 (3, 'Distributor User', 'distributor@scm.com', NULL, NULL, '$2y$12$BkLlqYRjPuvkjvDN6tb1teSKE3SlldqnR2oV5LzpOvAaLFfMIkZxq', NULL, '2025-12-08 23:10:40', '2025-12-08 23:10:40'),
 (7, 'Shefa', 'shefa@gmail.com', 1, NULL, '$2y$12$rKlRLRRvlbI/t1Zjfm8E8O9mMN8CMcM9JmMi9yBnYwCQALrbefKLC', NULL, '2025-12-26 22:18:40', '2025-12-26 22:18:40'),
 (8, 'Rokeya', 'rokeya@gmail.com', 2, NULL, '$2y$12$2dkqU2pfLQpyP.7yPXZTq.braaar8CfbiYKfddbQaBeqih1a1fW5u', NULL, '2025-12-26 22:19:49', '2025-12-26 22:19:49');
@@ -982,7 +985,7 @@ ALTER TABLE `depos`
 -- AUTO_INCREMENT for table `depo_stocks`
 --
 ALTER TABLE `depo_stocks`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `failed_jobs`
@@ -1012,13 +1015,13 @@ ALTER TABLE `material_issue_items`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT for table `personal_access_tokens`
 --
 ALTER TABLE `personal_access_tokens`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
 
 --
 -- AUTO_INCREMENT for table `products`
@@ -1042,13 +1045,13 @@ ALTER TABLE `product_receive_returns`
 -- AUTO_INCREMENT for table `product_sales`
 --
 ALTER TABLE `product_sales`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `product_sales_details`
 --
 ALTER TABLE `product_sales_details`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `product_wastages`

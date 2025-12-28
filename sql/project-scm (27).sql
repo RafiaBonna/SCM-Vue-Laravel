@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 27, 2025 at 08:38 AM
+-- Generation Time: Dec 27, 2025 at 07:23 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -313,11 +313,13 @@ INSERT INTO `personal_access_tokens` (`id`, `tokenable_type`, `tokenable_id`, `n
 (10, 'App\\Models\\User', 2, 'auth_token', '3f9413d37c7c4d4217a455bd2d8831736a137a3ad29ea9a493579dce272da846', '[\"*\"]', NULL, NULL, '2025-12-08 23:13:39', '2025-12-08 23:13:39'),
 (16, 'App\\Models\\User', 2, 'auth_token', 'a3d99441444afa4401de2cc0f24263712d6d1eef3ca0c608ba8955fd9601d2b6', '[\"*\"]', NULL, NULL, '2025-12-08 23:58:39', '2025-12-08 23:58:39'),
 (19, 'App\\Models\\User', 1, 'auth_token', '3e8169b2948dfd4b7fa3fc8fb3d0e3b667dec482fd905e82d0415529787019a8', '[\"*\"]', NULL, NULL, '2025-12-09 00:17:52', '2025-12-09 00:17:52'),
-(27, 'App\\Models\\User', 1, 'auth_token', 'f820d1990d24b0b6e5dcecb78065981dca21a59ccf9e441e1ea79a603ef5c688', '[\"*\"]', '2025-12-13 02:43:54', NULL, '2025-12-11 13:23:04', '2025-12-13 02:43:54'),
-(29, 'App\\Models\\User', 1, 'auth_token', 'f8c109f0cd25f07df5dd7e96aeb153401408f0fc2777989f6250454a24d6b712', '[\"*\"]', '2025-12-13 11:04:58', NULL, '2025-12-13 02:46:11', '2025-12-13 11:04:58'),
 (34, 'App\\Models\\User', 1, 'auth_token', '3c2a2d9bcff0234b7f669c788aff3a0af7be8101f001eb3cc1e6726c66e62a6e', '[\"*\"]', '2025-12-20 14:31:20', NULL, '2025-12-20 08:41:00', '2025-12-20 14:31:20'),
 (39, 'App\\Models\\User', 1, 'auth_token', 'c38b82bda366cf61a27b4807edbc470dfd40fadb2f6df3560478d012c328caea', '[\"*\"]', '2025-12-26 22:43:12', NULL, '2025-12-26 22:42:17', '2025-12-26 22:43:12'),
-(49, 'App\\Models\\User', 7, 'auth_token', '0e7f261a1e26e29ba94a9ff1cd462b0fc7821164da460d8339af56c8fab47897', '[\"*\"]', '2025-12-27 01:24:14', NULL, '2025-12-27 01:18:49', '2025-12-27 01:24:14');
+(49, 'App\\Models\\User', 7, 'auth_token', '0e7f261a1e26e29ba94a9ff1cd462b0fc7821164da460d8339af56c8fab47897', '[\"*\"]', '2025-12-27 01:24:14', NULL, '2025-12-27 01:18:49', '2025-12-27 01:24:14'),
+(51, 'App\\Models\\User', 1, 'auth_token', 'b1560c40175227a6365868c6b0ca54deab8f6bae7afce1b7419ddb5c9c2c9da3', '[\"*\"]', NULL, NULL, '2025-12-27 08:18:23', '2025-12-27 08:18:23'),
+(52, 'App\\Models\\User', 7, 'auth_token', 'fd629e1ffa415a814f449a7b11d1bbfe08488f765985eb0f098246206d6f9ed8', '[\"*\"]', '2025-12-27 08:56:28', NULL, '2025-12-27 08:20:07', '2025-12-27 08:56:28'),
+(56, 'App\\Models\\User', 7, 'auth_token', 'ac04d55915d4471550cf055f27084b69ff79cd46275b80c84b0ae2995e001541', '[\"*\"]', NULL, NULL, '2025-12-27 12:13:52', '2025-12-27 12:13:52'),
+(57, 'App\\Models\\User', 7, 'auth_token', 'f4c22b4805c227faf5b553c53608242003f7039bfb3ecf59d4600639f9e90a16', '[\"*\"]', '2025-12-27 12:18:05', NULL, '2025-12-27 12:18:00', '2025-12-27 12:18:05');
 
 -- --------------------------------------------------------
 
@@ -660,6 +662,7 @@ INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, 
 ('0WDBZVUospXQKx463eZj17ZiRpa4urHwDyUcNFD3', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36 Edg/143.0.0.0', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiQU12VmwyVUVBa3ZsYnlCczFPMWs3d1hWNDliSWVCODN5dTFRNHlKayI7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MjE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMCI7czo1OiJyb3V0ZSI7Tjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319fQ==', 1766235786),
 ('IDtp4pfHJ6DdFgJaR0f9OUA4J50sSllGA67rc5O5', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiOEJWdXhlTk9mY3pRZnQ1aHNXbVk3YWlVdU1YWUhJd2lsT1NxZUxzVyI7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MjE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMCI7czo1OiJyb3V0ZSI7Tjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319fQ==', 1766807285),
 ('oZxLNeqPuqBMoDScsoRsVeU7Un51jpvi6WxrbUqQ', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiY3Q3NlU4WlQ3Z0tBTm5vMU5Tczk2NXNmbkREWVJBajVxajF1Q3AxQSI7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MjE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMCI7czo1OiJyb3V0ZSI7czoyNzoiZ2VuZXJhdGVkOjpVT3RBWlpmNEN5UFVOUFRKIjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319fQ==', 1766286826),
+('Qb6FztOFjt7qG9VlvO6GtfSqTfXXRk2OmIppEwl8', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiMTVaRjJHaDFZbXNPY1N4MGZVS3pvb3JMa0VVenJkTGcxR05Wakp1QiI7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MjE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMCI7czo1OiJyb3V0ZSI7Tjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319fQ==', 1766859587),
 ('wZMyYJRuoVJGJwuLk4mzTtgMfKwotlVAygG13bxX', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiZ3lBVWtEdGNJUkxrTG9OWWZ5T2RoWFU5MmFrb1JzMDBYakx4bWRyQSI7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MjE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMCI7czo1OiJyb3V0ZSI7Tjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319fQ==', 1766235791);
 
 -- --------------------------------------------------------
@@ -1015,7 +1018,7 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT for table `personal_access_tokens`
 --
 ALTER TABLE `personal_access_tokens`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
 
 --
 -- AUTO_INCREMENT for table `products`
