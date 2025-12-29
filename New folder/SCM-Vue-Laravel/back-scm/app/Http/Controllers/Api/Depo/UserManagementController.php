@@ -59,4 +59,24 @@ class UserManagementController extends Controller
 
         return response()->json(['success' => true, 'data' => $customer]);
     }
+
+    // UserManagementController.php এর ভেতর যোগ করুন
+
+// ডিস্ট্রিবিউটরদের লিস্ট (Pagination সহ)
+public function indexDistributor()
+{
+    $distributors = Distributor::where('depo_id', auth()->user()->depo_id)
+        ->orderBy('id', 'desc')
+        ->paginate(10);
+    return response()->json($distributors);
+}
+
+// কাস্টমারদের লিস্ট (Pagination সহ)
+public function indexCustomer()
+{
+    $customers = Customer::where('depo_id', auth()->user()->depo_id)
+        ->orderBy('id', 'desc')
+        ->paginate(10);
+    return response()->json($customers);
+}
 }

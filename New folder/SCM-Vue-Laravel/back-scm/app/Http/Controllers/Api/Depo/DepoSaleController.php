@@ -70,4 +70,59 @@ class DepoSaleController extends Controller
             return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
         }
     }
+
+    // ১. ডিস্ট্রিবিউটর যখন সেলটি একসেপ্ট (Approve) করবে
+    public function acceptByDistributor($id)
+    {
+        DB::beginTransaction();
+        try {
+            $sale = DepoSale::with('details')->findOrFail($id);
+
+            if ($sale->status !== 'pending') {
+                return response()->json(['message' => 'This sale is already processed'], 400);
+            }
+
+            // স্ট্যাটাস আপডেট
+            $sale->status = 'accepted';
+            $sale->save();
+
+            // এখন ড্যাপোর স্টক থেকে মাল কমিয়ে দিন (যেহেতু ডিস্ট্রিবিউটর মাল বুঝে পেয়েছে)
+            foreach ($sale->details as $item) {
+                $stock = DepoStock::where('depo_id', $sale->depo_id)
+                    ->where('product_id', $item->product_id)
+                    ->first();
+
+                if ($stock) {
+                    $stock->decrement('current_stock', $item->quantity);
+                    $stock->increment('sales_qty', $item->quantity);
+                }
+            }
+
+            DB::commit();
+            return response()->json(['success' => true, 'message' => 'Sale accepted and stock updated']);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
+        }
+    }
+
+    // ২. ডিস্ট্রিবিউটর যখন সেলটি রিজেক্ট করবে (Reject Note সহ)
+    public function rejectByDistributor(Request $request, $id)
+    {
+        $request->validate([
+            'reject_note' => 'required|string|max:500' // কেন রিজেক্ট করছে তা অবশ্যই লিখতে হবে
+        ]);
+
+        $sale = DepoSale::findOrFail($id);
+
+        if ($sale->status !== 'pending') {
+            return response()->json(['message' => 'This sale cannot be rejected'], 400);
+        }
+
+        $sale->status = 'rejected';
+        $sale->reject_note = $request->reject_note; // নোটটি সেভ হচ্ছে
+        $sale->save();
+
+        return response()->json(['success' => true, 'message' => 'Sale rejected with note']);
+    }
 }
