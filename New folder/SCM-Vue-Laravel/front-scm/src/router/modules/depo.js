@@ -1,5 +1,7 @@
 // আগের লাইনটি পরিবর্তন করে নিচেরটি দিন (ProductManagement ফোল্ডার সহ)
 import ProductReceiveList from '../../views/Depo/ProductManagement/ProductReceiveList.vue';
+import DistributorList from './components/depo/usermanagement/distributor/List.vue';
+import DistributorCreate from './components/depo/usermanagement/distributor/Create.vue';
 
 const depoRoutes = [
     { 
@@ -27,6 +29,16 @@ const depoRoutes = [
     component: () => import('../../views/Depo/ProductManagement/DepoReceiveInvoice.vue'),
     meta: { title: 'Receive Invoice' }
 },
+{ 
+        path: '/depo/distributors', 
+        name: 'DistributorList',
+        component: DistributorList 
+    },
+    { 
+        path: '/depo/distributors/create', 
+        name: 'DistributorCreate',
+        component: DistributorCreate 
+    },
 
 ];
 
