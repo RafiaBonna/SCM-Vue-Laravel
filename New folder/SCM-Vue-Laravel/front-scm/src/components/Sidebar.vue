@@ -159,37 +159,112 @@
 
           <!-- ================= DEPO ================= -->
           <template v-if="userRole === 'depo'">
-            <li class="nav-header">DEPO MANAGEMENT</li>
+  <li class="nav-header">DEPO MANAGEMENT</li>
 
-            <li class="nav-item has-treeview">
-              <a href="#" class="nav-link">
-                <i class="nav-icon fas fa-warehouse"></i>
-                <p>
-                  Product Management
-                  <i class="right fas fa-angle-left"></i>
-                </p>
-              </a>
+  <li class="nav-item has-treeview">
+    <a href="#" class="nav-link">
+      <i class="nav-icon fas fa-users"></i>
+      <p>
+        User Management
+        <i class="right fas fa-angle-left"></i>
+      </p>
+    </a>
+    <ul class="nav nav-treeview">
+      <li class="nav-item">
+        <router-link :to="{ name: 'DistributorList' }" class="nav-link">
+          <i class="fas fa-user-friends nav-icon"></i>
+          <p>Distributors</p>
+        </router-link>
+      </li>
+      <li class="nav-item">
+        <router-link :to="{ name: 'user-list' }" class="nav-link">
+          <i class="fas fa-user-shield nav-icon"></i>
+          <p>Customers</p>
+        </router-link>
+      </li>
+    </ul>
+  </li>
 
-              <ul class="nav nav-treeview">
-                <li class="nav-item">
-                  <router-link
-                    :to="{ name: 'depo-product-receive-list' }"
-                    class="nav-link"
-                  >
-                    <i class="fas fa-file-download nav-icon"></i>
-                    <p>Product Receive</p>
-                  </router-link>
-                </li>
+  <li class="nav-item has-treeview">
+    <a href="#" class="nav-link">
+      <i class="nav-icon fas fa-boxes"></i>
+      <p>
+        Finished Goods
+        <i class="right fas fa-angle-left"></i>
+      </p>
+    </a>
 
-               <li class="nav-item">
-  <router-link :to="{ name: 'depo-stock-list' }" class="nav-link">
-    <i class="fas fa-boxes nav-icon"></i>
-    <p>Current Stock</p>
-  </router-link>
-</li>
-              </ul>
-            </li>
-          </template>
+    <ul class="nav nav-treeview">
+      <li class="nav-item">
+        <router-link :to="{ name: 'product-list' }" class="nav-link">
+          <i class="fas fa-list-ul nav-icon"></i>
+          <p>Product List</p>
+        </router-link>
+      </li>
+
+      <li class="nav-item">
+        <router-link :to="{ name: 'depo-stock-list' }" class="nav-link">
+          <i class="fas fa-boxes nav-icon"></i>
+          <p>Current Stock</p>
+        </router-link>
+      </li>
+
+      <li class="nav-item">
+        <router-link :to="{ name: 'depo-product-receive-list' }" class="nav-link">
+          <i class="fas fa-download nav-icon"></i>
+          <p>Product Receive (In)</p>
+        </router-link>
+      </li>
+
+      <li class="nav-item">
+        <router-link :to="{ name: 'product-return-list' }" class="nav-link">
+          <i class="fas fa-undo nav-icon"></i>
+          <p>Product Return</p>
+        </router-link>
+      </li>
+
+      <li class="nav-item">
+        <router-link :to="{ name: 'product-wastage-list' }" class="nav-link">
+          <i class="fas fa-trash-alt nav-icon"></i>
+          <p>Product Wastage</p>
+        </router-link>
+      </li>
+
+      <li class="nav-item">
+        <router-link :to="{ name: 'product-sale-list' }" class="nav-link">
+          <i class="nav-icon fas fa-shipping-fast"></i>
+          <p>Product Sales</p>
+        </router-link>
+      </li>
+    </ul>
+  </li>
+
+  <li class="nav-item has-treeview">
+    <a href="#" class="nav-link">
+      <i class="nav-icon fas fa-cogs"></i>
+      <p>
+        Settings
+        <i class="right fas fa-angle-left"></i>
+      </p>
+    </a>
+
+    <ul class="nav nav-treeview">
+      <li class="nav-item">
+        <router-link :to="{ name: 'depo-list' }" class="nav-link">
+          <i class="fas fa-warehouse nav-icon"></i>
+          <p>Depo List</p>
+        </router-link>
+      </li>
+
+      <li class="nav-item">
+        <router-link :to="{ name: 'supplier-list' }" class="nav-link">
+          <i class="fas fa-truck-moving nav-icon"></i>
+          <p>Supplier List</p>
+        </router-link>
+      </li>
+    </ul>
+  </li>
+</template>
 
           <!-- ================= DISTRIBUTOR ================= -->
           <template v-if="userRole === 'distributor'">

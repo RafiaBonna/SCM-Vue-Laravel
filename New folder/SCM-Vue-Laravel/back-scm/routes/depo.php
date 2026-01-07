@@ -55,25 +55,12 @@ Route::middleware('auth:sanctum')
         // ==================================================
         // Distributor Management (OLD + NEW)
         // ==================================================
-        Route::get('distributors', [
-            UserManagementController::class,
-            'getDistributors'          // old
-        ]);
+        Route::get('distributors', [UserManagementController::class, 'getDistributors']);
+        Route::post('distributors/store', [UserManagementController::class, 'storeDistributor']);
+        Route::get('distributors/edit/{id}', [UserManagementController::class, 'editDistributor']);
+        Route::post('distributors/update/{id}', [UserManagementController::class, 'updateDistributor']);
 
-        Route::get('distributors', [
-            UserManagementController::class,
-            'indexDistributor'         // new
-        ]);
-
-        Route::post('distributors/store', [
-            UserManagementController::class,
-            'storeDistributor'         // old
-        ]);
-
-        Route::post('distributors', [
-            UserManagementController::class,
-            'storeDistributor'         // new
-        ]);
+    
 
         // ==================================================
         // Customer Management (OLD + NEW)

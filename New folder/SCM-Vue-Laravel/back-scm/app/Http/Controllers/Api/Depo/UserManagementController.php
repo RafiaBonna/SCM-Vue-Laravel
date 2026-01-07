@@ -9,14 +9,16 @@ use Illuminate\Http\Request;
 
 class UserManagementController extends Controller
 {
-    // ১. ডিস্ট্রিবিউটর লিস্ট (শুধুমাত্র নিজের ডেপোর)
+    // ১. ডিস্ট্রিবিউটর লিস্ট (রাউটের সাথে মিল রেখে)
     public function getDistributors()
     {
-        $distributors = Distributor::where('depo_id', auth()->user()->depo_id)->get();
+        $distributors = Distributor::where('depo_id', auth()->user()->depo_id)
+            ->orderBy('id', 'desc')
+            ->get();
         return response()->json($distributors);
     }
 
-    // ২. নতুন ডিস্ট্রিবিউটর যোগ করা
+    // ২. নতুন ডিস্ট্রিবিউটর স্টোর
     public function storeDistributor(Request $request)
     {
         $request->validate([
@@ -29,54 +31,36 @@ class UserManagementController extends Controller
             'phone' => $request->phone,
             'email' => $request->email,
             'address' => $request->address,
-            'depo_id' => auth()->user()->depo_id, // অটোমেটিক নিজের ডেপো আইডি বসবে
+            'depo_id' => auth()->user()->depo_id,
         ]);
 
         return response()->json(['success' => true, 'data' => $distributor]);
     }
 
-    // ৩. কাস্টমার লিস্ট (শুধুমাত্র নিজের ডেপোর)
-    public function getCustomers()
+    // ৩. এডিট করার ডাটা
+    public function editDistributor($id)
     {
-        $customers = Customer::where('depo_id', auth()->user()->depo_id)->get();
-        return response()->json($customers);
+        $distributor = Distributor::where('depo_id', auth()->user()->depo_id)->findOrFail($id);
+        return response()->json($distributor);
     }
 
-    // ৪. নতুন কাস্টমার যোগ করা
-    public function storeCustomer(Request $request)
+    // ৪. আপডেট ডিস্ট্রিবিউটর
+    public function updateDistributor(Request $request, $id)
     {
         $request->validate([
             'name' => 'required|string|max:255',
             'phone' => 'required|string|max:20',
         ]);
 
-        $customer = Customer::create([
+        $distributor = Distributor::where('depo_id', auth()->user()->depo_id)->findOrFail($id);
+        
+        $distributor->update([
             'name' => $request->name,
             'phone' => $request->phone,
+            'email' => $request->email,
             'address' => $request->address,
-            'depo_id' => auth()->user()->depo_id,
         ]);
 
-        return response()->json(['success' => true, 'data' => $customer]);
+        return response()->json(['success' => true]);
     }
-
-    // UserManagementController.php এর ভেতর যোগ করুন
-
-// ডিস্ট্রিবিউটরদের লিস্ট (Pagination সহ)
-public function indexDistributor()
-{
-    $distributors = Distributor::where('depo_id', auth()->user()->depo_id)
-        ->orderBy('id', 'desc')
-        ->paginate(10);
-    return response()->json($distributors);
-}
-
-// কাস্টমারদের লিস্ট (Pagination সহ)
-public function indexCustomer()
-{
-    $customers = Customer::where('depo_id', auth()->user()->depo_id)
-        ->orderBy('id', 'desc')
-        ->paginate(10);
-    return response()->json($customers);
-}
 }

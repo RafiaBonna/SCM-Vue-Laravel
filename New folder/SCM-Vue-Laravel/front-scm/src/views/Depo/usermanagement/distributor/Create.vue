@@ -61,23 +61,24 @@ export default {
   },
   methods: {
     async saveDistributor() {
-      this.loading = true;
-      try {
-        const response = await axios.post('/api/depo/distributors/store', this.form);
-        if (response.data.success) {
-          alert('Distributor created successfully!');
-          this.$router.push('/depo/distributors'); // সেভ হওয়ার পর লিস্ট পেজে চলে যাবে
-        }
-      } catch (error) {
-        if (error.response && error.response.status === 422) {
-            alert('Validation Error: Please check your inputs.');
-        } else {
-            alert('Something went wrong!');
-        }
-      } finally {
-        this.loading = false;
-      }
+  this.loading = true;
+  try {
+    // '/api' ফেলে দিয়ে সঠিক পাথ দেওয়া হয়েছে
+    const response = await axios.post('depo/distributors/store', this.form);
+    if (response.data.success) {
+      alert('Distributor created successfully!');
+      this.$router.push({ name: 'DistributorList' });
     }
+  } catch (error) {
+    if (error.response && error.response.status === 422) {
+        alert('Validation Error: Please check your inputs.');
+    } else {
+        alert('Something went wrong!');
+    }
+  } finally {
+    this.loading = false;
+  }
+}
   }
 }
 </script>

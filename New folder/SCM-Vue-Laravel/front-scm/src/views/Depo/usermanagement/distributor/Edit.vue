@@ -1,94 +1,60 @@
 <template>
   <div class="container-fluid py-4">
-    <div class="row justify-content-center">
-      <div class="col-md-8">
-        <div class="card shadow-sm border-0">
-          <div class="card-header bg-info text-white d-flex justify-content-between align-items-center">
-            <h6 class="mb-0">Edit Distributor</h6>
-            <router-link to="/depo/distributors" class="btn btn-sm btn-light">
-              <i class="fas fa-list"></i> Back to List
-            </router-link>
+    <div class="card shadow-sm">
+      <div class="card-header bg-info text-white">Edit Distributor</div>
+      <div class="card-body">
+        <form @submit.prevent="updateDistributor">
+          <div class="mb-3">
+            <label>Name</label>
+            <input v-model="form.name" class="form-control" required>
           </div>
-          <div class="card-body">
-            <form @submit.prevent="updateDistributor">
-              <div class="row">
-                <div class="col-md-6 mb-3">
-                  <label class="form-label">Full Name <span class="text-danger">*</span></label>
-                  <input v-model="form.name" type="text" class="form-control" required>
-                </div>
-                
-                <div class="col-md-6 mb-3">
-                  <label class="form-label">Phone Number <span class="text-danger">*</span></label>
-                  <input v-model="form.phone" type="text" class="form-control" required>
-                </div>
-
-                <div class="col-md-12 mb-3">
-                  <label class="form-label">Email (Optional)</label>
-                  <input v-model="form.email" type="email" class="form-control">
-                </div>
-
-                <div class="col-md-12 mb-3">
-                  <label class="form-label">Address</label>
-                  <textarea v-model="form.address" class="form-control" rows="3"></textarea>
-                </div>
-              </div>
-
-              <div class="text-end">
-                <button type="submit" class="btn btn-info text-white px-4" :disabled="loading">
-                  <i class="fas fa-update me-1"></i> {{ loading ? 'Updating...' : 'Update Distributor' }}
-                </button>
-              </div>
-            </form>
+          <div class="mb-3">
+            <label>Phone</label>
+            <input v-model="form.phone" class="form-control" required>
           </div>
-        </div>
+          <div class="mb-3">
+            <label>Email</label>
+            <input v-model="form.email" class="form-control">
+          </div>
+          <div class="mb-3">
+            <label>Address</label>
+            <textarea v-model="form.address" class="form-control"></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary" :disabled="loading">
+            {{ loading ? 'Updating...' : 'Update' }}
+          </button>
+        </form>
       </div>
     </div>
   </div>
 </template>
 
+// Edit.vue এর স্ক্রিপ্ট অংশ
 <script>
+import axios from "axios";
 export default {
-  data() {
-    return {
-      form: {
-        name: '',
-        phone: '',
-        email: '',
-        address: ''
-      },
-      loading: false
-    }
-  },
-  mounted() {
-    this.getDistributorData();
-  },
+  data() { return { form: { name: '', phone: '', email: '', address: '' }, loading: false } },
+  mounted() { this.getDistributorData(); },
   methods: {
-    // ১. ব্যাকএন্ড থেকে পুরনো ডাটা টেনে আনা
     async getDistributorData() {
       try {
-        const id = this.$route.params.id; // ইউআরএল থেকে আইডি নেওয়া
-        const response = await axios.get(`/api/depo/distributors/edit/${id}`);
+        const id = this.$route.params.id;
+        // এখানেও /api বাদ দেওয়া হয়েছে
+        const response = await axios.get(`depo/distributors/edit/${id}`);
         this.form = response.data;
       } catch (error) {
         alert('Data not found!');
-        this.$router.push('/depo/distributors');
       }
     },
-    // ২. নতুন ডাটা দিয়ে আপডেট করা
     async updateDistributor() {
       this.loading = true;
       try {
         const id = this.$route.params.id;
-        const response = await axios.post(`/api/depo/distributors/update/${id}`, this.form);
-        if (response.data.success) {
-          alert('Distributor updated successfully!');
-          this.$router.push('/depo/distributors');
-        }
+        await axios.post(`depo/distributors/update/${id}`, this.form);
+        this.$router.push({ name: 'DistributorList' });
       } catch (error) {
-        alert('Update failed! Please check your data.');
-      } finally {
-        this.loading = false;
-      }
+        alert('Failed!');
+      } finally { this.loading = false; }
     }
   }
 }
