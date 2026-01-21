@@ -4,7 +4,7 @@
       Copyright &copy; {{ new Date().getFullYear() }}
     </strong>
     <br />
-    All rights reserved by Optichain 12345678901234
+    All rights reserved by Optichain 123456789012345
   </footer>
 </template>
 
