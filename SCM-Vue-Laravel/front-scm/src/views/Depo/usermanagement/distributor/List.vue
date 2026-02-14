@@ -44,7 +44,6 @@
   </div>
 </template>
 
-// List.vue এর স্ক্রিপ্ট অংশ
 <script>
 import axios from "axios";
 export default {
@@ -53,12 +52,11 @@ export default {
   methods: {
     async getDistributors() {
       try {
-        // ডাবল api/api এরর ঠেকাতে এখানে সরাসরি শুধু পাথ দিন
-        const response = await axios.get('/api/depo/distributors')
-
+        // Path logic: /api base url thakle shudhu depo/distributors
+        const response = await axios.get('depo/distributors');
         this.distributors = response.data;
       } catch (error) {
-        console.error("Fetch Error:", error);
+        console.error("Error fetching data:", error);
       }
     }
   }
