@@ -1,0 +1,66 @@
+<?php
+
+namespace App\Http\Controllers\Api\Depo;
+
+use App\Http\Controllers\Controller;
+use App\Models\Distributor;
+use App\Models\Customer;
+use Illuminate\Http\Request;
+
+class UserManagementController extends Controller
+{
+    // ১. ডিস্ট্রিবিউটর লিস্ট (রাউটের সাথে মিল রেখে)
+    public function getDistributors()
+    {
+        $distributors = Distributor::where('depo_id', auth()->user()->depo_id)
+            ->orderBy('id', 'desc')
+            ->get();
+        return response()->json($distributors);
+    }
+
+    // ২. নতুন ডিস্ট্রিবিউটর স্টোর
+    public function storeDistributor(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'phone' => 'required|string|max:20',
+        ]);
+
+        $distributor = Distributor::create([
+            'name' => $request->name,
+            'phone' => $request->phone,
+            'email' => $request->email,
+            'address' => $request->address,
+            'depo_id' => auth()->user()->depo_id,
+        ]);
+
+        return response()->json(['success' => true, 'data' => $distributor]);
+    }
+
+    // ৩. এডিট করার ডাটা
+    public function editDistributor($id)
+    {
+        $distributor = Distributor::where('depo_id', auth()->user()->depo_id)->findOrFail($id);
+        return response()->json($distributor);
+    }
+
+    // ৪. আপডেট ডিস্ট্রিবিউটর
+    public function updateDistributor(Request $request, $id)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'phone' => 'required|string|max:20',
+        ]);
+
+        $distributor = Distributor::where('depo_id', auth()->user()->depo_id)->findOrFail($id);
+        
+        $distributor->update([
+            'name' => $request->name,
+            'phone' => $request->phone,
+            'email' => $request->email,
+            'address' => $request->address,
+        ]);
+
+        return response()->json(['success' => true]);
+    }
+}
