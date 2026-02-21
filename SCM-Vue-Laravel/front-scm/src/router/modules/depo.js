@@ -3,6 +3,10 @@ import ProductReceiveList from '../../views/Depo/ProductManagement/ProductReceiv
 import DistributorList from '../../views/Depo/usermanagement/distributor/List.vue';
 import DistributorCreate from '../../views/Depo/usermanagement/distributor/Create.vue';
 import DistributorEdit from '../../views/Depo/usermanagement/distributor/Edit.vue';// এডিট ফাইল ইম্পোর্ট
+// Customer Management (এই ইম্পোর্টগুলো ফাইলের উপরে অন্য ইম্পোর্টগুলোর সাথে দিন)
+import CustomerList from '../../views/Depo/usermanagement/customer/List.vue';
+import CustomerCreate from '../../views/Depo/usermanagement/customer/Create.vue';
+import CustomerEdit from '../../views/Depo/usermanagement/customer/Edit.vue';
 
 const depoRoutes = [
     { 
@@ -46,6 +50,24 @@ const depoRoutes = [
         path: 'depo/distributors/edit/:id', 
         name: 'DistributorEdit',
         component: DistributorEdit,
+        meta: { requiresAuth: true, roles: ['depo'] }
+    },
+    { 
+        path: 'depo/customers', 
+        name: 'CustomerList',
+        component: CustomerList,
+        meta: { requiresAuth: true, roles: ['depo'] }
+    },
+    { 
+        path: 'depo/customers/create', 
+        name: 'CustomerCreate',
+        component: CustomerCreate,
+        meta: { requiresAuth: true, roles: ['depo'] }
+    },
+    { 
+        path: 'depo/customers/edit/:id', 
+        name: 'CustomerEdit',
+        component: CustomerEdit,
         meta: { requiresAuth: true, roles: ['depo'] }
     },
 ];
