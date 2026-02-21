@@ -17,7 +17,7 @@ export default {
 <style scoped>
 /* ==============================
 /* ==============================
-   FOOTER – DEEP LAVENDER 
+   FOOTER – DEEP 
    ============================== */
 
 .custom-footer {
