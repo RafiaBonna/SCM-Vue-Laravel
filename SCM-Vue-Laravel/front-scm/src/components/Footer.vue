@@ -15,9 +15,9 @@ export default {
 </script>
 
 <style scoped>
-
 /* ==============================
-   FOOTER
+/* ==============================
+   FOOTER – DEEP 
    ============================== */
 
 .custom-footer {
