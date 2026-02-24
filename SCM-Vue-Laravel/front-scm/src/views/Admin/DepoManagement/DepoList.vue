@@ -75,7 +75,7 @@ export default {
             this.loading = true;
             this.error = null;
             try {
-                // API কল: GET /api/admin/depos (যা আমরা UserController-এর জন্য ব্যবহার করেছিলাম That we used to call Usercontroller)
+                // API কল: GET /api/admin/depos (যা আমরা UserController-এর জন্য ব্যবহার  That we used to call Usercontroller)
                 const response = await axios.get('admin/depos');
                 this.depos = response.data; 
                 
