@@ -99,7 +99,7 @@ export default {
 
             const formData = {
                 ...this.depo,
-                _method: 'patch' // Laravel PATCH For
+                _method: 'patch' // Laravel PATCH For request
             };
             
             try {
