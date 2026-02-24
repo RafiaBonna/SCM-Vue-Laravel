@@ -81,7 +81,7 @@ export default {
             this.loading = true;
             this.error = null;
             try {
-                // API C : GET /api/admin/depos/{id}
+                // API Ca : GET /api/admin/depos/{id}
                 const response = await axios.get(`admin/depos/${this.depo.id}`);
                 this.depo = response.data;
 
